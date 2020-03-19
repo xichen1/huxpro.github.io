@@ -1,18 +1,16 @@
 ---
 layout: page
 title: "About"
-description: "你是我的梦想"
+description: ""
 header-img: "img/about-bg.jpg"
 multilingual: true
 ---
 
-{% include multilingual-sel.html %}
-
-<!-- Chinese Version -->
-<div class="zh post-container">
-    {% capture about_zh %}{% include about/zh.md %}{% endcapture %}
-    {{ about_zh | markdownify }}
-</div>
+<!-- Language Selector -->
+<select class="sel-lang" onchange= "onLanChange(this.options[this.options.selectedIndex].value)">
+    <option value="0" selected> 英文 English </option>
+<!--     <option value="1"> 中文 Chinese </option> -->
+</select>
 
 <!-- English Version -->
 <div class="en post-container">
@@ -20,6 +18,11 @@ multilingual: true
     {{ about_en | markdownify }}
 </div>
 
+<!-- Chinese Version -->
+<!-- <div class="zh post-container">
+    {% capture about_zh %}{% include about/zh.md %}{% endcapture %}
+    {{ about_zh | markdownify }}
+</div> -->
 
 {% if site.disqus_username %}
 <!-- disqus 评论框 start -->
@@ -28,7 +31,26 @@ multilingual: true
 
     </div>
 </div>
+
 <!-- disqus 评论框 end -->
+<!-- Link Gitalk 的支持文件  -->
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script> 
+<div id="gitalk-container"></div>     <script type="text/javascript">
+    var gitalk = new Gitalk({
+
+    // gitalk的主要参数
+        clientID: `6d3a6542cd11fd3c9b41`,
+        clientSecret: `ddcb1402216d3d19ac97256d0a766349c3dfe233`,
+        repo: `xichen1.github.io`,
+        owner: 'xichen1',
+        admin: ['xichen1'],
+        id: 'comment',
+    
+    });
+    gitalk.render('gitalk-container');
+</script> 
+<!-- Gitalk end -->
 
 <!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
