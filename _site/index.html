@@ -42,7 +42,7 @@
     <!-- Hux change font-awesome CDN to qiniu -->
     <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
-
+    <script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -94,6 +94,8 @@
                     <li>
                         <a href="/archive/">Archive</a>
                     </li>
+                    
+                    
                     
                     
                     
@@ -203,60 +205,307 @@
             ">
     			
 <div class="post-preview">
-    <a href="/2019/08/15/to-do-list/">
+    <a href="/2020/03/18/Regression/">
         <h2 class="post-title">
-            recent to do list
+            Linear Regression and polynomial regression
         </h2>
         
         <h3 class="post-subtitle">
-            plan designer
+            CMPUT 296
         </h3>
         
         <div class="post-content-preview">
             
-                This is a to do list for the recent future plan
-
-It will be updated everyweek.
-
-
-
-This is the list for the next one week
-finish the OOP in Java in coursar
-review linear algebra(evearyday half chapt...
+                To learn the relationship between features and targets (x_i and y_i), we usually hypothesize the functional form of the relationship. The function can be linear or non-linear. e.g. f(X) = w0+w1x1+w...
             
         </div>
     </a>
     <p class="post-meta">
-        Posted by rick on August 15, 2019
+        Posted by rick on March 18, 2020
     </p>
 </div>
 <hr>
 
 <div class="post-preview">
-    <a href="/2019/08/08/my-first-blog/">
+    <a href="/2020/02/23/Formalizing-Parmeter-Estimation/">
         <h2 class="post-title">
-            test post
+            Formalizing Parameter Estimation
         </h2>
         
         <h3 class="post-subtitle">
-            hey
+            CMPUT 296
         </h3>
         
         <div class="post-content-preview">
             
-                This is a test website!
-
+                We want to find some function or model which satisfied some requirements. First, the model should be able to have performance on the previously unseen data should not deteriorate(change) once the n...
             
         </div>
     </a>
     <p class="post-meta">
-        Posted by rick on August 8, 2019
+        Posted by rick on February 23, 2020
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2020/02/23/Proof-of-Alg/">
+        <h2 class="post-title">
+            Proof of Alg.
+        </h2>
+        
+        <h3 class="post-subtitle">
+            CMPUT 204
+        </h3>
+        
+        <div class="post-content-preview">
+            
+                If the code is written using recursion, prove correctness using induction.
+
+Loop invariant
+
+For code written using loops, prove correctness by the loop invariant method.
+
+A loop-invariant is an ass...
+            
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by rick on February 23, 2020
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2020/02/23/Note-of-heap/">
+        <h2 class="post-title">
+            Note heap
+        </h2>
+        
+        <h3 class="post-subtitle">
+            CMPUT 204
+        </h3>
+        
+        <div class="post-content-preview">
+            
+                Some alg and time complexity of heap:
+
+Max-heapify =  Θ(logn) =  Θ(h)
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+Max-Heapify(A,i)
+		**pre-conditition: tree rooted at A[i] is and almost-heap
+	lc &lt;-- leftchild(i...
+            
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by rick on February 23, 2020
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2020/02/23/Note-of-QS/">
+        <h2 class="post-title">
+            Note QS
+        </h2>
+        
+        <h3 class="post-subtitle">
+            CMPUT 204
+        </h3>
+        
+        <div class="post-content-preview">
+            
+                The idea of quick sort
+
+​	– pick a pivot and compare it to all others
+
+​	– Rearrange A to be: [elements&lt;= pivot, pivot, elements &gt; pivot]
+
+​	– Recursively sort the subarrays of before and aft...
+            
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by rick on February 23, 2020
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2020/02/23/Divide-and-Conquer/">
+        <h2 class="post-title">
+            Divide and Conquer
+        </h2>
+        
+        <h3 class="post-subtitle">
+            CMPUT 204
+        </h3>
+        
+        <div class="post-content-preview">
+            
+                Merge-Sort
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+Merge(A, lo, mid, hi)
+	**pre-condition: lo&lt;=mid&lt;=hi, A[lo,mid] and A[mid+1,hi] sorted
+	**post-condition: A[lo,hi] sorted
+	
+Merge-sort(A,lo,hi)
+	if lo&lt;hi th...
+            
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by rick on February 23, 2020
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2020/02/22/Note-ML-Optimization/">
+        <h2 class="post-title">
+            Note of ML Optimization
+        </h2>
+        
+        <h3 class="post-subtitle">
+            unfinished note
+        </h3>
+        
+        <div class="post-content-preview">
+            
+                The basic optimization problem and stationary points
+
+The goal of optimization is to find and select a set of parameters $ w \in Rd $ to minimize the objective function c:
+
+
+
+The way to select and ...
+            
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by rick on February 22, 2020
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2020/02/22/Note-ML-Estimator/">
+        <h2 class="post-title">
+            Note of ML Estimator
+        </h2>
+        
+        <h3 class="post-subtitle">
+            unfinished note
+        </h3>
+        
+        <div class="post-content-preview">
+            
+                Estimate the expected value
+
+For example, we have n random variables X1, X2, … Xn, where E[Xi]= \mu and the mean \mu is unknown. The average estimator is 
+
+How can we check if the estimator is bias...
+            
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by rick on February 22, 2020
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2019/11/14/Note-Berkeley-DB/">
+        <h2 class="post-title">
+            Note of Berkeley DB
+        </h2>
+        
+        <h3 class="post-subtitle">
+            finished note
+        </h3>
+        
+        <div class="post-content-preview">
+            
+                Levels of abstraction in a typical DBMS(database management system)
+
+
+  Data is stored in tables in conceptual schema.
+
+
+Conceptual schema:
+
+The conceptual schema describes the Database structure o...
+            
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by rick on November 14, 2019
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2019/11/11/Note-C-c13/">
+        <h2 class="post-title">
+            Note of language C from chapter 13
+        </h2>
+        
+        <h3 class="post-subtitle">
+            finished note
+        </h3>
+        
+        <div class="post-content-preview">
+            
+                addition: the value of an array variable’s name is the address of the array’s first element.
+
+String literal:
+
+A sequence characters enclosed within double quotes:
+
+“When you come to a fork in the ...
+            
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by rick on November 11, 2019
     </p>
 </div>
 <hr>
 
 
 <!-- Pager -->
+
+<ul class="pager">
+    
+    
+    <li class="next">
+        <a href="/page2">Older Posts &rarr;</a>
+    </li>
+    
+</ul>
 
 
     		</div>
@@ -279,8 +528,13 @@ review linear algebra(evearyday half chapt...
         
         
         
+        </a>
         
         
+                <a data-sort="0002" 
+                    href="/archive/?tag=Study+note"
+                    title="Study note"
+                    rel="11">Study note
     </div>
 </section>
 
@@ -399,7 +653,7 @@ review linear algebra(evearyday half chapt...
 </ul>
 
                 <p class="copyright text-muted">
-                    Copyright &copy; Xichen Pan 2019
+                    Copyright &copy; Xichen Pan 2020
                     <br>
                     <a href="https://github.com/xichen1/xichen1.github.io">Xichen1</a> |
                     <iframe

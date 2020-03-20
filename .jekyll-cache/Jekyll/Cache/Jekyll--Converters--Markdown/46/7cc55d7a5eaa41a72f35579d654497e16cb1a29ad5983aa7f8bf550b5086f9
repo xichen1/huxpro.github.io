@@ -1,0 +1,21 @@
+I""	<p>To learn the relationship between features and targets (x_i and y_i), we usually hypothesize the functional form of the relationship. The function can be linear or non-linear. e.g. f(X) = w0+w1x1+w2x2 and f(X) = a + bX1X2. The w0 w1 w2 and a and b are the parameters need to be learned.</p>
+
+<p>In particular, the linear function is modeled as a linear combination of features (x) and parameters (w), i.e. f(X) = w0 + w1x1 + … + wdxd = sum(wjxj) = x^T w. We can extend x as (x0=1, x1, x2 …  xd). This form allows us use the dot product. Finding the best parameters (w0 to wd) isreferred to as the linear regression problem.</p>
+
+<h4 id="formalizing-the-maximum-likelihood-problem">Formalizing the maximum likelihood problem</h4>
+
+<p>Assume the observed data set D is a product of a data generating process in which n data points were drawn independently and according to the same distribution p(x). Assume the target variable Y has the linear relationship with input variable X, existing some error term  Ɛ. And the Ɛ follows the Gaussian distribution where the mean is zero. <script type="math/tex">Y =  \sum_{j=0}^{d} w_j X_j + Ɛ</script> . X0=1 is the intercept term. The assumption of normality for the error term is reasonable because of the central limit theorem.
+<script type="math/tex">p(y|x,w) = (1/\sqrt(2\pi\sigma^2))exp(-(y-x^Tw)^2/2\sigma^2)</script></p>
+
+<p>To implement the MLE problem,
+<script type="math/tex">W_{MLE}=argmin_{w\in F} - \sum_{i=1}^n ln(p(y_i|x_i,w))
+= argmin_{w\in F} \sum_{i=1}^n ln\sqrt{2\pi\sigma^2}+\sum_{i=1}^n (y_i-x_i^Tw)^2/2\sigma^2</script>
+Only the second part is related with w, so
+<script type="math/tex">= argmin_{w\in F} \frac{1} {2\sigma^2}*\sum_{i=1}^n (y_i-x_i^Tw)^2 \ = argmin_{w\in F}\sum_{i=1}^n (y_i-x_i^Tw)^2</script>
+To find the w, we need to minimize the difference between real y_i and <script type="math/tex">\hat{y_i}</script> which is <script type="math/tex">x_i^T w</script>. So this follows the intuition.</p>
+
+<p>E.g. Consider data set {(1,1.2), (2, 2.3), (3, 2.3), (4, 3.3)}. We want to find the max likelihood coefficients for f(x) = w_0 + w_1x. Note that there is one column in X which is ones because that can make w_0 times 1.</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+X= \begin{bmatrix} 1 & 1 \\ 1 & 2 \\ 1&3 \\ 1&4\\ \end{bmatrix} %]]></script>
+:ET

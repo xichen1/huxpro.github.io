@@ -1,0 +1,129 @@
+I"�<p>Some alg and time complexity of heap:</p>
+
+<h5 id="max-heapify---θlogn---θh">Max-heapify =  Θ(logn) =  Θ(h)</h5>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="rouge-code"><pre>Max-Heapify(A,i)
+		**pre-conditition: tree rooted at A[i] is and almost-heap
+	lc &lt;-- leftchild(i)
+	rc &lt;-- rightchild(i)
+	largest &lt;-- i
+	if (lc &lt;= heapsize(A) and A[lc] &gt; A[largest]) then
+		largest &lt;-- lc
+	if (rc &lt;= heapsize(A) and A[rc] &gt; A[largest]) then
+		largest &lt;-- rc
+	if (largest != i) then
+		exchange A[i] &lt;--&gt; A[largest]
+		Max-heapify(A,largest)
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>The WC is from the top of the heap to the bottom of the heap. Every time it costs Θ(1) and in total it is h*Θ(1) = Θ(h) = Θ(logn).</p>
+
+<h5 id="build-max-heap---θn">Build-Max-Heap =  Θ(n)</h5>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre>Build-Max-Heap(A)
+		** turn an array into a heap
+	heapsize(A) &lt;-- length[A]
+	for (i &lt;-- floor(length[A]/2) downto 1) do
+		Max-heapify(A,i)
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h5 id="heap-sort---θnlogn">Heap sort =  Θ(nlogn)</h5>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="rouge-code"><pre>Heap-Sort(A,n)
+		** sort an array using a heap
+	Build-Max-Heap(A)
+	heapsize &lt;-- n
+	while (heapsize &gt; 1) do
+		exchange A[1] &lt;--&gt; A[heapsize]
+		heapsize &lt;-- heapsize - 1
+		Max-Heapify(A[1...heapsize],1)
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>For each position i = n, n-1, n-2, … , 2, Max-Heapify takes O(logn). Totally, it costs Θ(nlogn).</p>
+
+<p><img src="C:\Users\ppx\Desktop\Capture.JPG" alt="" /></p>
+
+<h4 id="priority-queue">Priority Queue</h4>
+
+<h5 id="initializea--θn">Initialize(A) = Θ(n)</h5>
+
+<p>Building a heap</p>
+
+<h5 id="extract-maximuma--θlogn">Extract-Maximum(A) = Θ(logn)</h5>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="rouge-code"><pre>Heap-Extract-Max(A)
+		precondiction: A is not empty
+	max &lt;-- A[1]
+	A[1] &lt;-- A[heapsize[A]]
+	heapsize[A] &lt;-- heapsize[A] - 1
+	if (heapsize[A]&gt;0) then
+		Max-Heapify(A,1)
+	return max
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>The exchange costs Θ(1) and max heapify costs Θ(logn).</p>
+
+<h5 id="heap-increase-key-a-i-key--θlogn">Heap-Increase-Key (A, i, key) = Θ(logn)</h5>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre>Heap-increase-Key(A, i, key)
+		** precondiction: key &gt;= A[i]
+	A[i] &lt;-- key
+	while (i&gt;1 and A[parent(i)]&gt;A[i]) do
+		exchange A[i] &lt;--&gt; A[parent(i)]
+		i &lt;-- Parent(i)
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>From the bottom to the top of the heap, it takes Θ(h) = Θ(logn)</p>
+
+<h5 id="insert-key-a-new_key--θlogn">Insert-Key (A, new_key) = Θ(logn)</h5>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre>Insert-Key(A,new_key)
+	heapsize[A] &lt;-- heapsize[A]+1
+	A[heapsize[A]] &lt;-- $$-/infty$$
+	Heap-Increase-key(A, heapsize[A], key)
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+:ET

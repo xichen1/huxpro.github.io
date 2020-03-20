@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="description" content="微小程序员">
+    <meta name="keywords"  content="潘希晨, Rick">
+    <meta name="theme-color" content="#000000">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Formalizing Parameter Estimation - xichenpan's blog | My Blog">
+    
+    <meta property="og:type" content="article">
+    <meta property="og:description" content="We want to find some function or model which satisfied some requirements. First, the model should be able to have performance on the previously unseen data should not deteriorate(change) once the n...">
+    
+    <meta property="article:published_time" content="2020-02-23T00:00:00Z">
+    
+    
+    <meta property="article:author" content="rick">
+    
+    
+    <meta property="article:tag" content="Study note">
+    
+    
+    <meta property="og:image" content="http://localhost:4000/img/avatar-myself.jpg">
+    <meta property="og:url" content="http://localhost:4000/2020/02/23/Formalizing-Parmeter-Estimation/">
+    <meta property="og:site_name" content="xichenpan's blog | My Blog">
+    
+    <title>Formalizing Parameter Estimation - xichenpan's blog | My Blog</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="http://localhost:4000/2020/02/23/Formalizing-Parmeter-Estimation/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Xichen Pan</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    
+                    
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    
+                    
+                    <li>
+                        <a href="/archive/">Archive</a>
+                    </li>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/post-c-language.png" width="0" height="0"> -->
+
+<!-- Post Header -->
+
+
+
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/post-c-language.png');
+        background: ;
+    }
+
+    
+</style>
+
+<header class="intro-header" >
+
+    <div class="header-mask"></div>
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/archive/?tag=Study+note" title="Study note">Study note</a>
+                        
+                    </div>
+                    <h1>Formalizing Parameter Estimation</h1>
+                    
+                    <h2 class="subheading">CMPUT 296</h2>
+                    <span class="meta">Posted by rick on February 23, 2020</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <!-- Multi-Lingual -->
+                
+
+				<p>We want to find some function or model which satisfied some requirements. First, the model should be able to have performance on the previously unseen data should not deteriorate(change) once the new data is presented. Second, function must be able to include information about the model space from which it is selected and process of selecting a model should be able to accept training “advice” from an analyst. Finally, when large amounts of data are available learning algorithms must be able to provide solutions in reasonable time given the resource.</p>
+
+<p>In this section, we can use MAP and MLE to estimate some distribution’s parameters (mean μ and SD σ for normal distribution λ for Poisson distribution.)</p>
+
+<h4 id="map-and-maximum-likelihood-estimationmle">MAP and Maximum likelihood Estimation(MLE)</h4>
+
+<table>
+  <tbody>
+    <tr>
+      <td>Imagine there is a dataset of observations D={x<sub>i</sub>} (i from 1 to n). It has an unknown but true distribution p*. However, if you know the distribution is in a set of possible distribution, F, F is called the hypothesis space or function class. For example, F can be the family of all univariate Gaussian distributions. In this family, the mean μ* and SD σ* can be different. F = {N(μ, σ^2)</td>
+      <td>for any μ ∈ R and σ ∈ R+}. While the true distribution has parameters μ*, σ*, we need to find μ and σ as close to the true ones as possible.</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>The idea of MAP estimation is to find the most probable model for the observed data. Given the dataset D, the solution of MAP is f<sub>MAP</sub> = argmax<sub> f∈F</sub> p(f</td>
+      <td>D).</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>p(f</td>
+      <td>D) is called the posterior distribution of the model given the data. MAP estimate is exactly the most probable model.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>To calculate the posterior distribution we apply he Bayes rules:</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>p(f</td>
+      <td>D) = p(D</td>
+      <td>f)p(f)/p(D)</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>p(D</td>
+      <td>f) is called the likelihood function, p(f) is the prior distribution of the model. p(D) is the marginal distribution of the data.</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>To compute p(D), we need to sum all situations with different f ∈ F. p(D) = sum(p(D</td>
+      <td>f)*p(f)).</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>max <sub>fF</sub> p(D</td>
+      <td>f)p(f)/p(D) = 1/p(D) * max <sub>f∈F</sub> p(D</td>
+      <td>f)p(f). P(D) is not related with the MAP solution. Now f<sub>MAP</sub> = argmax<sub> f∈F</sub> p(D</td>
+      <td>f)p(f). If in some situations, we cannot prefer one model and have the same p(f) for all f in the hypothesis space. Then MAP becomes MLE. f<sub>MLE</sub> = argmax <sub>f∈F</sub> p(D</td>
+      <td>f).  (The p(f) is not considered). So MLE can be seen as a special case of MAP.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>EX: Suppose data set D = {2,5,9,5,4,8} is an i.i.d. sample from a Poisson distribution with a fixed but unknown parameter λ<sub>0</sub>. Find the MLE solution of λ<sub>0</sub>.</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>λ<sub>MLE</sub> = argmax p(D</td>
+      <td>λ)</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>p(D</td>
+      <td>λ) = p({x<sub>i</sub>}</td>
+      <td>λ) = p(x<sub>1</sub></td>
+      <td>λ)p(x<sub>2</sub></td>
+      <td>λ)*…*p(x<sub>i</sub></td>
+      <td>λ)</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>To find a λ to make the p maximum. ln(p(D</td>
+      <td>λ)) = ln(p(x<sub>1</sub></td>
+      <td>λ)p(x<sub>2</sub></td>
+      <td>λ)*…*p(x<sub>i</sub></td>
+      <td>λ))</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>= sum(ln(p(x<sub>i</sub></td>
+      <td>λ)))</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>In Poisson distribution p(x</td>
+      <td>λ)=λ^x*e^(-λ)/x!, ln(p(x</td>
+      <td>λ)) = ln(λ^x)+ln(e^(-λ))-ln(x!) = x*ln(λ)-λ-ln(x!)</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>sum(ln(p(x<sub>i</sub></td>
+      <td>λ))) = sum(x<sub>i</sub>ln(λ)) - nλ - sum(ln(x!))</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>By computing the first derivative, we can compute the λ which makes ln.. max.</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>d ln(p(D</td>
+      <td>λ))/d λ = (1/λ)sum(x<sub>i</sub>) - n. In this case, n = 6. λ=sum(x<sub>i</sub>)/n</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Ex of MAP: D = {2,5,9,5,4,8}. i.i.d. sample from Poisson with mean λ<sub>0</sub>. We need to calculate the MAP estimate of λ<sub>0</sub>. Some other information is given. Suppose the prior knowledge about λ<sub>0</sub> can be expressed using a gamma distribution with k=3 and θ=1. Find the MAP of λ<sub>0</sub>.</p>
+
+<p>By gamma distribution, p(λ) = λ^(k-1)e^(-λ/θ)/θgamma</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>By Poisson distribution, p(x</td>
+      <td>λ) = λ^x*e^-λ/x!</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>λ<sub>MAP</sub> = argmax <sub>λ∈(0, ∞)</sub> p(D</td>
+      <td>λ)p(λ). Taking log to simplify.</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>ln p(D</td>
+      <td>λ)p(λ) = ln(p(D</td>
+      <td>λ)) + ln(p(λ)) = ln sum(p(x<sub>i</sub></td>
+      <td>λ)) + ln p(λ)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>ln p(λ) = ln λ^(k-1)e^(-λ/e)/θgamma(k) = ln  λ^(k-1) + ln e^(-λ/e) - ln θgamma(k) = (k-1) ln λ - (λ/θ) - ln θgamma(k)</p>
+
+<p>sum(ln (λ^x<sub>i</sub><em>e^-λ/x<sub>i</sub>)) = sum(x<sub>i</sub></em>ln λ - λ - ln x<sub>i</sub>) = ln λ sum(x<sub>i</sub>) - nλ - ln sum(x<sub>i</sub>)</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>Taking derivate: d(ln p(D</td>
+      <td>λ)p(λ)) / d λ= sum(x<sub>i</sub>)/λ - n + (k-1)/λ - 1/θ = 0</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>sum(x<sub>i</sub>) + (k-1) = (n + 1/θ)λ</p>
+
+<p>So λ<sub>MAP</sub> = (k-1 + sum(x<sub>i</sub>))/(n + 1/θ) = (3-1+(2+5+9+5+4+8))/(6+1) = 35/7 = 5</p>
+
+<h5 id="the-effect-of-the-amount-of-data">The effect of the amount of data</h5>
+
+<p>When the data amount is large, the result of MAP becomes closer to MLE. The importance of prior is reduced.</p>
+
+<p>An example of Poisson distribution: s<sub>n</sub> = sum(x<sub>i</sub>), which is from the random variable S<sub>n</sub> = sum(X<sub>i</sub>) . And suppose s<sub>n</sub>/n^2 –&gt; ∞ when n –&gt; ∞.</p>
+
+<p><img src="C:\Users\ppx\Desktop\web1111\xichen1.github.io\img\MLE-MAP.JPG" alt="MLE-MAP" /></p>
+
+<p>Ex: Let D={x<sub>i</sub>}, i from 1 to n. It is an i.i.d. sample from a normal distribution. To find the MLE of the parameters.</p>
+
+<p>By taking partial derivatives of μ, σ, we get the result μ<sub>MLE</sub> = 1/n(sum(x<sub>i</sub>)), σ<sub>MLE</sub> = 1/n(sum(x<sub>i</sub>-μ<sub>MLE</sub>)^2).</p>
+
+<h4 id="bayesian-estimation">Bayesian estimation</h4>
+
+<p>Maximum a posterior and maximum likelihood approaches report the solution that is consistent with the mode of the posterior distribution and the likelihood function. But the MLE and MAP cannot deal with the skewed distributions and multimodal distributions. Bayesian can!</p>
+
+
+
+                <hr style="visibility: hidden;">
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2020/02/23/Proof-of-Alg/" data-toggle="tooltip" data-placement="top" title="Proof of Alg.">
+                        Previous<br>
+                        <span>Proof of Alg.</span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2020/03/18/Regression/" data-toggle="tooltip" data-placement="top" title="Linear Regression and polynomial regression">
+                        Next<br>
+                        <span>Linear Regression and polynomial regression</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <hr style="visibility: hidden;">
+
+                
+
+                
+
+                <!-- Gitalk 评论 start  -->
+
+                <!-- Link Gitalk 的支持文件  -->
+                <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+                <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script> 
+                <div id="gitalk-container"></div>     <script type="text/javascript">
+                    var gitalk = new Gitalk({
+
+                    // gitalk的主要参数
+                        clientID: `6d3a6542cd11fd3c9b41`,
+                        clientSecret: `ddcb1402216d3d19ac97256d0a766349c3dfe233`,
+                        repo: `xichen1.github.io`,
+                        owner: 'xichen1',
+                        admin: ['xichen1'],
+                        id: 'comment',
+                    
+                    });
+                    gitalk.render('gitalk-container');
+                </script> 
+                <!-- Gitalk end -->
+            </div>  
+
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+
+<section>
+    
+        <hr class="hidden-sm hidden-xs">
+    
+    <h5><a href="/archive/">FEATURED TAGS</a></h5>
+    <div class="tags">
+        
+        
+        
+        </a>
+        
+        
+                <a data-sort="0002" 
+                    href="/archive/?tag=Study+note"
+                    title="Study note"
+                    rel="11">Study note
+    </div>
+</section>
+
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+<!-- add support for mathjax by voleking-->
+
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <!-- SNS Link -->
+                
+
+
+<ul class="list-inline text-center">
+
+
+  
+  
+  <li>
+    <a href="https://twitter.com/ppx">
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+      </span>
+    </a>
+  </li>
+  
+  
+  <li>
+    <a target="_blank" href="https://www.zhihu.com/people/ppx">
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa  fa-stack-1x fa-inverse">知</i>
+      </span>
+    </a>
+  </li>
+  
+  
+  
+  
+  <li>
+    <a target="_blank" href="https://github.com/xichen1">
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+      </span>
+    </a>
+  </li>
+  
+  
+</ul>
+
+                <p class="copyright text-muted">
+                    Copyright &copy; Xichen Pan 2020
+                    <br>
+                    <a href="https://github.com/xichen1/xichen1.github.io">Xichen1</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=xichen1&repo=xichen1.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<!-- Currently, only navbar scroll-down effect at desktop still depends on this -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+<script src="/js/snackbar.js "></script>
+<script src="/js/sw-registration.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+
+
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-145254340-1';
+    var _gaDomain = 'xichen1.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+<!-- Side Catalog -->
+
+
+
+<!-- Multi-Lingual -->
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

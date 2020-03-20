@@ -1,0 +1,38 @@
+I"<p>If the code is written using recursion, prove correctness using induction.</p>
+
+<h5 id="loop-invariant">Loop invariant</h5>
+
+<p>For code written using loops, prove correctness by the loop invariant method.</p>
+
+<p>A loop-invariant is an assertion about the state of the code that is always true at the beginning of each loop-iteration. Two steps of using loop-invariant: 1. identify the LI. 2. prove the LI for initialization, maintenance, termination#1 (stop eventually), termination#2 (right result).</p>
+
+<p>One example:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre>FindSum(A,n)
+	sum &lt;-- A[1]
+	j &lt;-- 2
+	while (j&lt;=n)
+		sum &lt;-- sum + A[j]
+		j &lt;-- j+1
+	return sum
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>The LI is “At the beginning of each loop iteration, sum = (j-1)sum(i=1)A[i]”.</p>
+
+<h6 id="the-proof-of-li">The proof of LI</h6>
+
+<p>Initially: Before the loop begins sum = A[1] = A[1,…,(2-1)]</p>
+
+<p>Maintenance: Suppose that at the beginning of iteration j, sum=A[1]+A[2]+…+A[j-1]. Then at the beginning of iteration j+1. Sum<sub>after</sub>=sum<sub>before</sub>+A[j] = A[1]+A[2]+..+A[j] = A[1]+A[2]+..+A[j+1-1].</p>
+
+<p>Termination #1: The loop terminates as we only increase j, so eventually j&gt;n.</p>
+
+<p>Termination #2: When the while-loop terminates, j=n+1, in that case LI implies sum = A[1]+…+A[n].</p>
+:ET

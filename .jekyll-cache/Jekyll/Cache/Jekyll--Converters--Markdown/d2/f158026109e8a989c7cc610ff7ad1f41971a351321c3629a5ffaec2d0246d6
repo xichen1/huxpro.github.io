@@ -1,0 +1,50 @@
+I"²	<h4 id="levels-of-abstraction-in-a-typical-dbmsdatabase-management-system">Levels of abstraction in a typical DBMS(database management system)</h4>
+
+<ol>
+  <li>Data is stored in tables in conceptual schema.</li>
+</ol>
+
+<h5 id="conceptual-schema">Conceptual schema:</h5>
+
+<p>The conceptual schema describes the Database structure of the whole database for the community of users. This schema hides information about the physical storage structures and focuses on describing data types, entities, relationships, etc. And one database can only have one conceptual schema.</p>
+
+<ol>
+  <li>Use high level SQL commands (DDL or DML)</li>
+</ol>
+
+<h5 id="ddl">DDL:</h5>
+
+<p>Data Definition Language (DDL) is a standard for commands that define the different structures in a database. DDL statements create, modify, and remove database objects such as tables, indexes, and users. Common DDL statements are CREATE, ALTER, and DROP.</p>
+
+<h5 id="dml">DML:</h5>
+
+<p>A data manipulation language (DML) is a computer programming language used for adding (inserting), deleting, and modifying (updating) data in a database. Common DML statements are SELECT, INSERT, UPDATE.</p>
+
+<ol>
+  <li>Data is organized in files and indexes in physical schema</li>
+  <li>A DBMS uses suitable storage structure, index files and access paths to evaluate queries and return results.</li>
+</ol>
+
+<h5 id="berkeley-db">Berkeley DB</h5>
+
+<p>It is an open source embedded database library that provides s simple function-call API for data access and management.</p>
+
+<p>It supports many file structures and operations</p>
+
+<h6 id="the-use-of-berkeley-db">The use of Berkeley DB:</h6>
+
+<ol>
+  <li>Develop programs working with storage structures and indexes</li>
+  <li>Develop applications that donâ€™t need the full functionality of a DBMS and require high performance</li>
+</ol>
+
+<h6 id="four-file-organizations-supported-in-berkeley-db">Four file organizations supported in Berkeley DB</h6>
+
+<ol>
+  <li>hash: Data is stored in an extended linear hash table. good for applications that need quick random-access</li>
+  <li>Btree: Data is stored in a sorted, balanced tree structure. Good for range-based searches</li>
+  <li>Queue: Data is stored in a queue as fixed-length records. Good for fast inserts at the tail of the queue. It also supports read/delete operation from the head of the queue. It provides record-level locking</li>
+  <li>Recnos: Data is stored in either fixed or variable-length records</li>
+</ol>
+
+:ET

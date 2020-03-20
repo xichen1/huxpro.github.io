@@ -1,0 +1,101 @@
+I"�<h5 id="the-idea-of-quick-sort">The idea of quick sort</h5>
+
+<p>​	– pick a pivot and compare it to all others</p>
+
+<p>​	– Rearrange A to be: [elements&lt;= pivot, pivot, elements &gt; pivot]</p>
+
+<p>​	– Recursively sort the subarrays of before and after elements</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="rouge-code"><pre>QuickSort(A,p,r)
+		** sort the subarray A[p,...,r]
+	if (p&lt;r) then
+		q &lt;-- Partition(A,p,r)
+			** Partition returns q such that
+			** 1. A[q] is the pivot
+			** 2. All elements &lt;= pivot appear in A[p,...,q-1]
+			** 3. All elements &gt; pivot appear in A[q+1,...,r]
+		QuickSort(A,p,q-1)
+		QuickSort(A,q+1,r)
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="rouge-code"><pre>Partition(A,p,r)
+	** last element, A[r], is the pivot key picked of the partition
+	pivot &lt;-- A[r]
+	i &lt;-- p-1
+	for (j from p to r-1) do
+		if (A[j] &lt;= pivot) then
+			i &lt;-- i+1
+			exchange A[i] &lt;--&gt; A[j]
+	exchange A[i+1] &lt;--&gt; A[r]
+	return i+1
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h5 id="quick-sort-running-time">Quick Sort running time</h5>
+
+<p>In each recurrence, there is n-1 Key comparisons because the pivot is compared with other n-1 keys.</p>
+
+<p>​			0,                                   n&lt;=1</p>
+
+<p>T(n) =</p>
+
+<p>​			T(n<sub>1</sub>)+T(n-1-n<sub>1</sub>)+(n-1), n&gt;=2</p>
+
+<p>n<sub>1</sub> + 1 is the index of the pivot. So quick sort needs</p>
+
+<p>T(All element before pivot)  + T(All element after pivot) + (n-1)</p>
+
+<p>Notice that 0 &lt;= n<sub>1</sub> &lt;= n-1. Because the pivot can be any element from A[1] to A[n].</p>
+
+<h6 id="worst-case">Worst case</h6>
+
+<p>When n1 is zero/n-1, the number of KC becomes T(0) + T(n-1) + (n-1). In the next level, the KC becomes n-2.</p>
+
+<p>T(n) = T(n-1) + (n-1)</p>
+
+<p>​		= T(n-1) + n-1 = T(n-2) + n-2 + n-1 = … = T(1) + 1 + 2 + 3 + … + n-1 = n(n-1)/2</p>
+
+<p>So T(n) =  Θ(n^2)</p>
+
+<h6 id="almost-worst-case">Almost worst case</h6>
+
+<p>When n<sub>1</sub> is n-2 or 1, T(n) = T(1)+T(n-2)+(n-1)</p>
+
+<p>​											= T(n-2)+(n-1) = T(n-4)+(n-3)+(n-1) = T(1) + 1 + 3 +…+ (n-1)</p>
+
+<p>T(n) = (1+(n-1))n/4=n^2/4 = Θ(n^2)</p>
+
+<h6 id="best-case">Best case</h6>
+
+<p>If every time we can choose a pivot which makes # before and # after are same, then we can save all wasted KC.</p>
+
+<p>T(n) = 2*T((n-1)/2)+(n-1)</p>
+
+<p>Solving T(n) = 2T(n/2) + (n-1). Using master theorem second case, a = b =2, n^(log <sub>b</sub>a)=n. And f(n) = n-1 = n<em>((log^k)n) where k=0. So T(n) = (n</em>logn).</p>
+
+<h6 id="almost-best-case">Almost best case</h6>
+
+<p>Assume in each round, # before is 3n/4 and # after is n/4. Then T(n) = T(3n/4)+T(n/4)+(n-1). Or more extreme case is T(n) = T(9n/10)+T(n/10)+(n-1).</p>
+
+<p>In both case, the time is O(n*logn). For any split, the running time remains to be  Θ(nlogn).</p>
+
+:ET

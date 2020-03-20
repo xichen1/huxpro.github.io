@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="description" content="微小程序员">
+    <meta name="keywords"  content="潘希晨, Rick">
+    <meta name="theme-color" content="#000000">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Linear Regression and polynomial regression - xichenpan's blog | My Blog">
+    
+    <meta property="og:type" content="article">
+    <meta property="og:description" content="To learn the relationship between features and targets (x_i and y_i), we usually hypothesize the functional form of the relationship. The function can be linear or non-linear. e.g. f(X) = w0+w1x1+w...">
+    
+    <meta property="article:published_time" content="2020-03-18T00:00:00Z">
+    
+    
+    <meta property="article:author" content="rick">
+    
+    
+    <meta property="article:tag" content="Study note">
+    
+    
+    <meta property="og:image" content="http://localhost:4000/img/avatar-myself.jpg">
+    <meta property="og:url" content="http://localhost:4000/2020/03/18/Regression/">
+    <meta property="og:site_name" content="xichenpan's blog | My Blog">
+    
+    <title>Linear Regression and polynomial regression - xichenpan's blog | My Blog</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="http://localhost:4000/2020/03/18/Regression/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Xichen Pan</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    
+                    
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    
+                    
+                    <li>
+                        <a href="/archive/">Archive</a>
+                    </li>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/post-c-language.png" width="0" height="0"> -->
+
+<!-- Post Header -->
+
+
+
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/post-c-language.png');
+        background: ;
+    }
+
+    
+</style>
+
+<header class="intro-header" >
+
+    <div class="header-mask"></div>
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/archive/?tag=Study+note" title="Study note">Study note</a>
+                        
+                    </div>
+                    <h1>Linear Regression and polynomial regression</h1>
+                    
+                    <h2 class="subheading">CMPUT 296</h2>
+                    <span class="meta">Posted by rick on March 18, 2020</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <!-- Multi-Lingual -->
+                
+
+				<p>To learn the relationship between features and targets (x_i and y_i), we usually hypothesize the functional form of the relationship. The function can be linear or non-linear. e.g. f(X) = w0+w1x1+w2x2 and f(X) = a + bX1X2. The w0 w1 w2 and a and b are the parameters need to be learned.</p>
+
+<p>In particular, the linear function is modeled as a linear combination of features (x) and parameters (w), i.e. f(X) = w0 + w1x1 + … + wdxd = sum(wjxj) = x^T w. We can extend x as (x0=1, x1, x2 …  xd). This form allows us use the dot product. Finding the best parameters (w0 to wd) isreferred to as the linear regression problem.</p>
+
+<h4 id="formalizing-the-maximum-likelihood-problem">Formalizing the maximum likelihood problem</h4>
+
+<p>Assume the observed data set D is a product of a data generating process in which n data points were drawn independently and according to the same distribution p(x). Assume the target variable Y has the linear relationship with input variable X, existing some error term  Ɛ. And the Ɛ follows the Gaussian distribution where the mean is zero. <script type="math/tex">Y =  \sum_{j=0}^{d} w_j X_j + Ɛ</script> . X0=1 is the intercept term. The assumption of normality for the error term is reasonable because of the central limit theorem.
+<script type="math/tex">p(y|x,w) = (1/\sqrt(2\pi\sigma^2))exp(-(y-x^Tw)^2/2\sigma^2)</script></p>
+
+<p>To implement the MLE problem,
+<script type="math/tex">W_{MLE}=argmin_{w\in F} - \sum_{i=1}^n ln(p(y_i|x_i,w))
+= argmin_{w\in F} \sum_{i=1}^n ln\sqrt{2\pi\sigma^2}+\sum_{i=1}^n (y_i-x_i^Tw)^2/2\sigma^2</script>
+Only the second part is related with w, so
+<script type="math/tex">= argmin_{w\in F} \frac{1} {2\sigma^2}*\sum_{i=1}^n (y_i-x_i^Tw)^2 \ = argmin_{w\in F}\sum_{i=1}^n (y_i-x_i^Tw)^2</script>
+To find the w, we need to minimize the difference between real y_i and <script type="math/tex">\hat{y_i}</script> which is <script type="math/tex">x_i^T w</script>. So this follows the intuition.</p>
+
+<p>E.g. Consider data set {(1,1.2), (2, 2.3), (3, 2.3), (4, 3.3)}. We want to find the max likelihood coefficients for f(x) = w_0 + w_1x. Note that there is one column in X which is ones because that can make w_0 times 1.</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+X= \begin{bmatrix} 1 & 1 \\ 1 & 2 \\ 1&3 \\ 1&4\\ \end{bmatrix}     w = \begin{bmatrix} w_0  \\ w_1 \\ \end{bmatrix}   y =  \begin{bmatrix} 1.2  \\ 2.3 \\ 2.3 \\ 3.3 \\ \end{bmatrix} %]]></script>
+
+<p>In the next section, we can use some new equation to get the answer of w.</p>
+
+<h4 id="linear-regression-solution">Linear Regression solution</h4>
+
+<p>We define the squared errors <script type="math/tex">c_i(W) = (f(x_i) - y_i)^2 = \frac{1} {2} (x_i^Tw - y_i)^2</script>. And <script type="math/tex">c(w) = \frac {1} {n} \sum{i=1}^n c_i(w)</script>. In this case, we can get the average squared error instead of a cumulative error. And this is same in the MLE problem because 1/n does not affect the w’s effect in the equation.</p>
+
+<p>To solve the MLE problem, we usually get the gradient of the equation, <script type="math/tex">\nabla c(w) = \frac {1} {n} \sum_{i=1}^n \nabla c_i(w)</script></p>
+
+<p><img src="C:\Users\ppx\Desktop\ppx\xichen1.github.io\img\LR-solution.JPG" alt="" /></p>
+
+<p>This is the result for c_i and w_j. So for the c(w), we need to obtain the system of equations with d+1 variables and d+1 equations.
+<script type="math/tex">\frac{1}{n} \sum_{i=1}^n(\vec{x_i^T}w - y_i)x_{i0}=0\\
+\frac{1}{n} \sum_{i=1}^n(\vec{x_i^T}w - y_i)x_{i1}=0\\...\\
+\frac{1}{n} \sum_{i=1}^n(\vec{x_i^T}w - y_i)x_{id}=0</script>
+Which is same as 
+<script type="math/tex">\frac{1}{n} \sum_{i=1}^n (\vec{x_i^T}w - y_i)\vec{x_i} = 0</script></p>
+
+<p>When we turn it as a linear algebra problem, we can define <script type="math/tex">\vec {A}=\frac{1}{n} \sum_{i=1}^n \vec{x_i} \vec{x_i^T}  \in R^{(d+1)*(d+1)}</script></p>
+
+<script type="math/tex; mode=display">\vec {b}=\frac{1}{n} \sum_{i=1}^n \vec{x_i} \cdot y_i \in R^{d+1}</script>
+
+<p>So <script type="math/tex">\vec {A} \cdot \vec {w} = \vec {b}</script>. If A is invertible, then <script type="math/tex">\vec {w} =\vec {A^{-1}} \vec {b}</script>.</p>
+
+<h5 id="solve-lr-using-gradient-descent">Solve LR using gradient descent</h5>
+
+<p>In     gradient descent, we would initialize the weights $\vec {w}$ at some random initialization and iteratively update $\vec {w}$ until we reach a point where the gradient is near 0.</p>
+
+<p><img src="C:\Users\ppx\Desktop\ppx\xichen1.github.io\img\in-post\Rl\rl_gd.JPG" alt="" /></p>
+
+<p>Analysis of time cost:</p>
+
+<p>Using gradient descent can be more quick than the linear algebra solution, each gradient descent update costs O(nd)</p>
+
+
+                <hr style="visibility: hidden;">
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2020/02/23/Formalizing-Parmeter-Estimation/" data-toggle="tooltip" data-placement="top" title="Formalizing Parameter Estimation">
+                        Previous<br>
+                        <span>Formalizing Parameter Estimation</span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+                <hr style="visibility: hidden;">
+
+                
+
+                
+
+                <!-- Gitalk 评论 start  -->
+
+                <!-- Link Gitalk 的支持文件  -->
+                <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+                <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script> 
+                <div id="gitalk-container"></div>     <script type="text/javascript">
+                    var gitalk = new Gitalk({
+
+                    // gitalk的主要参数
+                        clientID: `6d3a6542cd11fd3c9b41`,
+                        clientSecret: `ddcb1402216d3d19ac97256d0a766349c3dfe233`,
+                        repo: `xichen1.github.io`,
+                        owner: 'xichen1',
+                        admin: ['xichen1'],
+                        id: 'comment',
+                    
+                    });
+                    gitalk.render('gitalk-container');
+                </script> 
+                <!-- Gitalk end -->
+            </div>  
+
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+
+<section>
+    
+        <hr class="hidden-sm hidden-xs">
+    
+    <h5><a href="/archive/">FEATURED TAGS</a></h5>
+    <div class="tags">
+        
+        
+        
+        </a>
+        
+        
+                <a data-sort="0002" 
+                    href="/archive/?tag=Study+note"
+                    title="Study note"
+                    rel="11">Study note
+    </div>
+</section>
+
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+<!-- add support for mathjax by voleking-->
+
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <!-- SNS Link -->
+                
+
+
+<ul class="list-inline text-center">
+
+
+  
+  
+  <li>
+    <a href="https://twitter.com/ppx">
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+      </span>
+    </a>
+  </li>
+  
+  
+  <li>
+    <a target="_blank" href="https://www.zhihu.com/people/ppx">
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa  fa-stack-1x fa-inverse">知</i>
+      </span>
+    </a>
+  </li>
+  
+  
+  
+  
+  <li>
+    <a target="_blank" href="https://github.com/xichen1">
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+      </span>
+    </a>
+  </li>
+  
+  
+</ul>
+
+                <p class="copyright text-muted">
+                    Copyright &copy; Xichen Pan 2020
+                    <br>
+                    <a href="https://github.com/xichen1/xichen1.github.io">Xichen1</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=xichen1&repo=xichen1.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<!-- Currently, only navbar scroll-down effect at desktop still depends on this -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+<script src="/js/snackbar.js "></script>
+<script src="/js/sw-registration.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+
+
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-145254340-1';
+    var _gaDomain = 'xichen1.github.io';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+<!-- Side Catalog -->
+
+
+
+<!-- Multi-Lingual -->
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

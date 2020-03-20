@@ -5,45 +5,1254 @@
     <description>微小程序员</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 15 Aug 2019 02:19:18 +0800</pubDate>
-    <lastBuildDate>Thu, 15 Aug 2019 02:19:18 +0800</lastBuildDate>
-    <generator>Jekyll v3.8.5</generator>
+    <pubDate>Thu, 19 Mar 2020 04:50:05 -0600</pubDate>
+    <lastBuildDate>Thu, 19 Mar 2020 04:50:05 -0600</lastBuildDate>
+    <generator>Jekyll v4.0.0</generator>
     
       <item>
-        <title>recent to do list</title>
-        <description>&lt;h2 id=&quot;this-is-a-to-do-list-for-the-recent-future-plan&quot;&gt;This is a to do list for the recent future plan&lt;/h2&gt;
+        <title>Linear Regression and polynomial regression</title>
+        <description>&lt;p&gt;To learn the relationship between features and targets (x_i and y_i), we usually hypothesize the functional form of the relationship. The function can be linear or non-linear. e.g. f(X) = w0+w1x1+w2x2 and f(X) = a + bX1X2. The w0 w1 w2 and a and b are the parameters need to be learned.&lt;/p&gt;
 
-&lt;p&gt;It will be updated everyweek.&lt;/p&gt;
+&lt;p&gt;In particular, the linear function is modeled as a linear combination of features (x) and parameters (w), i.e. f(X) = w0 + w1x1 + … + wdxd = sum(wjxj) = x^T w. We can extend x as (x0=1, x1, x2 …  xd). This form allows us use the dot product. Finding the best parameters (w0 to wd) isreferred to as the linear regression problem.&lt;/p&gt;
 
-&lt;hr /&gt;
+&lt;h4 id=&quot;formalizing-the-maximum-likelihood-problem&quot;&gt;Formalizing the maximum likelihood problem&lt;/h4&gt;
 
-&lt;h4 id=&quot;this-is-the-list-for-the-next-one-week&quot;&gt;This is the list for the next one week&lt;/h4&gt;
-&lt;p&gt;finish the OOP in Java in coursar&lt;br /&gt;
-review linear algebra(evearyday half chapter)&lt;/p&gt;
+&lt;p&gt;Assume the observed data set D is a product of a data generating process in which n data points were drawn independently and according to the same distribution p(x). Assume the target variable Y has the linear relationship with input variable X, existing some error term  Ɛ. And the Ɛ follows the Gaussian distribution where the mean is zero. &lt;script type=&quot;math/tex&quot;&gt;Y =  \sum_{j=0}^{d} w_j X_j + Ɛ&lt;/script&gt; . X0=1 is the intercept term. The assumption of normality for the error term is reasonable because of the central limit theorem.
+&lt;script type=&quot;math/tex&quot;&gt;p(y|x,w) = (1/\sqrt(2\pi\sigma^2))exp(-(y-x^Tw)^2/2\sigma^2)&lt;/script&gt;&lt;/p&gt;
 
-&lt;hr /&gt;
+&lt;p&gt;To implement the MLE problem,
+&lt;script type=&quot;math/tex&quot;&gt;W_{MLE}=argmin_{w\in F} - \sum_{i=1}^n ln(p(y_i|x_i,w))
+= argmin_{w\in F} \sum_{i=1}^n ln\sqrt{2\pi\sigma^2}+\sum_{i=1}^n (y_i-x_i^Tw)^2/2\sigma^2&lt;/script&gt;
+Only the second part is related with w, so
+&lt;script type=&quot;math/tex&quot;&gt;= argmin_{w\in F} \frac{1} {2\sigma^2}*\sum_{i=1}^n (y_i-x_i^Tw)^2 \ = argmin_{w\in F}\sum_{i=1}^n (y_i-x_i^Tw)^2&lt;/script&gt;
+To find the w, we need to minimize the difference between real y_i and &lt;script type=&quot;math/tex&quot;&gt;\hat{y_i}&lt;/script&gt; which is &lt;script type=&quot;math/tex&quot;&gt;x_i^T w&lt;/script&gt;. So this follows the intuition.&lt;/p&gt;
 
-&lt;h4 id=&quot;this-is-for-the-next-month&quot;&gt;This is for the next month&lt;/h4&gt;
-&lt;p&gt;ready to preview&lt;/p&gt;
+&lt;p&gt;E.g. Consider data set {(1,1.2), (2, 2.3), (3, 2.3), (4, 3.3)}. We want to find the max likelihood coefficients for f(x) = w_0 + w_1x. Note that there is one column in X which is ones because that can make w_0 times 1.&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+X= \begin{bmatrix} 1 &amp; 1 \\ 1 &amp; 2 \\ 1&amp;3 \\ 1&amp;4\\ \end{bmatrix}     w = \begin{bmatrix} w_0  \\ w_1 \\ \end{bmatrix}   y =  \begin{bmatrix} 1.2  \\ 2.3 \\ 2.3 \\ 3.3 \\ \end{bmatrix} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;In the next section, we can use some new equation to get the answer of w.&lt;/p&gt;
+
+&lt;h4 id=&quot;linear-regression-solution&quot;&gt;Linear Regression solution&lt;/h4&gt;
+
+&lt;p&gt;We define the squared errors &lt;script type=&quot;math/tex&quot;&gt;c_i(W) = (f(x_i) - y_i)^2 = \frac{1} {2} (x_i^Tw - y_i)^2&lt;/script&gt;. And &lt;script type=&quot;math/tex&quot;&gt;c(w) = \frac {1} {n} \sum{i=1}^n c_i(w)&lt;/script&gt;. In this case, we can get the average squared error instead of a cumulative error. And this is same in the MLE problem because 1/n does not affect the w’s effect in the equation.&lt;/p&gt;
+
+&lt;p&gt;To solve the MLE problem, we usually get the gradient of the equation, &lt;script type=&quot;math/tex&quot;&gt;\nabla c(w) = \frac {1} {n} \sum_{i=1}^n \nabla c_i(w)&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;C:\Users\ppx\Desktop\ppx\xichen1.github.io\img\LR-solution.JPG&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This is the result for c_i and w_j. So for the c(w), we need to obtain the system of equations with d+1 variables and d+1 equations.
+&lt;script type=&quot;math/tex&quot;&gt;\frac{1}{n} \sum_{i=1}^n(\vec{x_i^T}w - y_i)x_{i0}=0\\
+\frac{1}{n} \sum_{i=1}^n(\vec{x_i^T}w - y_i)x_{i1}=0\\...\\
+\frac{1}{n} \sum_{i=1}^n(\vec{x_i^T}w - y_i)x_{id}=0&lt;/script&gt;
+Which is same as 
+&lt;script type=&quot;math/tex&quot;&gt;\frac{1}{n} \sum_{i=1}^n (\vec{x_i^T}w - y_i)\vec{x_i} = 0&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;When we turn it as a linear algebra problem, we can define &lt;script type=&quot;math/tex&quot;&gt;\vec {A}=\frac{1}{n} \sum_{i=1}^n \vec{x_i} \vec{x_i^T}  \in R^{(d+1)*(d+1)}&lt;/script&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\vec {b}=\frac{1}{n} \sum_{i=1}^n \vec{x_i} \cdot y_i \in R^{d+1}&lt;/script&gt;
+
+&lt;p&gt;So &lt;script type=&quot;math/tex&quot;&gt;\vec {A} \cdot \vec {w} = \vec {b}&lt;/script&gt;. If A is invertible, then &lt;script type=&quot;math/tex&quot;&gt;\vec {w} =\vec {A^{-1}} \vec {b}&lt;/script&gt;.&lt;/p&gt;
+
+&lt;h5 id=&quot;solve-lr-using-gradient-descent&quot;&gt;Solve LR using gradient descent&lt;/h5&gt;
+
+&lt;p&gt;In     gradient descent, we would initialize the weights $\vec {w}$ at some random initialization and iteratively update $\vec {w}$ until we reach a point where the gradient is near 0.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;C:\Users\ppx\Desktop\ppx\xichen1.github.io\img\in-post\Rl\rl_gd.JPG&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Analysis of time cost:&lt;/p&gt;
+
+&lt;p&gt;Using gradient descent can be more quick than the linear algebra solution, each gradient descent update costs O(nd)&lt;/p&gt;
 </description>
-        <pubDate>Thu, 15 Aug 2019 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2019/08/15/to-do-list/</link>
-        <guid isPermaLink="true">http://localhost:4000/2019/08/15/to-do-list/</guid>
+        <pubDate>Wed, 18 Mar 2020 00:00:00 -0600</pubDate>
+        <link>http://localhost:4000/2020/03/18/Regression/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020/03/18/Regression/</guid>
         
-        <category>to do list</category>
+        <category>Study note</category>
         
         
       </item>
     
       <item>
-        <title>test post</title>
-        <description>&lt;p&gt;This is a test website!&lt;/p&gt;
+        <title>Formalizing Parameter Estimation</title>
+        <description>&lt;p&gt;We want to find some function or model which satisfied some requirements. First, the model should be able to have performance on the previously unseen data should not deteriorate(change) once the new data is presented. Second, function must be able to include information about the model space from which it is selected and process of selecting a model should be able to accept training “advice” from an analyst. Finally, when large amounts of data are available learning algorithms must be able to provide solutions in reasonable time given the resource.&lt;/p&gt;
+
+&lt;p&gt;In this section, we can use MAP and MLE to estimate some distribution’s parameters (mean μ and SD σ for normal distribution λ for Poisson distribution.)&lt;/p&gt;
+
+&lt;h4 id=&quot;map-and-maximum-likelihood-estimationmle&quot;&gt;MAP and Maximum likelihood Estimation(MLE)&lt;/h4&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Imagine there is a dataset of observations D={x&lt;sub&gt;i&lt;/sub&gt;} (i from 1 to n). It has an unknown but true distribution p*. However, if you know the distribution is in a set of possible distribution, F, F is called the hypothesis space or function class. For example, F can be the family of all univariate Gaussian distributions. In this family, the mean μ* and SD σ* can be different. F = {N(μ, σ^2)&lt;/td&gt;
+      &lt;td&gt;for any μ ∈ R and σ ∈ R+}. While the true distribution has parameters μ*, σ*, we need to find μ and σ as close to the true ones as possible.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;The idea of MAP estimation is to find the most probable model for the observed data. Given the dataset D, the solution of MAP is f&lt;sub&gt;MAP&lt;/sub&gt; = argmax&lt;sub&gt; f∈F&lt;/sub&gt; p(f&lt;/td&gt;
+      &lt;td&gt;D).&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;p(f&lt;/td&gt;
+      &lt;td&gt;D) is called the posterior distribution of the model given the data. MAP estimate is exactly the most probable model.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;To calculate the posterior distribution we apply he Bayes rules:&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;p(f&lt;/td&gt;
+      &lt;td&gt;D) = p(D&lt;/td&gt;
+      &lt;td&gt;f)p(f)/p(D)&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;p(D&lt;/td&gt;
+      &lt;td&gt;f) is called the likelihood function, p(f) is the prior distribution of the model. p(D) is the marginal distribution of the data.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;To compute p(D), we need to sum all situations with different f ∈ F. p(D) = sum(p(D&lt;/td&gt;
+      &lt;td&gt;f)*p(f)).&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;max &lt;sub&gt;fF&lt;/sub&gt; p(D&lt;/td&gt;
+      &lt;td&gt;f)p(f)/p(D) = 1/p(D) * max &lt;sub&gt;f∈F&lt;/sub&gt; p(D&lt;/td&gt;
+      &lt;td&gt;f)p(f). P(D) is not related with the MAP solution. Now f&lt;sub&gt;MAP&lt;/sub&gt; = argmax&lt;sub&gt; f∈F&lt;/sub&gt; p(D&lt;/td&gt;
+      &lt;td&gt;f)p(f). If in some situations, we cannot prefer one model and have the same p(f) for all f in the hypothesis space. Then MAP becomes MLE. f&lt;sub&gt;MLE&lt;/sub&gt; = argmax &lt;sub&gt;f∈F&lt;/sub&gt; p(D&lt;/td&gt;
+      &lt;td&gt;f).  (The p(f) is not considered). So MLE can be seen as a special case of MAP.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;EX: Suppose data set D = {2,5,9,5,4,8} is an i.i.d. sample from a Poisson distribution with a fixed but unknown parameter λ&lt;sub&gt;0&lt;/sub&gt;. Find the MLE solution of λ&lt;sub&gt;0&lt;/sub&gt;.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;λ&lt;sub&gt;MLE&lt;/sub&gt; = argmax p(D&lt;/td&gt;
+      &lt;td&gt;λ)&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;p(D&lt;/td&gt;
+      &lt;td&gt;λ) = p({x&lt;sub&gt;i&lt;/sub&gt;}&lt;/td&gt;
+      &lt;td&gt;λ) = p(x&lt;sub&gt;1&lt;/sub&gt;&lt;/td&gt;
+      &lt;td&gt;λ)p(x&lt;sub&gt;2&lt;/sub&gt;&lt;/td&gt;
+      &lt;td&gt;λ)*…*p(x&lt;sub&gt;i&lt;/sub&gt;&lt;/td&gt;
+      &lt;td&gt;λ)&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;To find a λ to make the p maximum. ln(p(D&lt;/td&gt;
+      &lt;td&gt;λ)) = ln(p(x&lt;sub&gt;1&lt;/sub&gt;&lt;/td&gt;
+      &lt;td&gt;λ)p(x&lt;sub&gt;2&lt;/sub&gt;&lt;/td&gt;
+      &lt;td&gt;λ)*…*p(x&lt;sub&gt;i&lt;/sub&gt;&lt;/td&gt;
+      &lt;td&gt;λ))&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;= sum(ln(p(x&lt;sub&gt;i&lt;/sub&gt;&lt;/td&gt;
+      &lt;td&gt;λ)))&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;In Poisson distribution p(x&lt;/td&gt;
+      &lt;td&gt;λ)=λ^x*e^(-λ)/x!, ln(p(x&lt;/td&gt;
+      &lt;td&gt;λ)) = ln(λ^x)+ln(e^(-λ))-ln(x!) = x*ln(λ)-λ-ln(x!)&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;sum(ln(p(x&lt;sub&gt;i&lt;/sub&gt;&lt;/td&gt;
+      &lt;td&gt;λ))) = sum(x&lt;sub&gt;i&lt;/sub&gt;ln(λ)) - nλ - sum(ln(x!))&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;By computing the first derivative, we can compute the λ which makes ln.. max.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;d ln(p(D&lt;/td&gt;
+      &lt;td&gt;λ))/d λ = (1/λ)sum(x&lt;sub&gt;i&lt;/sub&gt;) - n. In this case, n = 6. λ=sum(x&lt;sub&gt;i&lt;/sub&gt;)/n&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Ex of MAP: D = {2,5,9,5,4,8}. i.i.d. sample from Poisson with mean λ&lt;sub&gt;0&lt;/sub&gt;. We need to calculate the MAP estimate of λ&lt;sub&gt;0&lt;/sub&gt;. Some other information is given. Suppose the prior knowledge about λ&lt;sub&gt;0&lt;/sub&gt; can be expressed using a gamma distribution with k=3 and θ=1. Find the MAP of λ&lt;sub&gt;0&lt;/sub&gt;.&lt;/p&gt;
+
+&lt;p&gt;By gamma distribution, p(λ) = λ^(k-1)e^(-λ/θ)/θgamma&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;By Poisson distribution, p(x&lt;/td&gt;
+      &lt;td&gt;λ) = λ^x*e^-λ/x!&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;λ&lt;sub&gt;MAP&lt;/sub&gt; = argmax &lt;sub&gt;λ∈(0, ∞)&lt;/sub&gt; p(D&lt;/td&gt;
+      &lt;td&gt;λ)p(λ). Taking log to simplify.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;ln p(D&lt;/td&gt;
+      &lt;td&gt;λ)p(λ) = ln(p(D&lt;/td&gt;
+      &lt;td&gt;λ)) + ln(p(λ)) = ln sum(p(x&lt;sub&gt;i&lt;/sub&gt;&lt;/td&gt;
+      &lt;td&gt;λ)) + ln p(λ)&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;ln p(λ) = ln λ^(k-1)e^(-λ/e)/θgamma(k) = ln  λ^(k-1) + ln e^(-λ/e) - ln θgamma(k) = (k-1) ln λ - (λ/θ) - ln θgamma(k)&lt;/p&gt;
+
+&lt;p&gt;sum(ln (λ^x&lt;sub&gt;i&lt;/sub&gt;&lt;em&gt;e^-λ/x&lt;sub&gt;i&lt;/sub&gt;)) = sum(x&lt;sub&gt;i&lt;/sub&gt;&lt;/em&gt;ln λ - λ - ln x&lt;sub&gt;i&lt;/sub&gt;) = ln λ sum(x&lt;sub&gt;i&lt;/sub&gt;) - nλ - ln sum(x&lt;sub&gt;i&lt;/sub&gt;)&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Taking derivate: d(ln p(D&lt;/td&gt;
+      &lt;td&gt;λ)p(λ)) / d λ= sum(x&lt;sub&gt;i&lt;/sub&gt;)/λ - n + (k-1)/λ - 1/θ = 0&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;sum(x&lt;sub&gt;i&lt;/sub&gt;) + (k-1) = (n + 1/θ)λ&lt;/p&gt;
+
+&lt;p&gt;So λ&lt;sub&gt;MAP&lt;/sub&gt; = (k-1 + sum(x&lt;sub&gt;i&lt;/sub&gt;))/(n + 1/θ) = (3-1+(2+5+9+5+4+8))/(6+1) = 35/7 = 5&lt;/p&gt;
+
+&lt;h5 id=&quot;the-effect-of-the-amount-of-data&quot;&gt;The effect of the amount of data&lt;/h5&gt;
+
+&lt;p&gt;When the data amount is large, the result of MAP becomes closer to MLE. The importance of prior is reduced.&lt;/p&gt;
+
+&lt;p&gt;An example of Poisson distribution: s&lt;sub&gt;n&lt;/sub&gt; = sum(x&lt;sub&gt;i&lt;/sub&gt;), which is from the random variable S&lt;sub&gt;n&lt;/sub&gt; = sum(X&lt;sub&gt;i&lt;/sub&gt;) . And suppose s&lt;sub&gt;n&lt;/sub&gt;/n^2 –&amp;gt; ∞ when n –&amp;gt; ∞.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;C:\Users\ppx\Desktop\web1111\xichen1.github.io\img\MLE-MAP.JPG&quot; alt=&quot;MLE-MAP&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Ex: Let D={x&lt;sub&gt;i&lt;/sub&gt;}, i from 1 to n. It is an i.i.d. sample from a normal distribution. To find the MLE of the parameters.&lt;/p&gt;
+
+&lt;p&gt;By taking partial derivatives of μ, σ, we get the result μ&lt;sub&gt;MLE&lt;/sub&gt; = 1/n(sum(x&lt;sub&gt;i&lt;/sub&gt;)), σ&lt;sub&gt;MLE&lt;/sub&gt; = 1/n(sum(x&lt;sub&gt;i&lt;/sub&gt;-μ&lt;sub&gt;MLE&lt;/sub&gt;)^2).&lt;/p&gt;
+
+&lt;h4 id=&quot;bayesian-estimation&quot;&gt;Bayesian estimation&lt;/h4&gt;
+
+&lt;p&gt;Maximum a posterior and maximum likelihood approaches report the solution that is consistent with the mode of the posterior distribution and the likelihood function. But the MLE and MAP cannot deal with the skewed distributions and multimodal distributions. Bayesian can!&lt;/p&gt;
+
 </description>
-        <pubDate>Thu, 08 Aug 2019 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2019/08/08/my-first-blog/</link>
-        <guid isPermaLink="true">http://localhost:4000/2019/08/08/my-first-blog/</guid>
+        <pubDate>Sun, 23 Feb 2020 00:00:00 -0700</pubDate>
+        <link>http://localhost:4000/2020/02/23/Formalizing-Parmeter-Estimation/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020/02/23/Formalizing-Parmeter-Estimation/</guid>
         
-        <category>self test</category>
+        <category>Study note</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Proof of Alg.</title>
+        <description>&lt;p&gt;If the code is written using recursion, prove correctness using induction.&lt;/p&gt;
+
+&lt;h5 id=&quot;loop-invariant&quot;&gt;Loop invariant&lt;/h5&gt;
+
+&lt;p&gt;For code written using loops, prove correctness by the loop invariant method.&lt;/p&gt;
+
+&lt;p&gt;A loop-invariant is an assertion about the state of the code that is always true at the beginning of each loop-iteration. Two steps of using loop-invariant: 1. identify the LI. 2. prove the LI for initialization, maintenance, termination#1 (stop eventually), termination#2 (right result).&lt;/p&gt;
+
+&lt;p&gt;One example:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;FindSum(A,n)
+	sum &amp;lt;-- A[1]
+	j &amp;lt;-- 2
+	while (j&amp;lt;=n)
+		sum &amp;lt;-- sum + A[j]
+		j &amp;lt;-- j+1
+	return sum
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The LI is “At the beginning of each loop iteration, sum = (j-1)sum(i=1)A[i]”.&lt;/p&gt;
+
+&lt;h6 id=&quot;the-proof-of-li&quot;&gt;The proof of LI&lt;/h6&gt;
+
+&lt;p&gt;Initially: Before the loop begins sum = A[1] = A[1,…,(2-1)]&lt;/p&gt;
+
+&lt;p&gt;Maintenance: Suppose that at the beginning of iteration j, sum=A[1]+A[2]+…+A[j-1]. Then at the beginning of iteration j+1. Sum&lt;sub&gt;after&lt;/sub&gt;=sum&lt;sub&gt;before&lt;/sub&gt;+A[j] = A[1]+A[2]+..+A[j] = A[1]+A[2]+..+A[j+1-1].&lt;/p&gt;
+
+&lt;p&gt;Termination #1: The loop terminates as we only increase j, so eventually j&amp;gt;n.&lt;/p&gt;
+
+&lt;p&gt;Termination #2: When the while-loop terminates, j=n+1, in that case LI implies sum = A[1]+…+A[n].&lt;/p&gt;
+</description>
+        <pubDate>Sun, 23 Feb 2020 00:00:00 -0700</pubDate>
+        <link>http://localhost:4000/2020/02/23/Proof-of-Alg/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020/02/23/Proof-of-Alg/</guid>
+        
+        <category>Study note</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Note heap</title>
+        <description>&lt;p&gt;Some alg and time complexity of heap:&lt;/p&gt;
+
+&lt;h5 id=&quot;max-heapify---θlogn---θh&quot;&gt;Max-heapify =  Θ(logn) =  Θ(h)&lt;/h5&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;Max-Heapify(A,i)
+		**pre-conditition: tree rooted at A[i] is and almost-heap
+	lc &amp;lt;-- leftchild(i)
+	rc &amp;lt;-- rightchild(i)
+	largest &amp;lt;-- i
+	if (lc &amp;lt;= heapsize(A) and A[lc] &amp;gt; A[largest]) then
+		largest &amp;lt;-- lc
+	if (rc &amp;lt;= heapsize(A) and A[rc] &amp;gt; A[largest]) then
+		largest &amp;lt;-- rc
+	if (largest != i) then
+		exchange A[i] &amp;lt;--&amp;gt; A[largest]
+		Max-heapify(A,largest)
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The WC is from the top of the heap to the bottom of the heap. Every time it costs Θ(1) and in total it is h*Θ(1) = Θ(h) = Θ(logn).&lt;/p&gt;
+
+&lt;h5 id=&quot;build-max-heap---θn&quot;&gt;Build-Max-Heap =  Θ(n)&lt;/h5&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;Build-Max-Heap(A)
+		** turn an array into a heap
+	heapsize(A) &amp;lt;-- length[A]
+	for (i &amp;lt;-- floor(length[A]/2) downto 1) do
+		Max-heapify(A,i)
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h5 id=&quot;heap-sort---θnlogn&quot;&gt;Heap sort =  Θ(nlogn)&lt;/h5&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+8
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;Heap-Sort(A,n)
+		** sort an array using a heap
+	Build-Max-Heap(A)
+	heapsize &amp;lt;-- n
+	while (heapsize &amp;gt; 1) do
+		exchange A[1] &amp;lt;--&amp;gt; A[heapsize]
+		heapsize &amp;lt;-- heapsize - 1
+		Max-Heapify(A[1...heapsize],1)
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;For each position i = n, n-1, n-2, … , 2, Max-Heapify takes O(logn). Totally, it costs Θ(nlogn).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;C:\Users\ppx\Desktop\Capture.JPG&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;priority-queue&quot;&gt;Priority Queue&lt;/h4&gt;
+
+&lt;h5 id=&quot;initializea--θn&quot;&gt;Initialize(A) = Θ(n)&lt;/h5&gt;
+
+&lt;p&gt;Building a heap&lt;/p&gt;
+
+&lt;h5 id=&quot;extract-maximuma--θlogn&quot;&gt;Extract-Maximum(A) = Θ(logn)&lt;/h5&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+8
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;Heap-Extract-Max(A)
+		precondiction: A is not empty
+	max &amp;lt;-- A[1]
+	A[1] &amp;lt;-- A[heapsize[A]]
+	heapsize[A] &amp;lt;-- heapsize[A] - 1
+	if (heapsize[A]&amp;gt;0) then
+		Max-Heapify(A,1)
+	return max
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The exchange costs Θ(1) and max heapify costs Θ(logn).&lt;/p&gt;
+
+&lt;h5 id=&quot;heap-increase-key-a-i-key--θlogn&quot;&gt;Heap-Increase-Key (A, i, key) = Θ(logn)&lt;/h5&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;Heap-increase-Key(A, i, key)
+		** precondiction: key &amp;gt;= A[i]
+	A[i] &amp;lt;-- key
+	while (i&amp;gt;1 and A[parent(i)]&amp;gt;A[i]) do
+		exchange A[i] &amp;lt;--&amp;gt; A[parent(i)]
+		i &amp;lt;-- Parent(i)
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;From the bottom to the top of the heap, it takes Θ(h) = Θ(logn)&lt;/p&gt;
+
+&lt;h5 id=&quot;insert-key-a-new_key--θlogn&quot;&gt;Insert-Key (A, new_key) = Θ(logn)&lt;/h5&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;Insert-Key(A,new_key)
+	heapsize[A] &amp;lt;-- heapsize[A]+1
+	A[heapsize[A]] &amp;lt;-- $$-/infty$$
+	Heap-Increase-key(A, heapsize[A], key)
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+</description>
+        <pubDate>Sun, 23 Feb 2020 00:00:00 -0700</pubDate>
+        <link>http://localhost:4000/2020/02/23/Note-of-heap/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020/02/23/Note-of-heap/</guid>
+        
+        <category>Study note</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Note QS</title>
+        <description>&lt;h5 id=&quot;the-idea-of-quick-sort&quot;&gt;The idea of quick sort&lt;/h5&gt;
+
+&lt;p&gt;​	– pick a pivot and compare it to all others&lt;/p&gt;
+
+&lt;p&gt;​	– Rearrange A to be: [elements&amp;lt;= pivot, pivot, elements &amp;gt; pivot]&lt;/p&gt;
+
+&lt;p&gt;​	– Recursively sort the subarrays of before and after elements&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;QuickSort(A,p,r)
+		** sort the subarray A[p,...,r]
+	if (p&amp;lt;r) then
+		q &amp;lt;-- Partition(A,p,r)
+			** Partition returns q such that
+			** 1. A[q] is the pivot
+			** 2. All elements &amp;lt;= pivot appear in A[p,...,q-1]
+			** 3. All elements &amp;gt; pivot appear in A[q+1,...,r]
+		QuickSort(A,p,q-1)
+		QuickSort(A,q+1,r)
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;Partition(A,p,r)
+	** last element, A[r], is the pivot key picked of the partition
+	pivot &amp;lt;-- A[r]
+	i &amp;lt;-- p-1
+	for (j from p to r-1) do
+		if (A[j] &amp;lt;= pivot) then
+			i &amp;lt;-- i+1
+			exchange A[i] &amp;lt;--&amp;gt; A[j]
+	exchange A[i+1] &amp;lt;--&amp;gt; A[r]
+	return i+1
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h5 id=&quot;quick-sort-running-time&quot;&gt;Quick Sort running time&lt;/h5&gt;
+
+&lt;p&gt;In each recurrence, there is n-1 Key comparisons because the pivot is compared with other n-1 keys.&lt;/p&gt;
+
+&lt;p&gt;​			0,                                   n&amp;lt;=1&lt;/p&gt;
+
+&lt;p&gt;T(n) =&lt;/p&gt;
+
+&lt;p&gt;​			T(n&lt;sub&gt;1&lt;/sub&gt;)+T(n-1-n&lt;sub&gt;1&lt;/sub&gt;)+(n-1), n&amp;gt;=2&lt;/p&gt;
+
+&lt;p&gt;n&lt;sub&gt;1&lt;/sub&gt; + 1 is the index of the pivot. So quick sort needs&lt;/p&gt;
+
+&lt;p&gt;T(All element before pivot)  + T(All element after pivot) + (n-1)&lt;/p&gt;
+
+&lt;p&gt;Notice that 0 &amp;lt;= n&lt;sub&gt;1&lt;/sub&gt; &amp;lt;= n-1. Because the pivot can be any element from A[1] to A[n].&lt;/p&gt;
+
+&lt;h6 id=&quot;worst-case&quot;&gt;Worst case&lt;/h6&gt;
+
+&lt;p&gt;When n1 is zero/n-1, the number of KC becomes T(0) + T(n-1) + (n-1). In the next level, the KC becomes n-2.&lt;/p&gt;
+
+&lt;p&gt;T(n) = T(n-1) + (n-1)&lt;/p&gt;
+
+&lt;p&gt;​		= T(n-1) + n-1 = T(n-2) + n-2 + n-1 = … = T(1) + 1 + 2 + 3 + … + n-1 = n(n-1)/2&lt;/p&gt;
+
+&lt;p&gt;So T(n) =  Θ(n^2)&lt;/p&gt;
+
+&lt;h6 id=&quot;almost-worst-case&quot;&gt;Almost worst case&lt;/h6&gt;
+
+&lt;p&gt;When n&lt;sub&gt;1&lt;/sub&gt; is n-2 or 1, T(n) = T(1)+T(n-2)+(n-1)&lt;/p&gt;
+
+&lt;p&gt;​											= T(n-2)+(n-1) = T(n-4)+(n-3)+(n-1) = T(1) + 1 + 3 +…+ (n-1)&lt;/p&gt;
+
+&lt;p&gt;T(n) = (1+(n-1))n/4=n^2/4 = Θ(n^2)&lt;/p&gt;
+
+&lt;h6 id=&quot;best-case&quot;&gt;Best case&lt;/h6&gt;
+
+&lt;p&gt;If every time we can choose a pivot which makes # before and # after are same, then we can save all wasted KC.&lt;/p&gt;
+
+&lt;p&gt;T(n) = 2*T((n-1)/2)+(n-1)&lt;/p&gt;
+
+&lt;p&gt;Solving T(n) = 2T(n/2) + (n-1). Using master theorem second case, a = b =2, n^(log &lt;sub&gt;b&lt;/sub&gt;a)=n. And f(n) = n-1 = n&lt;em&gt;((log^k)n) where k=0. So T(n) = (n&lt;/em&gt;logn).&lt;/p&gt;
+
+&lt;h6 id=&quot;almost-best-case&quot;&gt;Almost best case&lt;/h6&gt;
+
+&lt;p&gt;Assume in each round, # before is 3n/4 and # after is n/4. Then T(n) = T(3n/4)+T(n/4)+(n-1). Or more extreme case is T(n) = T(9n/10)+T(n/10)+(n-1).&lt;/p&gt;
+
+&lt;p&gt;In both case, the time is O(n*logn). For any split, the running time remains to be  Θ(nlogn).&lt;/p&gt;
+
+</description>
+        <pubDate>Sun, 23 Feb 2020 00:00:00 -0700</pubDate>
+        <link>http://localhost:4000/2020/02/23/Note-of-QS/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020/02/23/Note-of-QS/</guid>
+        
+        <category>Study note</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Divide and Conquer</title>
+        <description>&lt;h5 id=&quot;merge-sort&quot;&gt;Merge-Sort&lt;/h5&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;Merge(A, lo, mid, hi)
+	**pre-condition: lo&amp;lt;=mid&amp;lt;=hi, A[lo,mid] and A[mid+1,hi] sorted
+	**post-condition: A[lo,hi] sorted
+	
+Merge-sort(A,lo,hi)
+	if lo&amp;lt;hi then
+		mid = floor((lo+hi)/2)
+		Merge-Sort(A,lo,mid)
+		Merge-sort(A,mid+1,hi)
+		Merge(A,lo,mid,hi)
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Let denote #KC for a list of size n. Suppose the number of keys in the list is a power of 2.&lt;/p&gt;
+
+&lt;p&gt;T(n)=(n-1)+2*T(n/2).&lt;/p&gt;
+
+&lt;p&gt;To solve it: 1. Iterated substitution. 2. recurrence Tree 3. Guess and test. 4 Master Theorem&lt;/p&gt;
+
+&lt;p&gt;T(n) = 2T(n/2) + (n-1) = 2&lt;em&gt;(2&lt;/em&gt;T(n/4)+(n/2-1))+(n-1)=4T(n/4)+(n-2)+(n-1) = 4(2T(n/8)+(n/4-1))+(n-2)+(n-1) = 8T(n/8)+(n-4)+(n-2)+(n-1) = 2^k*T(n/2^k)+(n-2^(k-1))+(n-2^(k-2))+…+(n-2^0)&lt;/p&gt;
+
+&lt;p&gt;The last one is T(1)=T(n/2^k) So let 2^k=n. T(n)=2^k&lt;em&gt;T(1) + (2^k-2^(k-1)) + (2^k-2^(k-2)) + … + (2^k-2^0)= k&lt;/em&gt;2^k-sum(2^i) (0&amp;lt;=i&amp;lt;=k-1) = k*2^k-(2^k-1)=(k-1)2^k+1.&lt;/p&gt;
+
+&lt;p&gt;2^k=n, k=logn. T(n) = (logn-1)n+1 =  O(nlogn)&lt;/p&gt;
+
+&lt;p&gt;To prove by induction: T(n) = (k-1)2^k+1    n = 2^k&lt;/p&gt;
+
+&lt;p&gt;Base case: T(1) = 0. k = 0, (0-1)2^0+1 = 1-1=0&lt;/p&gt;
+
+&lt;p&gt;Induction step. Suppose T(2^k) = (k-1)2^k+1, we need to prove that T(2^(k+1))=(k)2^(k+1)+1&lt;/p&gt;
+
+&lt;p&gt;T(2^(k+1))=(2^(k+1)-1)+2&lt;em&gt;T(2^k)= (2^(k+1)-1)+2&lt;/em&gt;(k-1)2^k+2= 2^k+(2k-2)2^k+1=(k)*2^(k+1)+1&lt;/p&gt;
+
+</description>
+        <pubDate>Sun, 23 Feb 2020 00:00:00 -0700</pubDate>
+        <link>http://localhost:4000/2020/02/23/Divide-and-Conquer/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020/02/23/Divide-and-Conquer/</guid>
+        
+        <category>Study note</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Note of ML Optimization</title>
+        <description>&lt;h4 id=&quot;the-basic-optimization-problem-and-stationary-points&quot;&gt;The basic optimization problem and stationary points&lt;/h4&gt;
+
+&lt;p&gt;The goal of optimization is to find and select a set of parameters $ w \in R&lt;sup&gt;d &lt;/sup&gt;$ to minimize the objective function c:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;min \ c(w)\ (w\in R^d)&lt;/script&gt;
+
+&lt;p&gt;The way to select and find w which minimizes the objective. The most straightforward way is to generate random w and check c(w). If any new generated w&lt;sub&gt;t&lt;/sub&gt; has better performance than the previous best w, c(w&lt;sub&gt;t&lt;/sub&gt;) &amp;lt; c(w), then w&lt;sub&gt;t&lt;/sub&gt;  to be the new optimal solution.&lt;/p&gt;
+
+&lt;p&gt;For the smooth and continuous function, we can use gradient descent (梯度下降). The gradient (derivative) can tell us where the derivative is zero and this place is somewhere the c(w)’s trend changes.&lt;/p&gt;
+
+&lt;p&gt;By Taylor series approximation 
+&lt;script type=&quot;math/tex&quot;&gt;c(w)=\sum_{n=0}^{\infty}{((c^n)(w_n)/n!)(w-w_0)^n}&lt;/script&gt;
+The first three terms’ sum is:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;c(w)\approx \hat{c}(w)=c(w_0)+(w-w_0)c'(w_0)+1/2(w-w_0)^2c''(w_0)&lt;/script&gt;
+
+&lt;p&gt;To find the zero derivative of c(w), we need to let $ c’(w) = 0 $. So we only need the first two terms.&lt;/p&gt;
+
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;c'(w)\approx c'(w_0)+(w-w_0)c''(w_0)=0&lt;/script&gt;
+Then,&lt;/p&gt;
+
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;w=w_0-c'(w_0)/c''(w_0)&lt;/script&gt;
+In the end, the formula for the gradient descent is w&lt;sub&gt;t+1&lt;/sub&gt; =w&lt;sub&gt;t&lt;/sub&gt; - n&lt;sub&gt;t&lt;/sub&gt; c’(w&lt;sub&gt;t&lt;/sub&gt;).&lt;/p&gt;
+
+&lt;p&gt;n&lt;sub&gt;t&lt;/sub&gt; is the rate of learning. In this formula, the new x-value = the old x-value  -  learning rate*old derivate.&lt;/p&gt;
+
+&lt;p&gt;The way to choose n&lt;sub&gt;t&lt;/sub&gt;. We can conduct a line search. Set a range for the n, (0, n&lt;sub&gt;max&lt;/sub&gt;], from the n&lt;sub&gt;max&lt;/sub&gt;, we can reduce n if the step size is too large by changing the factor t which belongs to [0.5,0.9]. When t is 0.9, it reduces n very slowly and when t is 0.5, it reduces n very quickly.&lt;/p&gt;
+
+&lt;h4 id=&quot;optimization-properties&quot;&gt;Optimization properties&lt;/h4&gt;
+
+&lt;h5 id=&quot;maximizing-vs-minimizing&quot;&gt;Maximizing vs. minimizing&lt;/h5&gt;
+
+&lt;p&gt;argmin c(w) = argmax (-c(w))&lt;/p&gt;
+
+&lt;p&gt;It means that the value w which makes c(w) minimal is same as the value w which makes -c(w) maximum. However, note that min c(w) != max -c(w).&lt;/p&gt;
+
+&lt;h5 id=&quot;convexity&quot;&gt;Convexity&lt;/h5&gt;
+
+&lt;p&gt;A function is convex if we draw a line between any two points on the function and the value between the two points lie below the line. Convexity makes sure that every critical point is local minimum. And therefore, the solution we get from the right step size is always optimal. The concave function is all values between two points are above the line.&lt;/p&gt;
+
+&lt;h5 id=&quot;uniqueness-of-the-solution&quot;&gt;Uniqueness of the solution&lt;/h5&gt;
+
+&lt;p&gt;For some questions, we need to find the unique solution but sometimes we do not need to.&lt;/p&gt;
+
+&lt;h5 id=&quot;equivalence-under-a-constant-shift&quot;&gt;Equivalence under a constant shift&lt;/h5&gt;
+
+&lt;p&gt;Adding or multiplying by a constant a != 0 does not change the solution:
+&lt;script type=&quot;math/tex&quot;&gt;argmin \ c(w)=argmin (\ a\ c(w)) = argmin (\ a\ c(w)+a )&lt;/script&gt;&lt;/p&gt;
+</description>
+        <pubDate>Sat, 22 Feb 2020 00:00:00 -0700</pubDate>
+        <link>http://localhost:4000/2020/02/22/Note-ML-Optimization/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020/02/22/Note-ML-Optimization/</guid>
+        
+        <category>Study note</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Note of ML Estimator</title>
+        <description>&lt;h4 id=&quot;estimate-the-expected-value&quot;&gt;Estimate the expected value&lt;/h4&gt;
+
+&lt;p&gt;For example, we have n random variables X&lt;sub&gt;1&lt;/sub&gt;, X&lt;sub&gt;2&lt;/sub&gt;, … X&lt;sub&gt;n&lt;/sub&gt;, where E[X&lt;sub&gt;i&lt;/sub&gt;]= \mu and the mean \mu is unknown. The average estimator is 
+&lt;script type=&quot;math/tex&quot;&gt;\bar{X}=(1/n)\sum_{i=1}^{n}{X_i}&lt;/script&gt;
+How can we check if the estimator is biased? The bias of the estimator is how far the expected value of the estimator from the true \mu. In formula,
+&lt;script type=&quot;math/tex&quot;&gt;Bias(\bar{X})=E[\bar{X}]-\mu&lt;/script&gt;
+If the bias value if zero, the estimator is said to be unbiased. The E(\bar{x}) can reflect that the \bar{X} is random. Because if several experiments are conducted, there could be different E[\bar{X}].&lt;/p&gt;
+
+&lt;p&gt;We can compute the expectation of \bar{X}.
+&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+\begin{split}
+E[\bar{X}]&amp;= E[(1/n)\sum_{i=1}^{n}{X_i}]\\
+          &amp;= (1/n)\sum_{i=1}^{n}{E[X_i]}\\
+          &amp;= 1/n\sum_{i=1}^{n}{\mu}\\
+          &amp;= (1/n)*n*\mu\\
+          &amp;= \mu
+\end{split} %]]&gt;&lt;/script&gt;
+It means that the expected value estimator is unbiased because the Bias is 0.&lt;/p&gt;
+
+</description>
+        <pubDate>Sat, 22 Feb 2020 00:00:00 -0700</pubDate>
+        <link>http://localhost:4000/2020/02/22/Note-ML-Estimator/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020/02/22/Note-ML-Estimator/</guid>
+        
+        <category>Study note</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Note of Berkeley DB</title>
+        <description>&lt;h4 id=&quot;levels-of-abstraction-in-a-typical-dbmsdatabase-management-system&quot;&gt;Levels of abstraction in a typical DBMS(database management system)&lt;/h4&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Data is stored in tables in conceptual schema.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h5 id=&quot;conceptual-schema&quot;&gt;Conceptual schema:&lt;/h5&gt;
+
+&lt;p&gt;The conceptual schema describes the Database structure of the whole database for the community of users. This schema hides information about the physical storage structures and focuses on describing data types, entities, relationships, etc. And one database can only have one conceptual schema.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Use high level SQL commands (DDL or DML)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h5 id=&quot;ddl&quot;&gt;DDL:&lt;/h5&gt;
+
+&lt;p&gt;Data Definition Language (DDL) is a standard for commands that define the different structures in a database. DDL statements create, modify, and remove database objects such as tables, indexes, and users. Common DDL statements are CREATE, ALTER, and DROP.&lt;/p&gt;
+
+&lt;h5 id=&quot;dml&quot;&gt;DML:&lt;/h5&gt;
+
+&lt;p&gt;A data manipulation language (DML) is a computer programming language used for adding (inserting), deleting, and modifying (updating) data in a database. Common DML statements are SELECT, INSERT, UPDATE.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Data is organized in files and indexes in physical schema&lt;/li&gt;
+  &lt;li&gt;A DBMS uses suitable storage structure, index files and access paths to evaluate queries and return results.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h5 id=&quot;berkeley-db&quot;&gt;Berkeley DB&lt;/h5&gt;
+
+&lt;p&gt;It is an open source embedded database library that provides s simple function-call API for data access and management.&lt;/p&gt;
+
+&lt;p&gt;It supports many file structures and operations&lt;/p&gt;
+
+&lt;h6 id=&quot;the-use-of-berkeley-db&quot;&gt;The use of Berkeley DB:&lt;/h6&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Develop programs working with storage structures and indexes&lt;/li&gt;
+  &lt;li&gt;Develop applications that don’t need the full functionality of a DBMS and require high performance&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h6 id=&quot;four-file-organizations-supported-in-berkeley-db&quot;&gt;Four file organizations supported in Berkeley DB&lt;/h6&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;hash: Data is stored in an extended linear hash table. good for applications that need quick random-access&lt;/li&gt;
+  &lt;li&gt;Btree: Data is stored in a sorted, balanced tree structure. Good for range-based searches&lt;/li&gt;
+  &lt;li&gt;Queue: Data is stored in a queue as fixed-length records. Good for fast inserts at the tail of the queue. It also supports read/delete operation from the head of the queue. It provides record-level locking&lt;/li&gt;
+  &lt;li&gt;Recnos: Data is stored in either fixed or variable-length records&lt;/li&gt;
+&lt;/ol&gt;
+
+</description>
+        <pubDate>Thu, 14 Nov 2019 00:00:00 -0700</pubDate>
+        <link>http://localhost:4000/2019/11/14/Note-Berkeley-DB/</link>
+        <guid isPermaLink="true">http://localhost:4000/2019/11/14/Note-Berkeley-DB/</guid>
+        
+        <category>Study note</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Note of language C from chapter 13</title>
+        <description>&lt;p&gt;addition: the value of an array variable’s name is the address of the array’s first element.&lt;/p&gt;
+
+&lt;h4 id=&quot;string-literal&quot;&gt;String literal:&lt;/h4&gt;
+
+&lt;p&gt;A sequence characters enclosed within double quotes:&lt;/p&gt;
+
+&lt;p&gt;“When you come to a fork in the road, take it.”&lt;/p&gt;
+
+&lt;p&gt;In octal string, for example \1234 contains 2 characters, \123 and 4, because the max number in a octal is 3. In the other example, \189 contains 3 characters, since the max value of octal is 7. Hexadecimal has no limit. It will accept all until the first non-hex character appears. However, most compilers has the limit from \x0 - \xff.&lt;/p&gt;
+
+&lt;p&gt;Drawback of　”\”&lt;/p&gt;
+
+&lt;p&gt;When using “\” to change to a new line in the editor, the second line must continue at the beginning.&lt;/p&gt;
+
+&lt;p&gt;We can use separate empty space between strings to deal with it.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;printf(&quot;hello,&quot;
+
+					&quot;world\n&quot;);
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;the-storage-of-string-in-memory&quot;&gt;The storage of string in memory&lt;/h4&gt;
+
+&lt;p&gt;C treats string literals as character arrays. When C compiler encounters a string literal of length n in a program, it sets aside n+1 bytes of memory for the string. In the end of the array, there is a \0 (null character) to mark the end of the string. \0 occurs one byte containing eight zero bits.&lt;/p&gt;
+
+&lt;h4 id=&quot;string-and-char-pointer&quot;&gt;String and char pointer&lt;/h4&gt;
+
+&lt;p&gt;Since string is stored as an array, the compiler treats it as a pointer of type char*. When using printf(“abc”); It pass the address of “abc” (a pointer point to a).&lt;/p&gt;
+
+&lt;p&gt;Since the string only passes the first letter’s address to the pointer, it des not pass the value of the string. We can initialize and assign the pointer like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;char *p;
+p = &quot;abc&quot;;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;but in int pointer, we have to:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;int a = 1;
+int *p;
+*p=a;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;At the same time, since char * only pass the address and does not pass the value of a string, we cannot change the value by *p = ‘a’:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;char *p=&quot;abc&quot;;
+*p = 'a';
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This is a undefined behavior. However, the following way works:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;char *p=&quot;abc&quot;;
+char d = 'd';
+p = &amp;amp;d;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;It changes the position the pointer p points from ‘a’ to ‘d’.&lt;/p&gt;
+
+&lt;h4 id=&quot;string-literals-and-character-constants&quot;&gt;String literals and character constants&lt;/h4&gt;
+
+&lt;p&gt;The string literal “a” is represented by a pointer to a memory location that contains the character a (followed by a null character \0).&lt;/p&gt;
+
+&lt;p&gt;The character constant ‘a’ is represented by an integer (the numerical code for the character).&lt;/p&gt;
+
+&lt;p&gt;In printf(), it requires a pointer as the first argument, so it must be printf(“..”) and printf(‘..’) is illegal even when there is only one character.&lt;/p&gt;
+
+&lt;h4 id=&quot;string-variables&quot;&gt;string variables&lt;/h4&gt;
+
+&lt;p&gt;we usually define the char array’s length str_len + 1 since we need the null character in the end of the char array. The array with length str_len + 1 can hold strings of various lengths, ranging from the empty string to strings of length str_len.&lt;/p&gt;
+
+&lt;h5 id=&quot;initializing-a-string-variable&quot;&gt;Initializing a string variable&lt;/h5&gt;
+
+&lt;p&gt;A string variable can be initialized at the same time it is declared. After being declared, it can only be assigned values one by one.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;char date1[8] = &quot;June 14&quot;;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;is  legal. The compiler will put June 14 \0 in an array, the end \0 shows it is a string.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;char date1[8];
+date1=&quot;abc&quot;;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;is illegal.&lt;/p&gt;
+
+&lt;p&gt;When the string is shorter than the length of the array, the compiler will add extra null characters. For example,&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;char data2[9] = &quot;June 14&quot;;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;is “June 14\0\0” in the array.&lt;/p&gt;
+
+&lt;p&gt;Longer length of string than array length is illegal. However, same length is allowed by C. The compiler makes no attempt to store the \0 in the end of the array. And the char array cannot be used as a string. When use it as a string, it may crash or not because the compiler will find the next \0 in the memory and we cannot make sure where is it.&lt;/p&gt;
+
+&lt;p&gt;The declaration of a string variable can omit the length, for example:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;char date4[] = &quot;June 14&quot;;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Once the program is compiled, the length of the array date4 is fixed as 8.&lt;/p&gt;
+
+&lt;h5 id=&quot;character-arrays-and-character-pointers&quot;&gt;character arrays and character pointers&lt;/h5&gt;
+
+&lt;p&gt;A string can be declared by both array or pointer.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;char date[]=&quot;June 17&quot;;
+char *date = &quot;June 17&quot;;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The difference between the array and pointer declaration:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;For the array declaration, the value of the sting can be changed, like elements of any array. For the pointer string, the value of the element cannot be changed since the pointer only pass the address of the first element of the string and does not pass the value of it. We can only change the value of the string by changing the address of the pointer.&lt;/li&gt;
+  &lt;li&gt;In the array version, date is an array name, in the pointer version, date is variable that can be made to point to other strings during program&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;After declaring the pointer type string, if we want to assign value to it, we need to point the pointer to another array type string.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;char str[len+1] = &quot;...&quot;;
+char *p;
+p = str;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;or&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;char *p = &quot;...&quot;;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;are legal. However, the following example is not legal because the compiler did not allocate the space for the string, it just allocate space for the pointer itself.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;char *p;
+p[0] = 'a';
+p[1] = 'b';
+p[2] = '\0';
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;However, we can use p[0] after point it to an array because when a pointer points to an array, we can use the subscript index for the pointer. (to be updated in the next note)&lt;/p&gt;
+
+&lt;h4 id=&quot;reading-and-writing-string&quot;&gt;Reading and writing string&lt;/h4&gt;
+
+&lt;p&gt;We can use printf and puts to print the string. For example,&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;char str[] = &quot;Are we having fun yet?&quot;
+printf(&quot;%s\n&quot;, str);
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Notice, there must be a null character in the end of the string, otherwise, printf will print everything after the string until finding a null character in the memory.&lt;/p&gt;
+
+&lt;p&gt;We can use %.3s\n or any other numbers to print the part of the string.&lt;/p&gt;
+
+&lt;p&gt;Similar with the number’s display, we can use %3s\n or any other number to right justify the output(向右对齐). To force left justification, add a minus before the number m.&lt;/p&gt;
+
+&lt;p&gt;Another function to display the string is puts(). puts() has only one argument. After displaying the string, puts always writes a \n. So it will continue in the next new line.&lt;/p&gt;
+
+&lt;p&gt;When reading the string using scanf(), there is no need to add a &amp;amp; before the variable since the variable’s name is treated as a pointer when passed into the function. So the name of the array is the address of the first element.&lt;/p&gt;
+
+&lt;p&gt;Notice, when using scanf to read the string, it will stop when encountering the empty space or tab or new line. For example,&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;char str[10];
+
+scanf(&quot;%s&quot;, str);
+printf(&quot;%s&quot;, str);
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If we enter “I am x”, the print result is just “I”. And scanf will skip the empty space before the input. So a string read by scanf will never contain any white space. To read an entire line of input, we need to use gets().&lt;/p&gt;
+
+&lt;p&gt;When using scanf twice, the new line keys between are seen as separator(分隔符) but not the \n so the new line will not be stored in the buffer but it is seen as empty space and omitted because of the features of scanf.&lt;/p&gt;
+
+&lt;h5 id=&quot;difference-between-gets-and-scanf&quot;&gt;Difference between gets() and scanf():&lt;/h5&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;gets() does not skip the empty space before the input.&lt;/li&gt;
+  &lt;li&gt;gets() continues to read until it finds a \n&lt;/li&gt;
+  &lt;li&gt;scanf() will include the \n and store it in the buffer. When the program use the getchar or something after the last scanf(), it will automatically treat \n as the character and the user cannot input anything. Gets() does not store \n and puts the null character in the last position.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Using gets() and scanf() to read a string which has a longer length than the char array will lead to the undefined behavior (error compilation). One solution is to use scanf(“%ns”) to read the string, where n is max number of characters the string can store. fgets will be safer.&lt;/p&gt;
+
+&lt;p&gt;Write a program, it does not skip white-space characters, stops reading at the first new-line character (which is not stored in the string) and discards extra characters.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+8
+9
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;int read_line(char str[], int n);
+int read_line(char str, int n){
+	int ch, i=0;
+	while ((ch=getchar()) != '\n')
+		if (i&amp;lt;n)
+			str[i++] = ch;
+	str[i] = '\0';
+	return i;
+}
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;getchar() returns the character as an int value but not the char type so the type of ch is int.&lt;/p&gt;
+
+&lt;h5 id=&quot;accessing-the-characters-in-a-string&quot;&gt;Accessing the characters in a string&lt;/h5&gt;
+
+&lt;p&gt;We can use subscripting to access the characters in a string.&lt;/p&gt;
+
+&lt;p&gt;Example to count the number of spaces in a string:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+8
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;int count_spaces(const char s[]){
+	int count=0,i;
+	for (i=0;s[i]!='\0';i++){
+		if (s[i]==' ')
+			count++;
+	}
+	return count;
+}
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;When using the pointer string to count:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;int count_spaces(const char *s){
+	int count = 0;
+	for (; *s!='\0'; s++)
+		if (*s == ' ')
+			count++;
+	return count;
+}
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;c-string-library&quot;&gt;C string library&lt;/h4&gt;
+
+&lt;p&gt;Directly compare or copy two strings is illegal. For example,&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;char str1[10], str2[10];
+str1 = &quot;abc&quot;;
+str2 = str1;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;is illegal&lt;/p&gt;
+
+&lt;p&gt;or&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;if (str1==str2)...
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;is legal since using an array name as the left operand of = is illegal and since str1 and str2 are two pointers we cannot compare pointers directly. Two pointers have different address, And comparing *str1 and *str2 only compare the first element of two arrays.&lt;/p&gt;
+
+&lt;p&gt;When one function contains the parameter without const, it means the parameter string can be modified in the called function so we cannot use string literal and can only use pointer string or array string.&lt;/p&gt;
+
+&lt;h5 id=&quot;strcpystring-copy-function&quot;&gt;strcpy(string copy) function&lt;/h5&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;char *strcpy(char *s1, const char *s2);
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;strcpy copies the string pointed by s2 into the array pointed by s1. So strcpy copies characters from s2 to s1 up to (and including) the first null character in s2. And this function returns s1 (a pointer to the destination string).&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;str2 = &quot;abcd&quot; //is wrong
+strcpy(str2,&quot;abcd&quot;); //now str2 contains abcd
+strcpy(str1,str2); //now str1 contains abcd
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;It is same as:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;strcpy(str1,strcpy(str2,&quot;abcd&quot;));
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;When the length of str2 is longer than the str1’s length, undefined behavior occurs since the copy will pass the end of the str1 and continue to copy to the following memory.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;strncpy(str1, str2, sizeof(str1))
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;is a safer but slower way to copy. It limits the length of copied string as the length of the str1. However, it will not keep a position for the \0 in str1. A better way is&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;strncpy(str1, str2, sizeof(str1)-1);
+str1[sizeof(str1)-1] = '\0';
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h5 id=&quot;strlen-function&quot;&gt;Strlen function&lt;/h5&gt;
+
+&lt;p&gt;size_t strlen(const char *s);&lt;/p&gt;
+
+&lt;p&gt;strlen returns the length of a string s: the number of characters in s up to  but not including the first null character. When given a array as an argument of strlen, it does not return the length of the array, it just return the length.&lt;/p&gt;
+
+&lt;h5 id=&quot;strcat-function&quot;&gt;strcat function&lt;/h5&gt;
+
+&lt;p&gt;char *strcat(char *s1, const char *s2);&lt;/p&gt;
+
+&lt;p&gt;strcat appends the content of the string s2 to the end of the string s1, and it returns s1 (a pointer to the resulting string). example:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;strcpy(str1, &quot;abc&quot;);
+strcpy(str2, &quot;def&quot;);
+strcat(str1, strcat(str2,&quot;ghi&quot;));
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In the end, str1 contains “abcdefghi” and str2 contains “defghi”. The longer length of str2 will cause the undefined behavior since it has no extra space to put in the str1 array and it will put the characters outside str1 into the memory. One solution is using strncat().&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;strncat(str1,str2, sizeof(str1)-strlen(str1)-1);
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;sizeof(str1) is the array length of str1 and strlen(str1) is the current strings length. -1 can keep one position for \0.&lt;/p&gt;
+
+&lt;p&gt;Both strcat and strncat will cover the str1’s original \0 and add one new \0 in the end if there is any space.&lt;/p&gt;
+
+&lt;h5 id=&quot;strcmp-function&quot;&gt;strcmp function&lt;/h5&gt;
+
+&lt;p&gt;int strcmp (const char * s1, const char *s2);&lt;/p&gt;
+
+&lt;p&gt;strcmp compares the strings s1 and s2, returning a value less than, equal to, or greater than 0, depending on whether s1 is less than, equal to, or greater than s2.&lt;/p&gt;
+
+&lt;p&gt;strcmp considers s1 to be less than s2 if either one of the following conditions is satisfied:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;The first i characters of s1 and s2 match, but the (i+1)st character of s1 is less than the (i+1)st character of s2.&lt;/li&gt;
+  &lt;li&gt;All characters of s1 match s2 but s1 is shorter than s2.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Notice, upper-case letters are less than all lower-case letters. Digits are less than letters. And spaces are less than all printing characters.&lt;/p&gt;
+
+&lt;p&gt;Two project code to be updated here&lt;/p&gt;
+
+&lt;h4 id=&quot;string-idioms&quot;&gt;String idioms&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;while (*s)
+	s++;
+//and
+while (*s++)
+	;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;while (*p++ = *s2++)
+	;
+// the value of assignment is the right value, when encountering the \0, it will stop.
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;arrays-of-string&quot;&gt;Arrays of string&lt;/h4&gt;
+
+&lt;p&gt;When creating 2d array, we can omit the number of the row, which is the first value of the array and cannot omit the number of column. It will fill all the empty space with \0.&lt;/p&gt;
+
+&lt;h4 id=&quot;command-line-arguments&quot;&gt;Command line arguments&lt;/h4&gt;
+
+&lt;p&gt;int main(int argc, char *argv[]){&lt;/p&gt;
+
+&lt;p&gt;…}&lt;/p&gt;
+
+&lt;p&gt;argc and argv. argc is the argument count, the number of command-line arguments (including the name of the program itself). argv is an array of pointers to the command-line arguments, stored in string form. argv[0] points to the name of the program, argv[1] to argv[argc-1] point to the remaining command-line arguments. argv[argc] is always a null pointer, points to nothing. Two ways to see the argv:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;int i;
+for (i=0;i&amp;lt;argc;i++)
+	printf(&quot;%s\n&quot;, argv[i]);
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;char **p;
+for(p=&amp;amp;argv[0];*p != NULL; p++)
+	printf(&quot;%s\n&quot;, *p);
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+</description>
+        <pubDate>Mon, 11 Nov 2019 00:00:00 -0700</pubDate>
+        <link>http://localhost:4000/2019/11/11/Note-C-c13/</link>
+        <guid isPermaLink="true">http://localhost:4000/2019/11/11/Note-C-c13/</guid>
+        
+        <category>Study note</category>
         
         
       </item>

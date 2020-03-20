@@ -1,0 +1,270 @@
+I"�4<p>To learn language C and memerize some important points better, I decided to start a blog to keep some difficult and tricky points I met in the study of C.</p>
+
+<h3 id="the-compilation-of-c">The compilation of c</h3>
+
+<p>Usually, in the terminal, we use the command</p>
+
+<p><code class="highlighter-rouge">gcc -Wall -std=c99 -o exefile_name .cfile_name</code></p>
+
+<p>to compile the language.</p>
+
+<p>Note:</p>
+
+<ul>
+  <li>There is no mid file .o because it uses -o the compile directly.</li>
+  <li>-Wall means shows all warnings after the compilation.</li>
+  <li>-std=c99 means the version of C is C99 which is an old version replaced by C11 in 2011.</li>
+  <li>the positions of exefile_name and .cfile_name cannot be changed. Otherwise gcc will not find the input file.</li>
+</ul>
+
+<!--To be updated here: the theroy of the gcc compiler-->
+
+<p>We use /* … */ to comment in C. e.g. :</p>
+
+<p><code class="highlighter-rouge">/************************************************/</code>
+<code class="highlighter-rouge">/* Converts a Fahrenheit temperature to Celsius */
+/* *Name: celsius.c* */
+/* *Author: K. N. King*/</code>
+<code class="highlighter-rouge">/* *September 11, 2017 ***************************/</code></p>
+
+<h4 id="three-standard-io-in-">Three standard I/O in <stdio.h></stdio.h></h4>
+
+<p>– stdin (from keyboard to screen terminal)</p>
+
+<p>– stdout (terminal screen)</p>
+
+<p>– stderr (terminal screen, it will display the error)</p>
+
+<p>The return value in the end of main is the status code which indicates that the program is already finished.</p>
+
+<p>The use of define: # define a b (define b as a/use a to replace b) and this is macro definition</p>
+
+<h4 id="the-use-of--and-">The use of % and &amp;:</h4>
+
+<h4 id="the-identifiers-in-c">The identifiers in C:</h4>
+
+<p>start with a letter or underscore</p>
+
+<p>case sensitive</p>
+
+<h4 id="printf">printf:</h4>
+
+<p>In the case printf(“%d %d”, a);  a is an int, it will print a’s value and print the meaningless content.</p>
+
+<p>In the case printf(“%d”, a, b); it will only print the value of a.</p>
+
+<p>We cannot use printf(“%f”, a); a is an int to change the type of the output since the output will become meaningless.</p>
+
+<p>The  conversion specification in the printf</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="rouge-code"><pre><span class="cp">#include &lt;stdio.h&gt;
+</span><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
+	<span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+	<span class="kt">float</span> <span class="n">x</span><span class="p">;</span>
+	<span class="n">i</span> <span class="o">=</span> <span class="mi">40</span><span class="p">;</span>
+	<span class="n">x</span> <span class="o">=</span> <span class="mi">839</span><span class="p">.</span><span class="mi">21</span><span class="n">f</span><span class="p">;</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"|%d|%5d|%-5d|%5.3d|</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"|%f|%10.3f|%10.3e|%-10g|</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Result:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>|40| 40|40 | 040|
+|839.210022|   839.210| 8.392e+02|839.21   |
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h4 id="difference-between-f-and-e">difference between %f and %e:</h4>
+
+<p>%f display the decimal format, in the %.pf, p means 保留几位小数.</p>
+
+<p>%e display the exponential format, same p’s function.</p>
+
+<p>%g display either exponential or decimal format, depending on the size of the number.</p>
+
+<p>”%-5d” means 靠右对齐 and 显示五位,不足的用empty space 代替.</p>
+
+<p>If we want to print “, we use \”, for example printf(“\“hello\””) ; prints “hello”.</p>
+
+<h4 id="scanf">scanf:</h4>
+
+<p>&amp; in the scanf means the memory unit address of the variable, it pointing to the memory address.</p>
+
+<p>The return value of scanf:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td><td class="rouge-code"><pre><span class="cp">#include &lt;stdio.h&gt;
+#define FREEZING_PT 32.0f
+#define SCALE_FACTOR (5.0f / 9.0f)
+</span><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
+	<span class="kt">float</span> <span class="n">fahrenheit</span><span class="p">,</span> <span class="n">celsius</span><span class="p">;</span>
+	<span class="k">for</span> <span class="p">(;;)</span> <span class="p">{</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Enter Fahrenheit temperature (non-number to quit): "</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">scanf</span><span class="p">(</span><span class="s">"%f"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">fahrenheit</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="n">f</span>
+			<span class="n">celsius</span> <span class="o">=</span> <span class="p">(</span><span class="n">fahrenheit</span> <span class="o">-</span> <span class="n">FREEZING_PT</span><span class="p">)</span> <span class="o">*</span> <span class="n">SCALE_FACTOR</span><span class="p">;</span>
+			<span class="n">printf</span><span class="p">(</span><span class="s">"Celsius equivalent: %.1f</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">celsius</span><span class="p">);</span>
+		<span class="p">}</span>
+		<span class="k">else</span> <span class="k">break</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="err">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>output:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="rouge-code"><pre>Enter Fahrenheit temperature (non-number to quit): 8
+Celsius equivalent: -13.3
+Enter Fahrenheit temperature (non-number to quit): 0
+Celsius equivalent: -17.8
+Enter Fahrenheit temperature (non-number to quit): 1 2
+Celsius equivalent: -17.2
+Enter Fahrenheit temperature (non-number to quit): Celsius equivalent: -16.7
+Enter Fahrenheit temperature (non-number to quit): p
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>The first two cases are normal. In the third case,  user input two numbers but scanf only has one place to store. so it displays the output in the next loop directly through the remaining input in the last function which is 2 in this case. In the last case, the return value of scanf is 0, so the if statement terminates the loop.</p>
+
+<p>The input of several contents</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="rouge-code"><pre><span class="cp">#include &lt;stdio.h&gt;
+</span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">;</span>
+    <span class="kt">float</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">;</span>
+    <span class="n">scanf</span><span class="p">(</span><span class="s">"%d%d%f%f"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">i</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">j</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">x</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">y</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%d  %d  %f  %f"</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>result:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="rouge-code"><pre>Input: 1 -20 .3 -4.0e3
+ouput: 1  -20  0.300000  -4000.000000
+
+input:1
+n-20 
+	.3
+-4.0e3
+output:1  -20  0.300000  -4000.000000
+
+input: 1-20.3-4.0e3
+output:1  -20  0.300000  -4000.000000
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>In the last case, after read in the number 1, scanf finds the - and - can not appear inside an number, so puts it back can store 1 in the variable i. After finding the second number -20, scanf finds ., and the . can not appear inside the number. By this kind of way, scanf successfully reads four numbers.</p>
+
+<h4 id="the-format-ieee-754-of-binary">The format ieee 754 of binary:</h4>
+
+<p>Three parts of ieee 754:</p>
+
+<ul>
+  <li>sign (1 bit)</li>
+  <li>exponent (8 bits)</li>
+  <li>fraction(23 bits)</li>
+</ul>
+
+<h4 id="expression">Expression:</h4>
+
+<h6 id="side-effect-in-assignment">side effect in assignment:</h6>
+
+<p>when assigning int i = 72.99f;, Since the variable i is int, the .99 will be discarded directly. This is called the side effect of assignment.</p>
+
+<p>After computing the value, the variable i is also changed, this is side effect.</p>
+
+<p>i += j += k is equal to i += (j+=k)</p>
+
+<h6 id="difference-between-i-and-i">difference between i++ and ++i:</h6>
+
+<p>i++: use i first and plus one</p>
+
+<p>++i: plus one first and then use i</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="rouge-code"><pre><span class="cp">#include &lt;stdio.h&gt;
+</span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="o">+</span> <span class="n">a</span><span class="p">);</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="p">(</span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="n">a</span><span class="p">);</span> 
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>result:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>4
+5
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>The lvalue(left value) in the assignment is an object stored in memory which cannot be a number or a character.</p>
+
+<p>The expression can be a statement without lvalue but after it is calculated, it will be discarded. so it is useful only when side effect works on.</p>
+
+<!--code and output about input/output and expression:-->
+
+:ET
