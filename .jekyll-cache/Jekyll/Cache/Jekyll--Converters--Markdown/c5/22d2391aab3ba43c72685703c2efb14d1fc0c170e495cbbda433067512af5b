@@ -1,0 +1,21 @@
+I"�<h4 id="matrix-chain-multiplication">Matrix chain multiplication</h4>
+
+<p>Suppose we can several input matrices <script type="math/tex">A_1</script> with dimensions <script type="math/tex">d_0*d_1</script>, <script type="math/tex">A_2</script> with dimensions <script type="math/tex">d_1*d_2</script>, …, <script type="math/tex">A_n</script>  with dimensions <script type="math/tex">d_{n-1}* d_n</script>. And we want to get the output<script type="math/tex">A_1* A_2*... * A_n</script> and using the minimum number of scalar multiplication (the multiplication between numbers). Suppose we want to multiply <script type="math/tex">A_1 and A_2</script>, we will have <script type="math/tex">d_0*d_1*d_2</script> scale multiplications.</p>
+
+<p>Note: When <script type="math/tex">A_1</script> with dimensions <script type="math/tex">d_0, d_1</script> times<script type="math/tex">A_2</script> with dimensions <script type="math/tex">d_1, d_2</script>, the result is the matrix with dimensions <script type="math/tex">d_0, d_2</script>.</p>
+
+<p>So here is an example of different combinations of matrix multiplication: n=4, (d0,d1,d2,d3,d4) = (5,2,6,4,3)</p>
+
+<script type="math/tex; mode=display">((A1 *A2) *A3) * A4 \ is\ d0 *d1 *d2 + d0 * d2 *d3 + d0 *d3 * d4 = 5 * 2 * 6 + 5 * 6 * 4 + 5 * 4 * 3 = 240</script>
+
+<script type="math/tex; mode=display">(A1 × (A2 × A3)) × A4 \ is \ d_1 * d_2 * d_3 + d_0 * d_1 * d_3 + d_0 * d_3 * d_4 = 148</script>
+
+<p>and so on.</p>
+
+<h5 id="recursion-solution">Recursion solution</h5>
+
+<p>Consider (A_1 * … * A_i) * (A_i+1 * … * A_n), the multiplication number is d_0 * d_i * d_n. In the next recursion, we need to find the least-costly way to multiply first i and the last n-i matrixes. For i, there are n-1 positions to stay, i.e. 1,2, …, n-1.</p>
+
+<p>So we get the equation <script type="math/tex">R(1, n) = min_{1\leq i \leq n-1} (d_0 * d_i * d_n + R(1,i) + R(i+1, n))</script>. The base case is R(i, i) for any i.</p>
+
+:ET

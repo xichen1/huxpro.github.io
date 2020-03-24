@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="description" content="微小程序员">
+    <meta name="description" content="hhh">
     <meta name="keywords"  content="潘希晨, Rick">
     <meta name="theme-color" content="#000000">
     
     <!-- Open Graph -->
-    <meta property="og:title" content="Linear Regression and polynomial regression - xichenpan's blog | My Blog">
+    <meta property="og:title" content="Linear Regression and polynomial regression - ppxa's blog | My Blog">
     
     <meta property="og:type" content="article">
     <meta property="og:description" content="To learn the relationship between features and targets (x_i and y_i), we usually hypothesize the functional form of the relationship. The function can be linear or non-linear. e.g. f(X) = w0+w1x1+w...">
@@ -27,9 +27,9 @@
     
     <meta property="og:image" content="http://localhost:4000/img/avatar-myself.jpg">
     <meta property="og:url" content="http://localhost:4000/2020/03/18/Regression/">
-    <meta property="og:site_name" content="xichenpan's blog | My Blog">
+    <meta property="og:site_name" content="ppxa's blog | My Blog">
     
-    <title>Linear Regression and polynomial regression - xichenpan's blog | My Blog</title>
+    <title>Linear Regression and polynomial regression - ppxa's blog | My Blog</title>
 
     <!-- Web App Manifest -->
     <link rel="manifest" href="/pwa/manifest.json">
@@ -286,7 +286,15 @@ Which is same as
 
 <p>Analysis of time cost:</p>
 
-<p>Using gradient descent can be more quick than the linear algebra solution, each gradient descent update costs O(nd)</p>
+<p>Using gradient descent can be more quick than the linear algebra solution, each gradient descent update costs O(nd) and the solution to the linear system costs O(d^3 + d^2n). Constructing A costs O(d^2n) and inversing matrix using O(d^3). For gradient descent, the k iteration costs O(ndk).</p>
+
+<p>To improve the efficient, we use stochastic gradient descent.</p>
+
+<h4 id="stochastic-gradient-descent-and-handling-big-data-sets">Stochastic gradient descent and handling Big Data sets</h4>
+
+<p>In stochastic approximation, we only use one sample or a small mini-batch of b samples (e.g., b = 32). For example, if we only use one sample, we can use this point to update the gradient:
+<script type="math/tex">% <![CDATA[
+w_{t+1} <-- w_{t} - n_t(\vec{x_i^T}-y_i)\vec{x_i} %]]></script></p>
 
 
                 <hr style="visibility: hidden;">
@@ -299,6 +307,13 @@ Which is same as
                         </a>
                     </li>
                     
+                    
+                    <li class="next">
+                        <a href="/2020/03/24/dp-problem/" data-toggle="tooltip" data-placement="top" title="Some dp problems">
+                        Next<br>
+                        <span>Some dp problems</span>
+                        </a>
+                    </li>
                     
                 </ul>
                 <hr style="visibility: hidden;">
@@ -354,7 +369,7 @@ Which is same as
         </a>
         
         
-                <a data-sort="0002" 
+                <a data-sort="0003" 
                     href="/archive/?tag=Study+note"
                     title="Study note"
                     rel="11">Study note
@@ -571,7 +586,7 @@ Which is same as
 
 
 <!-- Image to hack wechat -->
-<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- <img src="/img/icon_wechat.png" width="0" height="0" /> -->
 <!-- Migrate from head to bottom, no longer block render and still work -->
 
 </body>

@@ -2,12 +2,56 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Xichen Pan</title>
-    <description>微小程序员</description>
+    <description>hhh</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 19 Mar 2020 04:50:05 -0600</pubDate>
-    <lastBuildDate>Thu, 19 Mar 2020 04:50:05 -0600</lastBuildDate>
+    <pubDate>Tue, 24 Mar 2020 15:19:36 -0600</pubDate>
+    <lastBuildDate>Tue, 24 Mar 2020 15:19:36 -0600</lastBuildDate>
     <generator>Jekyll v4.0.0</generator>
+    
+      <item>
+        <title>Some dp problems</title>
+        <description>&lt;h4 id=&quot;matrix-chain-multiplication-矩阵链乘积&quot;&gt;Matrix chain multiplication (矩阵链乘积)&lt;/h4&gt;
+
+&lt;p&gt;Suppose we can several input matrices &lt;script type=&quot;math/tex&quot;&gt;A_1&lt;/script&gt; with dimensions &lt;script type=&quot;math/tex&quot;&gt;d_0*d_1&lt;/script&gt;, &lt;script type=&quot;math/tex&quot;&gt;A_2&lt;/script&gt; with dimensions &lt;script type=&quot;math/tex&quot;&gt;d_1*d_2&lt;/script&gt;, …, &lt;script type=&quot;math/tex&quot;&gt;A_n&lt;/script&gt;  with dimensions &lt;script type=&quot;math/tex&quot;&gt;d_{n-1}* d_n&lt;/script&gt;. And we want to get the output&lt;script type=&quot;math/tex&quot;&gt;A_1* A_2*... * A_n&lt;/script&gt; and using the minimum number of scalar multiplication (the multiplication between numbers). Suppose we want to multiply &lt;script type=&quot;math/tex&quot;&gt;A_1 and A_2&lt;/script&gt;, we will have &lt;script type=&quot;math/tex&quot;&gt;d_0*d_1*d_2&lt;/script&gt; scale multiplications.&lt;/p&gt;
+
+&lt;p&gt;Note: When &lt;script type=&quot;math/tex&quot;&gt;A_1&lt;/script&gt; with dimensions &lt;script type=&quot;math/tex&quot;&gt;d_0, d_1&lt;/script&gt; times&lt;script type=&quot;math/tex&quot;&gt;A_2&lt;/script&gt; with dimensions &lt;script type=&quot;math/tex&quot;&gt;d_1, d_2&lt;/script&gt;, the result is the matrix with dimensions &lt;script type=&quot;math/tex&quot;&gt;d_0, d_2&lt;/script&gt;.&lt;/p&gt;
+
+&lt;p&gt;So here is an example of different combinations of matrix multiplication: n=4, (d0,d1,d2,d3,d4) = (5,2,6,4,3)&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;((A1 *A2) *A3) * A4 \ is\ d0 *d1 *d2 + d0 * d2 *d3 + d0 *d3 * d4 = 5 * 2 * 6 + 5 * 6 * 4 + 5 * 4 * 3 = 240&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;(A1 × (A2 × A3)) × A4 \ is \ d_1 * d_2 * d_3 + d_0 * d_1 * d_3 + d_0 * d_3 * d_4 = 148&lt;/script&gt;
+
+&lt;p&gt;and so on.&lt;/p&gt;
+
+&lt;h5 id=&quot;recursion-solution&quot;&gt;Recursion solution&lt;/h5&gt;
+
+&lt;p&gt;Consider (A_1 * … * A_i) * (A_i+1 * … * A_n), the multiplication number is d_0 * d_i * d_n. In the next recursion, we need to find the least-costly way to multiply first i and the last n-i matrixes. For i, there are n-1 positions to stay, i.e. 1,2, …, n-1.&lt;/p&gt;
+
+&lt;p&gt;So we get the equation &lt;script type=&quot;math/tex&quot;&gt;R(1, n) = min_{1\leq i \leq n-1} (d_0 * d_i * d_n + R(1,i) + R(i+1, n))&lt;/script&gt;. The base case is R(i, i) for any i.&lt;/p&gt;
+
+&lt;p&gt;The runtime is &lt;script type=&quot;math/tex&quot;&gt;\Omega ({3^n})&lt;/script&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;dp-solution&quot;&gt;DP solution&lt;/h5&gt;
+
+&lt;p&gt;Define M[i, j] (1 &amp;lt;= i &amp;lt;= j) is the minimal number of scalar multiplications needed to compute A_i * A_i+1 * … * A_j.&lt;/p&gt;
+
+&lt;p&gt;Then 
+&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+\begin{cases}
+	0, 			\ if\  i=j\\
+	min_{i\leq k &lt;j}(M[i,k]+M[k+1, j]+ d_{i-1}d_kd_j), \ if\ i&lt;j
+	\end{cases} %]]&gt;&lt;/script&gt;&lt;/p&gt;
+</description>
+        <pubDate>Tue, 24 Mar 2020 00:00:00 -0600</pubDate>
+        <link>http://localhost:4000/2020/03/24/dp-problem/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020/03/24/dp-problem/</guid>
+        
+        <category>Problem</category>
+        
+        
+      </item>
     
       <item>
         <title>Linear Regression and polynomial regression</title>
@@ -63,7 +107,15 @@ Which is same as
 
 &lt;p&gt;Analysis of time cost:&lt;/p&gt;
 
-&lt;p&gt;Using gradient descent can be more quick than the linear algebra solution, each gradient descent update costs O(nd)&lt;/p&gt;
+&lt;p&gt;Using gradient descent can be more quick than the linear algebra solution, each gradient descent update costs O(nd) and the solution to the linear system costs O(d^3 + d^2n). Constructing A costs O(d^2n) and inversing matrix using O(d^3). For gradient descent, the k iteration costs O(ndk).&lt;/p&gt;
+
+&lt;p&gt;To improve the efficient, we use stochastic gradient descent.&lt;/p&gt;
+
+&lt;h4 id=&quot;stochastic-gradient-descent-and-handling-big-data-sets&quot;&gt;Stochastic gradient descent and handling Big Data sets&lt;/h4&gt;
+
+&lt;p&gt;In stochastic approximation, we only use one sample or a small mini-batch of b samples (e.g., b = 32). For example, if we only use one sample, we can use this point to update the gradient:
+&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+w_{t+1} &lt;-- w_{t} - n_t(\vec{x_i^T}-y_i)\vec{x_i} %]]&gt;&lt;/script&gt;&lt;/p&gt;
 </description>
         <pubDate>Wed, 18 Mar 2020 00:00:00 -0600</pubDate>
         <link>http://localhost:4000/2020/03/18/Regression/</link>
@@ -805,452 +857,6 @@ It means that the expected value estimator is unbiased because the Bias is 0.&lt
         <pubDate>Thu, 14 Nov 2019 00:00:00 -0700</pubDate>
         <link>http://localhost:4000/2019/11/14/Note-Berkeley-DB/</link>
         <guid isPermaLink="true">http://localhost:4000/2019/11/14/Note-Berkeley-DB/</guid>
-        
-        <category>Study note</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Note of language C from chapter 13</title>
-        <description>&lt;p&gt;addition: the value of an array variable’s name is the address of the array’s first element.&lt;/p&gt;
-
-&lt;h4 id=&quot;string-literal&quot;&gt;String literal:&lt;/h4&gt;
-
-&lt;p&gt;A sequence characters enclosed within double quotes:&lt;/p&gt;
-
-&lt;p&gt;“When you come to a fork in the road, take it.”&lt;/p&gt;
-
-&lt;p&gt;In octal string, for example \1234 contains 2 characters, \123 and 4, because the max number in a octal is 3. In the other example, \189 contains 3 characters, since the max value of octal is 7. Hexadecimal has no limit. It will accept all until the first non-hex character appears. However, most compilers has the limit from \x0 - \xff.&lt;/p&gt;
-
-&lt;p&gt;Drawback of　”\”&lt;/p&gt;
-
-&lt;p&gt;When using “\” to change to a new line in the editor, the second line must continue at the beginning.&lt;/p&gt;
-
-&lt;p&gt;We can use separate empty space between strings to deal with it.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;printf(&quot;hello,&quot;
-
-					&quot;world\n&quot;);
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;the-storage-of-string-in-memory&quot;&gt;The storage of string in memory&lt;/h4&gt;
-
-&lt;p&gt;C treats string literals as character arrays. When C compiler encounters a string literal of length n in a program, it sets aside n+1 bytes of memory for the string. In the end of the array, there is a \0 (null character) to mark the end of the string. \0 occurs one byte containing eight zero bits.&lt;/p&gt;
-
-&lt;h4 id=&quot;string-and-char-pointer&quot;&gt;String and char pointer&lt;/h4&gt;
-
-&lt;p&gt;Since string is stored as an array, the compiler treats it as a pointer of type char*. When using printf(“abc”); It pass the address of “abc” (a pointer point to a).&lt;/p&gt;
-
-&lt;p&gt;Since the string only passes the first letter’s address to the pointer, it des not pass the value of the string. We can initialize and assign the pointer like this:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;char *p;
-p = &quot;abc&quot;;
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;but in int pointer, we have to:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;int a = 1;
-int *p;
-*p=a;
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;At the same time, since char * only pass the address and does not pass the value of a string, we cannot change the value by *p = ‘a’:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;char *p=&quot;abc&quot;;
-*p = 'a';
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;This is a undefined behavior. However, the following way works:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;char *p=&quot;abc&quot;;
-char d = 'd';
-p = &amp;amp;d;
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;It changes the position the pointer p points from ‘a’ to ‘d’.&lt;/p&gt;
-
-&lt;h4 id=&quot;string-literals-and-character-constants&quot;&gt;String literals and character constants&lt;/h4&gt;
-
-&lt;p&gt;The string literal “a” is represented by a pointer to a memory location that contains the character a (followed by a null character \0).&lt;/p&gt;
-
-&lt;p&gt;The character constant ‘a’ is represented by an integer (the numerical code for the character).&lt;/p&gt;
-
-&lt;p&gt;In printf(), it requires a pointer as the first argument, so it must be printf(“..”) and printf(‘..’) is illegal even when there is only one character.&lt;/p&gt;
-
-&lt;h4 id=&quot;string-variables&quot;&gt;string variables&lt;/h4&gt;
-
-&lt;p&gt;we usually define the char array’s length str_len + 1 since we need the null character in the end of the char array. The array with length str_len + 1 can hold strings of various lengths, ranging from the empty string to strings of length str_len.&lt;/p&gt;
-
-&lt;h5 id=&quot;initializing-a-string-variable&quot;&gt;Initializing a string variable&lt;/h5&gt;
-
-&lt;p&gt;A string variable can be initialized at the same time it is declared. After being declared, it can only be assigned values one by one.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;char date1[8] = &quot;June 14&quot;;
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;is  legal. The compiler will put June 14 \0 in an array, the end \0 shows it is a string.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;char date1[8];
-date1=&quot;abc&quot;;
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;is illegal.&lt;/p&gt;
-
-&lt;p&gt;When the string is shorter than the length of the array, the compiler will add extra null characters. For example,&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;char data2[9] = &quot;June 14&quot;;
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;is “June 14\0\0” in the array.&lt;/p&gt;
-
-&lt;p&gt;Longer length of string than array length is illegal. However, same length is allowed by C. The compiler makes no attempt to store the \0 in the end of the array. And the char array cannot be used as a string. When use it as a string, it may crash or not because the compiler will find the next \0 in the memory and we cannot make sure where is it.&lt;/p&gt;
-
-&lt;p&gt;The declaration of a string variable can omit the length, for example:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;char date4[] = &quot;June 14&quot;;
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Once the program is compiled, the length of the array date4 is fixed as 8.&lt;/p&gt;
-
-&lt;h5 id=&quot;character-arrays-and-character-pointers&quot;&gt;character arrays and character pointers&lt;/h5&gt;
-
-&lt;p&gt;A string can be declared by both array or pointer.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;char date[]=&quot;June 17&quot;;
-char *date = &quot;June 17&quot;;
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;The difference between the array and pointer declaration:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;For the array declaration, the value of the sting can be changed, like elements of any array. For the pointer string, the value of the element cannot be changed since the pointer only pass the address of the first element of the string and does not pass the value of it. We can only change the value of the string by changing the address of the pointer.&lt;/li&gt;
-  &lt;li&gt;In the array version, date is an array name, in the pointer version, date is variable that can be made to point to other strings during program&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;After declaring the pointer type string, if we want to assign value to it, we need to point the pointer to another array type string.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;char str[len+1] = &quot;...&quot;;
-char *p;
-p = str;
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;or&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;char *p = &quot;...&quot;;
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;are legal. However, the following example is not legal because the compiler did not allocate the space for the string, it just allocate space for the pointer itself.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-4
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;char *p;
-p[0] = 'a';
-p[1] = 'b';
-p[2] = '\0';
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;However, we can use p[0] after point it to an array because when a pointer points to an array, we can use the subscript index for the pointer. (to be updated in the next note)&lt;/p&gt;
-
-&lt;h4 id=&quot;reading-and-writing-string&quot;&gt;Reading and writing string&lt;/h4&gt;
-
-&lt;p&gt;We can use printf and puts to print the string. For example,&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;char str[] = &quot;Are we having fun yet?&quot;
-printf(&quot;%s\n&quot;, str);
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Notice, there must be a null character in the end of the string, otherwise, printf will print everything after the string until finding a null character in the memory.&lt;/p&gt;
-
-&lt;p&gt;We can use %.3s\n or any other numbers to print the part of the string.&lt;/p&gt;
-
-&lt;p&gt;Similar with the number’s display, we can use %3s\n or any other number to right justify the output(向右对齐). To force left justification, add a minus before the number m.&lt;/p&gt;
-
-&lt;p&gt;Another function to display the string is puts(). puts() has only one argument. After displaying the string, puts always writes a \n. So it will continue in the next new line.&lt;/p&gt;
-
-&lt;p&gt;When reading the string using scanf(), there is no need to add a &amp;amp; before the variable since the variable’s name is treated as a pointer when passed into the function. So the name of the array is the address of the first element.&lt;/p&gt;
-
-&lt;p&gt;Notice, when using scanf to read the string, it will stop when encountering the empty space or tab or new line. For example,&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-4
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;char str[10];
-
-scanf(&quot;%s&quot;, str);
-printf(&quot;%s&quot;, str);
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;If we enter “I am x”, the print result is just “I”. And scanf will skip the empty space before the input. So a string read by scanf will never contain any white space. To read an entire line of input, we need to use gets().&lt;/p&gt;
-
-&lt;p&gt;When using scanf twice, the new line keys between are seen as separator(分隔符) but not the \n so the new line will not be stored in the buffer but it is seen as empty space and omitted because of the features of scanf.&lt;/p&gt;
-
-&lt;h5 id=&quot;difference-between-gets-and-scanf&quot;&gt;Difference between gets() and scanf():&lt;/h5&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;gets() does not skip the empty space before the input.&lt;/li&gt;
-  &lt;li&gt;gets() continues to read until it finds a \n&lt;/li&gt;
-  &lt;li&gt;scanf() will include the \n and store it in the buffer. When the program use the getchar or something after the last scanf(), it will automatically treat \n as the character and the user cannot input anything. Gets() does not store \n and puts the null character in the last position.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Using gets() and scanf() to read a string which has a longer length than the char array will lead to the undefined behavior (error compilation). One solution is to use scanf(“%ns”) to read the string, where n is max number of characters the string can store. fgets will be safer.&lt;/p&gt;
-
-&lt;p&gt;Write a program, it does not skip white-space characters, stops reading at the first new-line character (which is not stored in the string) and discards extra characters.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-4
-5
-6
-7
-8
-9
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;int read_line(char str[], int n);
-int read_line(char str, int n){
-	int ch, i=0;
-	while ((ch=getchar()) != '\n')
-		if (i&amp;lt;n)
-			str[i++] = ch;
-	str[i] = '\0';
-	return i;
-}
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;getchar() returns the character as an int value but not the char type so the type of ch is int.&lt;/p&gt;
-
-&lt;h5 id=&quot;accessing-the-characters-in-a-string&quot;&gt;Accessing the characters in a string&lt;/h5&gt;
-
-&lt;p&gt;We can use subscripting to access the characters in a string.&lt;/p&gt;
-
-&lt;p&gt;Example to count the number of spaces in a string:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-4
-5
-6
-7
-8
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;int count_spaces(const char s[]){
-	int count=0,i;
-	for (i=0;s[i]!='\0';i++){
-		if (s[i]==' ')
-			count++;
-	}
-	return count;
-}
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;When using the pointer string to count:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-4
-5
-6
-7
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;int count_spaces(const char *s){
-	int count = 0;
-	for (; *s!='\0'; s++)
-		if (*s == ' ')
-			count++;
-	return count;
-}
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;c-string-library&quot;&gt;C string library&lt;/h4&gt;
-
-&lt;p&gt;Directly compare or copy two strings is illegal. For example,&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;char str1[10], str2[10];
-str1 = &quot;abc&quot;;
-str2 = str1;
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;is illegal&lt;/p&gt;
-
-&lt;p&gt;or&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;if (str1==str2)...
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;is legal since using an array name as the left operand of = is illegal and since str1 and str2 are two pointers we cannot compare pointers directly. Two pointers have different address, And comparing *str1 and *str2 only compare the first element of two arrays.&lt;/p&gt;
-
-&lt;p&gt;When one function contains the parameter without const, it means the parameter string can be modified in the called function so we cannot use string literal and can only use pointer string or array string.&lt;/p&gt;
-
-&lt;h5 id=&quot;strcpystring-copy-function&quot;&gt;strcpy(string copy) function&lt;/h5&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;char *strcpy(char *s1, const char *s2);
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;strcpy copies the string pointed by s2 into the array pointed by s1. So strcpy copies characters from s2 to s1 up to (and including) the first null character in s2. And this function returns s1 (a pointer to the destination string).&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;str2 = &quot;abcd&quot; //is wrong
-strcpy(str2,&quot;abcd&quot;); //now str2 contains abcd
-strcpy(str1,str2); //now str1 contains abcd
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;It is same as:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;strcpy(str1,strcpy(str2,&quot;abcd&quot;));
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;When the length of str2 is longer than the str1’s length, undefined behavior occurs since the copy will pass the end of the str1 and continue to copy to the following memory.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;strncpy(str1, str2, sizeof(str1))
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;is a safer but slower way to copy. It limits the length of copied string as the length of the str1. However, it will not keep a position for the \0 in str1. A better way is&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;strncpy(str1, str2, sizeof(str1)-1);
-str1[sizeof(str1)-1] = '\0';
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h5 id=&quot;strlen-function&quot;&gt;Strlen function&lt;/h5&gt;
-
-&lt;p&gt;size_t strlen(const char *s);&lt;/p&gt;
-
-&lt;p&gt;strlen returns the length of a string s: the number of characters in s up to  but not including the first null character. When given a array as an argument of strlen, it does not return the length of the array, it just return the length.&lt;/p&gt;
-
-&lt;h5 id=&quot;strcat-function&quot;&gt;strcat function&lt;/h5&gt;
-
-&lt;p&gt;char *strcat(char *s1, const char *s2);&lt;/p&gt;
-
-&lt;p&gt;strcat appends the content of the string s2 to the end of the string s1, and it returns s1 (a pointer to the resulting string). example:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;strcpy(str1, &quot;abc&quot;);
-strcpy(str2, &quot;def&quot;);
-strcat(str1, strcat(str2,&quot;ghi&quot;));
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;In the end, str1 contains “abcdefghi” and str2 contains “defghi”. The longer length of str2 will cause the undefined behavior since it has no extra space to put in the str1 array and it will put the characters outside str1 into the memory. One solution is using strncat().&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;strncat(str1,str2, sizeof(str1)-strlen(str1)-1);
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;sizeof(str1) is the array length of str1 and strlen(str1) is the current strings length. -1 can keep one position for \0.&lt;/p&gt;
-
-&lt;p&gt;Both strcat and strncat will cover the str1’s original \0 and add one new \0 in the end if there is any space.&lt;/p&gt;
-
-&lt;h5 id=&quot;strcmp-function&quot;&gt;strcmp function&lt;/h5&gt;
-
-&lt;p&gt;int strcmp (const char * s1, const char *s2);&lt;/p&gt;
-
-&lt;p&gt;strcmp compares the strings s1 and s2, returning a value less than, equal to, or greater than 0, depending on whether s1 is less than, equal to, or greater than s2.&lt;/p&gt;
-
-&lt;p&gt;strcmp considers s1 to be less than s2 if either one of the following conditions is satisfied:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;The first i characters of s1 and s2 match, but the (i+1)st character of s1 is less than the (i+1)st character of s2.&lt;/li&gt;
-  &lt;li&gt;All characters of s1 match s2 but s1 is shorter than s2.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Notice, upper-case letters are less than all lower-case letters. Digits are less than letters. And spaces are less than all printing characters.&lt;/p&gt;
-
-&lt;p&gt;Two project code to be updated here&lt;/p&gt;
-
-&lt;h4 id=&quot;string-idioms&quot;&gt;String idioms&lt;/h4&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-4
-5
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;while (*s)
-	s++;
-//and
-while (*s++)
-	;
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;while (*p++ = *s2++)
-	;
-// the value of assignment is the right value, when encountering the \0, it will stop.
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;arrays-of-string&quot;&gt;Arrays of string&lt;/h4&gt;
-
-&lt;p&gt;When creating 2d array, we can omit the number of the row, which is the first value of the array and cannot omit the number of column. It will fill all the empty space with \0.&lt;/p&gt;
-
-&lt;h4 id=&quot;command-line-arguments&quot;&gt;Command line arguments&lt;/h4&gt;
-
-&lt;p&gt;int main(int argc, char *argv[]){&lt;/p&gt;
-
-&lt;p&gt;…}&lt;/p&gt;
-
-&lt;p&gt;argc and argv. argc is the argument count, the number of command-line arguments (including the name of the program itself). argv is an array of pointers to the command-line arguments, stored in string form. argv[0] points to the name of the program, argv[1] to argv[argc-1] point to the remaining command-line arguments. argv[argc] is always a null pointer, points to nothing. Two ways to see the argv:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;int i;
-for (i=0;i&amp;lt;argc;i++)
-	printf(&quot;%s\n&quot;, argv[i]);
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;char **p;
-for(p=&amp;amp;argv[0];*p != NULL; p++)
-	printf(&quot;%s\n&quot;, *p);
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-</description>
-        <pubDate>Mon, 11 Nov 2019 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2019/11/11/Note-C-c13/</link>
-        <guid isPermaLink="true">http://localhost:4000/2019/11/11/Note-C-c13/</guid>
         
         <category>Study note</category>
         
