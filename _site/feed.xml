@@ -5,9 +5,47 @@
     <description>hhh</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 24 Mar 2020 15:19:36 -0600</pubDate>
-    <lastBuildDate>Tue, 24 Mar 2020 15:19:36 -0600</lastBuildDate>
+    <pubDate>Wed, 25 Mar 2020 13:53:12 -0600</pubDate>
+    <lastBuildDate>Wed, 25 Mar 2020 13:53:12 -0600</lastBuildDate>
     <generator>Jekyll v4.0.0</generator>
+    
+      <item>
+        <title>Temp TODO</title>
+        <description>&lt;p&gt;最近挖了很多坑，做一个短期和中期的todo list。&lt;/p&gt;
+
+&lt;p&gt;短期(in one week):&lt;/p&gt;
+
+&lt;p&gt;review alg dp&lt;/p&gt;
+
+&lt;p&gt;game sound effect adjust&lt;/p&gt;
+
+&lt;p&gt;finish html and CSS&lt;/p&gt;
+
+&lt;p&gt;finish 252 homework&lt;/p&gt;
+
+&lt;p&gt;252 lab&lt;/p&gt;
+
+&lt;p&gt;296 homework&lt;/p&gt;
+
+&lt;p&gt;cs 231 lec 1-5&lt;/p&gt;
+
+&lt;p&gt;中期(in the summer holiday):&lt;/p&gt;
+
+&lt;p&gt;research&lt;/p&gt;
+
+&lt;p&gt;web development(js, 框架)&lt;/p&gt;
+
+&lt;p&gt;cs 231 全部&lt;/p&gt;
+
+</description>
+        <pubDate>Wed, 25 Mar 2020 00:00:00 -0600</pubDate>
+        <link>http://localhost:4000/2020/03/25/temp-todo/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020/03/25/temp-todo/</guid>
+        
+        <category>TODO list</category>
+        
+        
+      </item>
     
       <item>
         <title>Some dp problems</title>
@@ -796,67 +834,6 @@ It means that the expected value estimator is unbiased because the Bias is 0.&lt
         <pubDate>Sat, 22 Feb 2020 00:00:00 -0700</pubDate>
         <link>http://localhost:4000/2020/02/22/Note-ML-Estimator/</link>
         <guid isPermaLink="true">http://localhost:4000/2020/02/22/Note-ML-Estimator/</guid>
-        
-        <category>Study note</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Note of Berkeley DB</title>
-        <description>&lt;h4 id=&quot;levels-of-abstraction-in-a-typical-dbmsdatabase-management-system&quot;&gt;Levels of abstraction in a typical DBMS(database management system)&lt;/h4&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Data is stored in tables in conceptual schema.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h5 id=&quot;conceptual-schema&quot;&gt;Conceptual schema:&lt;/h5&gt;
-
-&lt;p&gt;The conceptual schema describes the Database structure of the whole database for the community of users. This schema hides information about the physical storage structures and focuses on describing data types, entities, relationships, etc. And one database can only have one conceptual schema.&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Use high level SQL commands (DDL or DML)&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h5 id=&quot;ddl&quot;&gt;DDL:&lt;/h5&gt;
-
-&lt;p&gt;Data Definition Language (DDL) is a standard for commands that define the different structures in a database. DDL statements create, modify, and remove database objects such as tables, indexes, and users. Common DDL statements are CREATE, ALTER, and DROP.&lt;/p&gt;
-
-&lt;h5 id=&quot;dml&quot;&gt;DML:&lt;/h5&gt;
-
-&lt;p&gt;A data manipulation language (DML) is a computer programming language used for adding (inserting), deleting, and modifying (updating) data in a database. Common DML statements are SELECT, INSERT, UPDATE.&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Data is organized in files and indexes in physical schema&lt;/li&gt;
-  &lt;li&gt;A DBMS uses suitable storage structure, index files and access paths to evaluate queries and return results.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h5 id=&quot;berkeley-db&quot;&gt;Berkeley DB&lt;/h5&gt;
-
-&lt;p&gt;It is an open source embedded database library that provides s simple function-call API for data access and management.&lt;/p&gt;
-
-&lt;p&gt;It supports many file structures and operations&lt;/p&gt;
-
-&lt;h6 id=&quot;the-use-of-berkeley-db&quot;&gt;The use of Berkeley DB:&lt;/h6&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Develop programs working with storage structures and indexes&lt;/li&gt;
-  &lt;li&gt;Develop applications that don’t need the full functionality of a DBMS and require high performance&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h6 id=&quot;four-file-organizations-supported-in-berkeley-db&quot;&gt;Four file organizations supported in Berkeley DB&lt;/h6&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;hash: Data is stored in an extended linear hash table. good for applications that need quick random-access&lt;/li&gt;
-  &lt;li&gt;Btree: Data is stored in a sorted, balanced tree structure. Good for range-based searches&lt;/li&gt;
-  &lt;li&gt;Queue: Data is stored in a queue as fixed-length records. Good for fast inserts at the tail of the queue. It also supports read/delete operation from the head of the queue. It provides record-level locking&lt;/li&gt;
-  &lt;li&gt;Recnos: Data is stored in either fixed or variable-length records&lt;/li&gt;
-&lt;/ol&gt;
-
-</description>
-        <pubDate>Thu, 14 Nov 2019 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2019/11/14/Note-Berkeley-DB/</link>
-        <guid isPermaLink="true">http://localhost:4000/2019/11/14/Note-Berkeley-DB/</guid>
         
         <category>Study note</category>
         
