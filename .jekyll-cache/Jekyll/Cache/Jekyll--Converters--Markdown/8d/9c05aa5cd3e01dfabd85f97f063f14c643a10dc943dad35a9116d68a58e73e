@@ -1,0 +1,18 @@
+I"�<h3 id="basic-terminology">Basic terminology</h3>
+
+<p><em>V Nodes/ Vertices:</em> A set of n elements with unique identifiers (1, 2, 3, … , n).</p>
+
+<p><em>E Edges:</em></p>
+
+<p>For undirected graph: each edge is a set of exactly two nodes, e.g. e = {u, v}. u and v are nodes and we say e connects u and v. We also say u and v are adjacent or neighbors.</p>
+
+<p>For directed graph: each edge is an ordered pair, e.g. e = &lt;u, v&gt;. We say u and v are adjacent. U is an in-neighbor of v and v is an out-neighbor of u. (u –&gt; v).</p>
+
+<p><em>Adjacent</em> can be the property between vertex and vertex or between edge and edge. e.g., 1 and 3 are adjacent. (1,2) and (2,5) are adjacent.</p>
+
+<p>Incident can be the property between vertex and edge. e.g., 1 and (1,3) are incident.</p>
+
+<p><em>Loop/ self-loop:</em> the edge is the form e = uu, which means the edge connect one node and the node itself.</p>
+
+<p>Degree of v</p>
+:ET

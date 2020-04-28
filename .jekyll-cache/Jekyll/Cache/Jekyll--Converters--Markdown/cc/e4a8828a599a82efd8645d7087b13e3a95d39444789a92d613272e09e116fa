@@ -1,0 +1,41 @@
+I"w<h3 id="basic-terminology">Basic terminology</h3>
+
+<p><strong><em>V Nodes/ Vertices:</em></strong> A set of n elements with unique identifiers (1, 2, 3, … , n).</p>
+
+<p><strong><em>E Edges:</em></strong></p>
+
+<p>For undirected graph: each edge is a set of exactly two nodes, e.g. e = {u, v}. u and v are nodes and we say e connects u and v. We also say u and v are adjacent or neighbors.</p>
+
+<p>For directed graph: each edge is an ordered pair, e.g. e = &lt;u, v&gt;. We say u and v are adjacent. U is an in-neighbor of v and v is an out-neighbor of u. (u –&gt; v).</p>
+
+<p><strong><em>Adjacent</em></strong> can be the property between vertex and vertex or between edge and edge. e.g., 1 and 3 are adjacent. (1,2) and (2,5) are adjacent.</p>
+
+<p>Incident can be the property between vertex and edge. e.g., 1 and (1,3) are incident.</p>
+
+<p><strong><em>Loop/ self-loop:</em></strong> the edge is the form e = uu, which means the edge connect one node and the node itself.</p>
+
+<p><strong><em>Degree of vertex:</em></strong>  The number of edges that touch v. It is also known as the number neighbors of v.</p>
+
+<p><strong><em>Path:</em></strong> A sequence of nodes v_0, v_1, …, v_k such there exists k edges e_1, e_2, …, e_k where e_i connect v_i-1 to v_i.</p>
+
+<p><strong><em>Simple path:</em></strong> A path where all nodes are unique. Then since there are k edges, k is the length of the path.</p>
+
+<p><strong><em>Cycle:</em></strong> A path where the start and the end vertex are the same, v_0 = v_k.</p>
+
+<p><strong><em>A simple cycle:</em></strong> A cycle where all vertex except v_0 and v_k are unique. k is the length of the cycle.</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td><strong><em>Size of the graph:</em></strong></td>
+      <td>G</td>
+      <td>= number of vertex</td>
+      <td>V</td>
+      <td>= n</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="basic-properties">Basic properties</h3>
+
+:ET

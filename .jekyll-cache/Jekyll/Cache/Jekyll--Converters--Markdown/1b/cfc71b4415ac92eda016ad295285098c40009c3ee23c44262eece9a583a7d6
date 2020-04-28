@@ -1,4 +1,0 @@
-I"�<h4 id="matrix-chain-multiplication">Matrix chain multiplication</h4>
-
-<p>Suppose we can several input matrices <script type="math/tex">A_1</script> with dimensions <script type="math/tex">d_0*d_1</script>, <script type="math/tex">A_2</script> with dimensions <script type="math/tex">d_1*d_2</script>, …, <script type="math/tex">A_n</script>  with dimensions <script type="math/tex">d_{n-1}* d_n</script>. And we want to get the output $ A_1<em>A_2</em>… <em>A_n $ and using the minimum number of scalar multiplication (the multiplication between numbers). Suppose we want to multiply A_1 and A_2, we will have d_0</em>d_1*d_2 scale muliplication</p>
-:ET

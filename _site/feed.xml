@@ -5,9 +5,355 @@
     <description>hhh</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 25 Mar 2020 13:53:12 -0600</pubDate>
-    <lastBuildDate>Wed, 25 Mar 2020 13:53:12 -0600</lastBuildDate>
+    <pubDate>Mon, 13 Apr 2020 03:53:31 -0600</pubDate>
+    <lastBuildDate>Mon, 13 Apr 2020 03:53:31 -0600</lastBuildDate>
     <generator>Jekyll v4.0.0</generator>
+    
+      <item>
+        <title>Intro to Graph</title>
+        <description>&lt;h3 id=&quot;basic-terminology&quot;&gt;Basic terminology&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;V Nodes/ Vertices:&lt;/em&gt;&lt;/strong&gt; A set of n elements with unique identifiers (1, 2, 3, … , n).&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;E Edges:&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;For undirected graph: each edge is a set of exactly two nodes, e.g. e = {u, v}. u and v are nodes and we say e connects u and v. We also say u and v are adjacent or neighbors.&lt;/p&gt;
+
+&lt;p&gt;For directed graph: each edge is an ordered pair, e.g. e = &amp;lt;u, v&amp;gt;. We say u and v are adjacent. U is an in-neighbor of v and v is an out-neighbor of u. (u –&amp;gt; v).&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Adjacent&lt;/em&gt;&lt;/strong&gt; can be the property between vertex and vertex or between edge and edge. e.g., 1 and 3 are adjacent. (1,2) and (2,5) are adjacent.&lt;/p&gt;
+
+&lt;p&gt;Incident can be the property between vertex and edge. e.g., 1 and (1,3) are incident.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Loop/ self-loop:&lt;/em&gt;&lt;/strong&gt; the edge is the form e = uu, which means the edge connect one node and the node itself.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Degree of vertex:&lt;/em&gt;&lt;/strong&gt;  The number of edges that touch v. It is also known as the number neighbors of v.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Path:&lt;/em&gt;&lt;/strong&gt; A sequence of nodes v_0, v_1, …, v_k such there exists k edges e_1, e_2, …, e_k where e_i connect v_i-1 to v_i.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Simple path:&lt;/em&gt;&lt;/strong&gt; A path where all nodes are unique. Then since there are k edges, k is the length of the path.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Cycle:&lt;/em&gt;&lt;/strong&gt; A path where the start and the end vertex are the same, v_0 = v_k.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;A simple cycle:&lt;/em&gt;&lt;/strong&gt; A cycle where all vertex except v_0 and v_k are unique. k is the length of the cycle.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Size of the graph:&lt;/em&gt;&lt;/strong&gt; |G| = number of vertex |V| = n&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Sub-graph:&lt;/em&gt;&lt;/strong&gt; G’ = (V’, E’) is a sub-graph of G = (V, E) if &lt;script type=&quot;math/tex&quot;&gt;V' \subset V and E' \subset E&lt;/script&gt;. Removing an edge from G results in the subgraph (V, E \ {e})&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Induced subgraph:&lt;/em&gt;&lt;/strong&gt; Let G = (V, E). And let &lt;script type=&quot;math/tex&quot;&gt;S \subset V&lt;/script&gt; be any subset of vertices of G. Then the induced subgraph G[S] is the graph whose vertices set is S and the edge set contains all edges which connect nodes in S in G. Removing a node from G results in induced graph.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Connectivity in an undirected graph:&lt;/em&gt;&lt;/strong&gt; u is connected to v (u ~ v) if there exists a path from u to v. Note: otherwise, we can only say edge e connects the nodes u and v.&lt;/p&gt;
+
+&lt;p&gt;G is a connected graph if for every &lt;script type=&quot;math/tex&quot;&gt;u,v \in V, u~v&lt;/script&gt;.&lt;/p&gt;
+
+&lt;h5 id=&quot;to-be-finished&quot;&gt;To be finished:&lt;/h5&gt;
+
+&lt;p&gt;Connected component, Forests and trees.&lt;/p&gt;
+
+&lt;h3 id=&quot;basic-properties&quot;&gt;Basic properties&lt;/h3&gt;
+
+&lt;p&gt;A graph with n nodes and m edges. &lt;strong&gt;&lt;em&gt;The range of m:&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;For directed graph: The max number of edges is (n)&lt;em&gt;(n-1). The max situation is when every node connects to all the other nodes. There are n such situations so the total number is n&lt;/em&gt;(n-1).&lt;/p&gt;
+
+&lt;p&gt;For undirected graph, e = (u,v) and x = (v,u) are the same edge and be counted as one edge. So the total number is n*(n-1)/2.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;The number of degree:&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;For an undirected graph: &lt;script type=&quot;math/tex&quot;&gt;\sum_{v\in V} deg(v) = 2m&lt;/script&gt;. It means that in an undirected graph, there are 2m degrees for all vertices. Because for each edge, it connects two vertices so it provides 2 degrees in total.&lt;/p&gt;
+
+&lt;p&gt;For an directed graph: &lt;script type=&quot;math/tex&quot;&gt;\sum_{v\in V} in_deg(v) = m =  \sum_{v\in V} out_deg(v)&lt;/script&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;representation-of-graph&quot;&gt;Representation of Graph&lt;/h3&gt;
+
+&lt;p&gt;Two ways: Adjacency matrix and Adjacent list.&lt;/p&gt;
+
+&lt;p&gt;Adjacency matrix is an n*n matrix where i, j entry contains 1 if edge connects i and j or 0 if no edge.&lt;/p&gt;
+
+&lt;p&gt;Adjacency list: It lists all nodes in one column and following the nodes which are their neighbors.&lt;/p&gt;
+
+&lt;p&gt;The complexity of two ways:&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt; &lt;/th&gt;
+      &lt;th&gt;Adjacency List&lt;/th&gt;
+      &lt;th&gt;Adjacency Matrix&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Space&lt;/td&gt;
+      &lt;td&gt;O(m) Depend on the edge&lt;/td&gt;
+      &lt;td&gt;O(n^2)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Accessing a node v/ Traversing all node&lt;/td&gt;
+      &lt;td&gt;O(1) / O(n)&lt;/td&gt;
+      &lt;td&gt;O(1) / O(n)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Accessing a edge e = (u,v)&lt;/td&gt;
+      &lt;td&gt;O(|&lt;script type=&quot;math/tex&quot;&gt;\Gamma(u)&lt;/script&gt;|) # of neighbors of u&lt;/td&gt;
+      &lt;td&gt;O(1), M[u, v]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Finding some neighbor of v&lt;/td&gt;
+      &lt;td&gt;O(1)&lt;/td&gt;
+      &lt;td&gt;O(n)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Traversing all edges/ vertices adjacent to a node u&lt;/td&gt;
+      &lt;td&gt;O(&lt;script type=&quot;math/tex&quot;&gt;\Gamma(u)&lt;/script&gt;|)&lt;/td&gt;
+      &lt;td&gt;O(n)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Traversing all edges&lt;/td&gt;
+      &lt;td&gt;O(m)&lt;/td&gt;
+      &lt;td&gt;O(n^2)&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;application-of-dfs&quot;&gt;Application of dfs&lt;/h3&gt;
+
+&lt;h5 id=&quot;finding-scc&quot;&gt;finding SCC&lt;/h5&gt;
+
+&lt;p&gt;Strongly connected components (SCCs) is a max set of nodes, any two of the nodes are reachable from each other.&lt;/p&gt;
+
+&lt;p&gt;Alg:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Run dfs on G&lt;/li&gt;
+  &lt;li&gt;Flip G’s edges to create G^T&lt;/li&gt;
+  &lt;li&gt;Run dfs on G^T by traversing nodes in a decreasing order of finish time generated in step 1&lt;/li&gt;
+  &lt;li&gt;The SCC of G is the trees of dfs forest of G^T&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;minimum-spanning-tree&quot;&gt;Minimum spanning Tree&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Spanning tree:&lt;/em&gt;&lt;/strong&gt; A spanning tree T of an undirected graph G is a subgraph that is a tree which includes all of the vertices of G with minimum possible number edges.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Weighted graph:&lt;/em&gt;&lt;/strong&gt; A weighted graph is a graph where a number is assigned to each edge. The weights may represent costs, length and some other things.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Connected graph:&lt;/em&gt;&lt;/strong&gt; For an undirected graph, if there is a path between two vertices (v and u), then v and u are connected. In a directed graph, the path connecting v and u must be in the same direction. A graph is called connected graph if any two vertices are connected.&lt;/p&gt;
+
+&lt;p&gt;For a spanning tree of a weighted connected graph, if the total weight is smallest among all spanning trees, then it is called minimum spanning tree.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Minimum spanning Tree problem:&lt;/em&gt;&lt;/strong&gt; Find an MST for the input graph&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Minimum spanning Forest problem:&lt;/em&gt;&lt;/strong&gt;  If the given graph is not necessarily connected, find MST for each connected component.&lt;/p&gt;
+
+&lt;h4 id=&quot;kruskals-algorithm&quot;&gt;Kruskal’s algorithm&lt;/h4&gt;
+
+&lt;p&gt;Input: An edge-weighted (simple, undirected, connected) graph.&lt;/p&gt;
+
+&lt;p&gt;Output: an MST&lt;/p&gt;
+
+&lt;p&gt;Idea: Suppose G = (V(m), E(n)). We consider the graph as the forest with no edge, each vertex is a tree. Then order the weight of edges, start adding edge in non-decreasing order. If the new edge connect two vertices on the same current formed tree, we do not add this edge. If the edge connect two nodes belongs to two trees, we add this edge.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;procedure kruskal (G)
+
+T &amp;lt;-- \o
+for each v \in V(G) do
+	Define cluster C(v) &amp;lt;-- v // each vertex is a tree
+sort edges in E(G) into non-decreasing weight order
+for each edge e_i = (u,v) /in E(G) do
+	if C(u) != C(v) then
+		T &amp;lt;-- T /cup {e_i}
+		merge clusters C(u) and C(v)
+return T
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h5 id=&quot;correctness-of-kruskal&quot;&gt;Correctness of Kruskal&lt;/h5&gt;
+
+&lt;p&gt;We prove that after every iteration of the second for loop, where we have examined i edges and have a partial solution built into T, called it T_i, there is a final MST T_opt which has all these edges of T_i and all other edges the T_opt has but T_i does not are in the edges we have not examined yet. i.e., &lt;script type=&quot;math/tex&quot;&gt;T_i  \subseteq T_(opt) \subseteq T_i \cup {e_(i+1), e_(i+2), ... , e_m}&lt;/script&gt;.&lt;/p&gt;
+
+&lt;p&gt;The base case is trivial. And once we prove it for the last iteration e_m, it implies the solution is MST.&lt;/p&gt;
+
+&lt;p&gt;So we now consider the induction step after we have T_i satisfying the ih and examine edge e_i+1. If we do not add e_i+1, then T_i = T_i+1. In this case, T_opt do not have e_i+1 too for sure. If we create a cycle with e_i+1, then T_opt cannot have e_i+1 too because all edges of T_i are in T_opt and e_i+1 cannot belong to T_opt.&lt;/p&gt;
+
+&lt;p&gt;If we add e_i+1 to T_i. There are two cases.&lt;/p&gt;
+
+&lt;p&gt;Case 1: T_opt contains it. So our T_i+1 is consistent with optimum solution.&lt;/p&gt;
+
+&lt;p&gt;Case 2: T_opt does not contain it. In this case, there must be a cycle in T_opt + e_i+1. This cycle contains at least one edge e_j that is not in T_i. e_j must be in {e_i+1, … , e_m}. The reason is if e_j is in T_i, we will not add e_i+1 and in this case, e_j can only be in the remaining case we have not tested. To form a cycle, e_i+1 must be different from e_j, so j &amp;gt;= i+2. So w(e_j) &amp;gt;= w(e_i+1). So T_opt - e_j + e_i+1 is also a MST.&lt;/p&gt;
+
+&lt;h5 id=&quot;running-time&quot;&gt;Running time&lt;/h5&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Each cluster contains the unordered linked list of vertices. Each vertex keeps the index which cluster it belongs to. At first, there are n clusters. To merge two clusters, we need to change the indexes of each vertex in the smaller cluster. So the merge step costs O(min{&lt;/td&gt;
+      &lt;td&gt;C(u)&lt;/td&gt;
+      &lt;td&gt;,&lt;/td&gt;
+      &lt;td&gt;C(v)&lt;/td&gt;
+      &lt;td&gt;}) time.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;After merging two clusters, the size of the total is at least double larger than the original smaller cluster. So for each vertex, we need at most log(n) time to finish its merge and in total, there are at most nlog(n) time for merge of all vertices.&lt;/p&gt;
+
+&lt;p&gt;For the sort part, it costs O(m&lt;em&gt;log(m)) and m &amp;lt;= n(n-1) for an undirected graph. So O(m&lt;/em&gt;log(m)) = O(mlog(n^2)) = O(2mlog(n)) = O(mlog(n)). So the total time is O((m+n)log(n)).&lt;/p&gt;
+
+&lt;h4 id=&quot;prims-algorithm&quot;&gt;Prim’s algorithm&lt;/h4&gt;
+
+&lt;p&gt;Idea: Initialize the set V_new = {x}. x is any vertex in the set V and seen as the start vertex. E_new = {}. Repeat the following steps until V_new = V. Find the smallest weight edge in E, the edge must have a vertex u which is in V_new and a vertex v which is not in V_new. Add v into V_new and add (u, v) into E_new. Return the V_new and E_new.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+8
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;procedure primMST(G) // G = (V, E)
+S = {s}
+A = empty set
+while (|S| &amp;lt; |V|) do
+	find a minimum weight edge e = (u,v), u \in S and v \notin S
+	S = S \cup {v}
+	A = A \cup {(u,v)}
+return A
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h5 id=&quot;correctness&quot;&gt;Correctness&lt;/h5&gt;
+
+&lt;p&gt;A_i: The set of edges A in the algorithm  after i iterations of the while loop.&lt;/p&gt;
+
+&lt;p&gt;We can state the claim in the form, for any 0 &amp;lt;= i &amp;lt;= n-1, there exists T_opt such that &lt;script type=&quot;math/tex&quot;&gt;A_i \subseteq T_opt \subseteq A_i \cup E \setminus  A_i&lt;/script&gt;. This similar proof cannot provide any convenience.&lt;/p&gt;
+
+&lt;p&gt;We need to prove, For all i from 0 to n-1, there exists MST T_opt such that A_i \subset T_opt. Notice that A_n-1 is a spanning tree of G, if we prove A_n-1 \subset T_opt, we prove A_n-1 is the MST.&lt;/p&gt;
+
+&lt;p&gt;Base step, Ind step, assume there is a T_opt such that A_i \subset T_opt, we need to show there is a &lt;script type=&quot;math/tex&quot;&gt;T'_{opt}&lt;/script&gt; such that &lt;script type=&quot;math/tex&quot;&gt;A_i \cup \{new e\} \subset T'_{opt}&lt;/script&gt;.&lt;/p&gt;
+
+&lt;p&gt;If e \in &lt;script type=&quot;math/tex&quot;&gt;T_{opt}&lt;/script&gt;, we are done. If &lt;script type=&quot;math/tex&quot;&gt;e \notin T_{opt}&lt;/script&gt;, there must be an edge e’ = (u’, v’) in &lt;script type=&quot;math/tex&quot;&gt;T_{opt}&lt;/script&gt; such that crosses the (S, &lt;script type=&quot;math/tex&quot;&gt;\bar S&lt;/script&gt;). Clearly, w(e) &amp;lt;= w(e’) because e’ must not in A_i and until A_i, we have already looked for all smallest edges. In this case, &lt;script type=&quot;math/tex&quot;&gt;e' \in T_{opt}&lt;/script&gt;, then we can remove e’ and add e since e is smaller, &lt;script type=&quot;math/tex&quot;&gt;T'_{opt} = T_{opt} \setminus {e'} \cup {e}&lt;/script&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;a-revise-of-prims-algorithm&quot;&gt;A revise of Prim’s algorithm&lt;/h5&gt;
+
+&lt;p&gt;Idea: For each node \notin S, keep track of the min edge that connects it to S. Update the information only for the neighbors of the node that is currently being added to S. Uses a priority queue Q on \bar S.&lt;/p&gt;
+
+&lt;p&gt;Pseudocode:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;procedure primMST(G)
+for each v \in V(G) do
+	v.key = \infinity
+	v.predec = NIL
+s.key = 0
+while (Q != emptyset) do
+	u = ExtractMin(Q)
+	for each v neighbor of u do
+			if (v \in Q and w(u,v) &amp;lt; v.key) then
+				v.predec = u
+				decrease-key(Q,v,w(u,v))
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Time: ExtrachMin(Q) costs logn and while loop will iterate n times, so it costs nlog(n) in total. The second for loop costs mlogn.&lt;/p&gt;
+
+&lt;h5 id=&quot;a-theorem-from-prim-alg&quot;&gt;A theorem from prim alg:&lt;/h5&gt;
+
+&lt;p&gt;Let T be a spanning tree of G, T is a MST iff each edge is the min-edge crossing to cut it induces.&lt;/p&gt;
+
+&lt;p&gt;The cut is the connection edge of two separate parts. If the edge is cut, the tree becomes two trees.&lt;/p&gt;
+
+&lt;h4 id=&quot;the-shortest-path-problem&quot;&gt;The shortest path problem&lt;/h4&gt;
+
+&lt;p&gt;Def of shortest path problem: find the shortest path in an edge-weighted graph connecting two vertices s and t.&lt;/p&gt;
+
+&lt;p&gt;Def of SSSP single source shortest path problem: Given an edge-weighted graph G and a source s, find out for each vertex v \in V(G) a shortest paths from s to v.&lt;/p&gt;
+
+&lt;h5 id=&quot;some-properties&quot;&gt;Some properties:&lt;/h5&gt;
+
+&lt;p&gt;The sub-path optimality: If we find some shortest path from u_0 to u_k, then some path u_i to u_j is also the shortest path between u_i and u_j.&lt;/p&gt;
+
+&lt;p&gt;The shortest path is good if there are negative weight directed, if it is undirected the negative weight is meaningless. We assume no negative cycles.&lt;/p&gt;
+
+&lt;p&gt;For any u, we have d(u, u) = 0&lt;/p&gt;
+
+&lt;p&gt;For any u, v, we have d(u, v) = d(v, u) (if G is undirected)&lt;/p&gt;
+
+&lt;p&gt;For any u, v, w we have d(u, w) &amp;lt;= d(u, v) + d(v, w)&lt;/p&gt;
+
+&lt;h4 id=&quot;dijkstras-sssp-algorithm&quot;&gt;Dijkstra’s SSSP algorithm&lt;/h4&gt;
+
+&lt;p&gt;For graphs with non-negative weights, idea:&lt;/p&gt;
+
+&lt;p&gt;Maintains a set S of vertices for which we know the shortest path. Initially, S = {s}, at the end: S = V. By the greedy solution, we should choose the node in \bar S = V \setminus S with the minimum dist.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;procedure dijkstra(G, w,s) //G = (V,E)
+for each v do
+	v.dist &amp;lt;-- /infinity
+	v.predec &amp;lt;-- NIL
+s.dist &amp;lt;-- 0
+Build Min-priority-Queue Q on all nodes, k = dist
+while (Q != empty) do
+	u &amp;lt;-- EtractMin(Q)
+	for each v neighbor of u
+		if (v.dist &amp;gt; u.dist + w(u,v)) then
+			v.dist &amp;lt;-- u.dist + w(u,v)
+			v.predec &amp;lt;-- u
+			decrease-key(Q, v, v.dist)
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+</description>
+        <pubDate>Sat, 11 Apr 2020 00:00:00 -0600</pubDate>
+        <link>http://localhost:4000/2020/04/11/Intro-Graph/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020/04/11/Intro-Graph/</guid>
+        
+        <category>Study note</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Mda Game Analysis</title>
+        <description>
+</description>
+        <pubDate>Fri, 27 Mar 2020 00:00:00 -0600</pubDate>
+        <link>http://localhost:4000/2020/03/27/MDA-game-Analysis/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020/03/27/MDA-game-Analysis/</guid>
+        
+        
+      </item>
     
       <item>
         <title>Temp TODO</title>
@@ -743,97 +1089,6 @@ Merge-sort(A,lo,hi)
         <pubDate>Sun, 23 Feb 2020 00:00:00 -0700</pubDate>
         <link>http://localhost:4000/2020/02/23/Divide-and-Conquer/</link>
         <guid isPermaLink="true">http://localhost:4000/2020/02/23/Divide-and-Conquer/</guid>
-        
-        <category>Study note</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Note of ML Optimization</title>
-        <description>&lt;h4 id=&quot;the-basic-optimization-problem-and-stationary-points&quot;&gt;The basic optimization problem and stationary points&lt;/h4&gt;
-
-&lt;p&gt;The goal of optimization is to find and select a set of parameters $ w \in R&lt;sup&gt;d &lt;/sup&gt;$ to minimize the objective function c:&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;min \ c(w)\ (w\in R^d)&lt;/script&gt;
-
-&lt;p&gt;The way to select and find w which minimizes the objective. The most straightforward way is to generate random w and check c(w). If any new generated w&lt;sub&gt;t&lt;/sub&gt; has better performance than the previous best w, c(w&lt;sub&gt;t&lt;/sub&gt;) &amp;lt; c(w), then w&lt;sub&gt;t&lt;/sub&gt;  to be the new optimal solution.&lt;/p&gt;
-
-&lt;p&gt;For the smooth and continuous function, we can use gradient descent (梯度下降). The gradient (derivative) can tell us where the derivative is zero and this place is somewhere the c(w)’s trend changes.&lt;/p&gt;
-
-&lt;p&gt;By Taylor series approximation 
-&lt;script type=&quot;math/tex&quot;&gt;c(w)=\sum_{n=0}^{\infty}{((c^n)(w_n)/n!)(w-w_0)^n}&lt;/script&gt;
-The first three terms’ sum is:&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;c(w)\approx \hat{c}(w)=c(w_0)+(w-w_0)c'(w_0)+1/2(w-w_0)^2c''(w_0)&lt;/script&gt;
-
-&lt;p&gt;To find the zero derivative of c(w), we need to let $ c’(w) = 0 $. So we only need the first two terms.&lt;/p&gt;
-
-&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;c'(w)\approx c'(w_0)+(w-w_0)c''(w_0)=0&lt;/script&gt;
-Then,&lt;/p&gt;
-
-&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;w=w_0-c'(w_0)/c''(w_0)&lt;/script&gt;
-In the end, the formula for the gradient descent is w&lt;sub&gt;t+1&lt;/sub&gt; =w&lt;sub&gt;t&lt;/sub&gt; - n&lt;sub&gt;t&lt;/sub&gt; c’(w&lt;sub&gt;t&lt;/sub&gt;).&lt;/p&gt;
-
-&lt;p&gt;n&lt;sub&gt;t&lt;/sub&gt; is the rate of learning. In this formula, the new x-value = the old x-value  -  learning rate*old derivate.&lt;/p&gt;
-
-&lt;p&gt;The way to choose n&lt;sub&gt;t&lt;/sub&gt;. We can conduct a line search. Set a range for the n, (0, n&lt;sub&gt;max&lt;/sub&gt;], from the n&lt;sub&gt;max&lt;/sub&gt;, we can reduce n if the step size is too large by changing the factor t which belongs to [0.5,0.9]. When t is 0.9, it reduces n very slowly and when t is 0.5, it reduces n very quickly.&lt;/p&gt;
-
-&lt;h4 id=&quot;optimization-properties&quot;&gt;Optimization properties&lt;/h4&gt;
-
-&lt;h5 id=&quot;maximizing-vs-minimizing&quot;&gt;Maximizing vs. minimizing&lt;/h5&gt;
-
-&lt;p&gt;argmin c(w) = argmax (-c(w))&lt;/p&gt;
-
-&lt;p&gt;It means that the value w which makes c(w) minimal is same as the value w which makes -c(w) maximum. However, note that min c(w) != max -c(w).&lt;/p&gt;
-
-&lt;h5 id=&quot;convexity&quot;&gt;Convexity&lt;/h5&gt;
-
-&lt;p&gt;A function is convex if we draw a line between any two points on the function and the value between the two points lie below the line. Convexity makes sure that every critical point is local minimum. And therefore, the solution we get from the right step size is always optimal. The concave function is all values between two points are above the line.&lt;/p&gt;
-
-&lt;h5 id=&quot;uniqueness-of-the-solution&quot;&gt;Uniqueness of the solution&lt;/h5&gt;
-
-&lt;p&gt;For some questions, we need to find the unique solution but sometimes we do not need to.&lt;/p&gt;
-
-&lt;h5 id=&quot;equivalence-under-a-constant-shift&quot;&gt;Equivalence under a constant shift&lt;/h5&gt;
-
-&lt;p&gt;Adding or multiplying by a constant a != 0 does not change the solution:
-&lt;script type=&quot;math/tex&quot;&gt;argmin \ c(w)=argmin (\ a\ c(w)) = argmin (\ a\ c(w)+a )&lt;/script&gt;&lt;/p&gt;
-</description>
-        <pubDate>Sat, 22 Feb 2020 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2020/02/22/Note-ML-Optimization/</link>
-        <guid isPermaLink="true">http://localhost:4000/2020/02/22/Note-ML-Optimization/</guid>
-        
-        <category>Study note</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Note of ML Estimator</title>
-        <description>&lt;h4 id=&quot;estimate-the-expected-value&quot;&gt;Estimate the expected value&lt;/h4&gt;
-
-&lt;p&gt;For example, we have n random variables X&lt;sub&gt;1&lt;/sub&gt;, X&lt;sub&gt;2&lt;/sub&gt;, … X&lt;sub&gt;n&lt;/sub&gt;, where E[X&lt;sub&gt;i&lt;/sub&gt;]= \mu and the mean \mu is unknown. The average estimator is 
-&lt;script type=&quot;math/tex&quot;&gt;\bar{X}=(1/n)\sum_{i=1}^{n}{X_i}&lt;/script&gt;
-How can we check if the estimator is biased? The bias of the estimator is how far the expected value of the estimator from the true \mu. In formula,
-&lt;script type=&quot;math/tex&quot;&gt;Bias(\bar{X})=E[\bar{X}]-\mu&lt;/script&gt;
-If the bias value if zero, the estimator is said to be unbiased. The E(\bar{x}) can reflect that the \bar{X} is random. Because if several experiments are conducted, there could be different E[\bar{X}].&lt;/p&gt;
-
-&lt;p&gt;We can compute the expectation of \bar{X}.
-&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
-\begin{split}
-E[\bar{X}]&amp;= E[(1/n)\sum_{i=1}^{n}{X_i}]\\
-          &amp;= (1/n)\sum_{i=1}^{n}{E[X_i]}\\
-          &amp;= 1/n\sum_{i=1}^{n}{\mu}\\
-          &amp;= (1/n)*n*\mu\\
-          &amp;= \mu
-\end{split} %]]&gt;&lt;/script&gt;
-It means that the expected value estimator is unbiased because the Bias is 0.&lt;/p&gt;
-
-</description>
-        <pubDate>Sat, 22 Feb 2020 00:00:00 -0700</pubDate>
-        <link>http://localhost:4000/2020/02/22/Note-ML-Estimator/</link>
-        <guid isPermaLink="true">http://localhost:4000/2020/02/22/Note-ML-Estimator/</guid>
         
         <category>Study note</category>
         

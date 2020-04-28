@@ -1,0 +1,324 @@
+I"l<<h3 id="basic-terminology">Basic terminology</h3>
+
+<p><strong><em>V Nodes/ Vertices:</em></strong> A set of n elements with unique identifiers (1, 2, 3, … , n).</p>
+
+<p><strong><em>E Edges:</em></strong></p>
+
+<p>For undirected graph: each edge is a set of exactly two nodes, e.g. e = {u, v}. u and v are nodes and we say e connects u and v. We also say u and v are adjacent or neighbors.</p>
+
+<p>For directed graph: each edge is an ordered pair, e.g. e = &lt;u, v&gt;. We say u and v are adjacent. U is an in-neighbor of v and v is an out-neighbor of u. (u –&gt; v).</p>
+
+<p><strong><em>Adjacent</em></strong> can be the property between vertex and vertex or between edge and edge. e.g., 1 and 3 are adjacent. (1,2) and (2,5) are adjacent.</p>
+
+<p>Incident can be the property between vertex and edge. e.g., 1 and (1,3) are incident.</p>
+
+<p><strong><em>Loop/ self-loop:</em></strong> the edge is the form e = uu, which means the edge connect one node and the node itself.</p>
+
+<p><strong><em>Degree of vertex:</em></strong>  The number of edges that touch v. It is also known as the number neighbors of v.</p>
+
+<p><strong><em>Path:</em></strong> A sequence of nodes v_0, v_1, …, v_k such there exists k edges e_1, e_2, …, e_k where e_i connect v_i-1 to v_i.</p>
+
+<p><strong><em>Simple path:</em></strong> A path where all nodes are unique. Then since there are k edges, k is the length of the path.</p>
+
+<p><strong><em>Cycle:</em></strong> A path where the start and the end vertex are the same, v_0 = v_k.</p>
+
+<p><strong><em>A simple cycle:</em></strong> A cycle where all vertex except v_0 and v_k are unique. k is the length of the cycle.</p>
+
+<p><strong><em>Size of the graph:</em></strong> |G| = number of vertex |V| = n</p>
+
+<p><strong><em>Sub-graph:</em></strong> G’ = (V’, E’) is a sub-graph of G = (V, E) if <script type="math/tex">V' \subset V and E' \subset E</script>. Removing an edge from G results in the subgraph (V, E \ {e})</p>
+
+<p><strong><em>Induced subgraph:</em></strong> Let G = (V, E). And let <script type="math/tex">S \subset V</script> be any subset of vertices of G. Then the induced subgraph G[S] is the graph whose vertices set is S and the edge set contains all edges which connect nodes in S in G. Removing a node from G results in induced graph.</p>
+
+<p><strong><em>Connectivity in an undirected graph:</em></strong> u is connected to v (u ~ v) if there exists a path from u to v. Note: otherwise, we can only say edge e connects the nodes u and v.</p>
+
+<p>G is a connected graph if for every <script type="math/tex">u,v \in V, u~v</script>.</p>
+
+<h5 id="to-be-finished">To be finished:</h5>
+
+<p>Connected component, Forests and trees.</p>
+
+<h3 id="basic-properties">Basic properties</h3>
+
+<p>A graph with n nodes and m edges. <strong><em>The range of m:</em></strong></p>
+
+<p>For directed graph: The max number of edges is (n)<em>(n-1). The max situation is when every node connects to all the other nodes. There are n such situations so the total number is n</em>(n-1).</p>
+
+<p>For undirected graph, e = (u,v) and x = (v,u) are the same edge and be counted as one edge. So the total number is n*(n-1)/2.</p>
+
+<p><strong><em>The number of degree:</em></strong></p>
+
+<p>For an undirected graph: <script type="math/tex">\sum_{v\in V} deg(v) = 2m</script>. It means that in an undirected graph, there are 2m degrees for all vertices. Because for each edge, it connects two vertices so it provides 2 degrees in total.</p>
+
+<p>For an directed graph: <script type="math/tex">\sum_{v\in V} in_deg(v) = m =  \sum_{v\in V} out_deg(v)</script>.</p>
+
+<h3 id="representation-of-graph">Representation of Graph</h3>
+
+<p>Two ways: Adjacency matrix and Adjacent list.</p>
+
+<p>Adjacency matrix is an n*n matrix where i, j entry contains 1 if edge connects i and j or 0 if no edge.</p>
+
+<p>Adjacency list: It lists all nodes in one column and following the nodes which are their neighbors.</p>
+
+<p>The complexity of two ways:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>Adjacency List</th>
+      <th>Adjacency Matrix</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Space</td>
+      <td>O(m) Depend on the edge</td>
+      <td>O(n^2)</td>
+    </tr>
+    <tr>
+      <td>Accessing a node v/ Traversing all node</td>
+      <td>O(1) / O(n)</td>
+      <td>O(1) / O(n)</td>
+    </tr>
+    <tr>
+      <td>Accessing a edge e = (u,v)</td>
+      <td>O(|<script type="math/tex">\Gamma(u)</script>|) # of neighbors of u</td>
+      <td>O(1), M[u, v]</td>
+    </tr>
+    <tr>
+      <td>Finding some neighbor of v</td>
+      <td>O(1)</td>
+      <td>O(n)</td>
+    </tr>
+    <tr>
+      <td>Traversing all edges/ vertices adjacent to a node u</td>
+      <td>O(<script type="math/tex">\Gamma(u)</script>|)</td>
+      <td>O(n)</td>
+    </tr>
+    <tr>
+      <td>Traversing all edges</td>
+      <td>O(m)</td>
+      <td>O(n^2)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="application-of-dfs">Application of dfs</h3>
+
+<h5 id="finding-scc">finding SCC</h5>
+
+<p>Strongly connected components (SCCs) is a max set of nodes, any two of the nodes are reachable from each other.</p>
+
+<p>Alg:</p>
+
+<ol>
+  <li>Run dfs on G</li>
+  <li>Flip G’s edges to create G^T</li>
+  <li>Run dfs on G^T by traversing nodes in a decreasing order of finish time generated in step 1</li>
+  <li>The SCC of G is the trees of dfs forest of G^T</li>
+</ol>
+
+<h3 id="minimum-spanning-tree">Minimum spanning Tree</h3>
+
+<p><strong><em>Spanning tree:</em></strong> A spanning tree T of an undirected graph G is a subgraph that is a tree which includes all of the vertices of G with minimum possible number edges.</p>
+
+<p><strong><em>Weighted graph:</em></strong> A weighted graph is a graph where a number is assigned to each edge. The weights may represent costs, length and some other things.</p>
+
+<p><strong><em>Connected graph:</em></strong> For an undirected graph, if there is a path between two vertices (v and u), then v and u are connected. In a directed graph, the path connecting v and u must be in the same direction. A graph is called connected graph if any two vertices are connected.</p>
+
+<p>For a spanning tree of a weighted connected graph, if the total weight is smallest among all spanning trees, then it is called minimum spanning tree.</p>
+
+<p><strong><em>Minimum spanning Tree problem:</em></strong> Find an MST for the input graph</p>
+
+<p><strong><em>Minimum spanning Forest problem:</em></strong>  If the given graph is not necessarily connected, find MST for each connected component.</p>
+
+<h4 id="kruskals-algorithm">Kruskal’s algorithm</h4>
+
+<p>Input: An edge-weighted (simple, undirected, connected) graph.</p>
+
+<p>Output: an MST</p>
+
+<p>Idea: Suppose G = (V(m), E(n)). We consider the graph as the forest with no edge, each vertex is a tree. Then order the weight of edges, start adding edge in non-decreasing order. If the new edge connect two vertices on the same current formed tree, we do not add this edge. If the edge connect two nodes belongs to two trees, we add this edge.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="rouge-code"><pre>procedure kruskal (G)
+
+T &lt;-- \o
+for each v \in V(G) do
+	Define cluster C(v) &lt;-- v // each vertex is a tree
+sort edges in E(G) into non-decreasing weight order
+for each edge e_i = (u,v) /in E(G) do
+	if C(u) != C(v) then
+		T &lt;-- T /cup {e_i}
+		merge clusters C(u) and C(v)
+return T
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h5 id="correctness-of-kruskal">Correctness of Kruskal</h5>
+
+<p>We prove that after every iteration of the second for loop, where we have examined i edges and have a partial solution built into T, called it T_i, there is a final MST T_opt which has all these edges of T_i and all other edges the T_opt has but T_i does not are in the edges we have not examined yet. i.e., <script type="math/tex">T_i  \subseteq T_(opt) \subseteq T_i \cup {e_(i+1), e_(i+2), ... , e_m}</script>.</p>
+
+<p>The base case is trivial. And once we prove it for the last iteration e_m, it implies the solution is MST.</p>
+
+<p>So we now consider the induction step after we have T_i satisfying the ih and examine edge e_i+1. If we do not add e_i+1, then T_i = T_i+1. In this case, T_opt do not have e_i+1 too for sure. If we create a cycle with e_i+1, then T_opt cannot have e_i+1 too because all edges of T_i are in T_opt and e_i+1 cannot belong to T_opt.</p>
+
+<p>If we add e_i+1 to T_i. There are two cases.</p>
+
+<p>Case 1: T_opt contains it. So our T_i+1 is consistent with optimum solution.</p>
+
+<p>Case 2: T_opt does not contain it. In this case, there must be a cycle in T_opt + e_i+1. This cycle contains at least one edge e_j that is not in T_i. e_j must be in {e_i+1, … , e_m}. The reason is if e_j is in T_i, we will not add e_i+1 and in this case, e_j can only be in the remaining case we have not tested. To form a cycle, e_i+1 must be different from e_j, so j &gt;= i+2. So w(e_j) &gt;= w(e_i+1). So T_opt - e_j + e_i+1 is also a MST.</p>
+
+<h5 id="running-time">Running time</h5>
+
+<table>
+  <tbody>
+    <tr>
+      <td>Each cluster contains the unordered linked list of vertices. Each vertex keeps the index which cluster it belongs to. At first, there are n clusters. To merge two clusters, we need to change the indexes of each vertex in the smaller cluster. So the merge step costs O(min{</td>
+      <td>C(u)</td>
+      <td>,</td>
+      <td>C(v)</td>
+      <td>}) time.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>After merging two clusters, the size of the total is at least double larger than the original smaller cluster. So for each vertex, we need at most log(n) time to finish its merge and in total, there are at most nlog(n) time for merge of all vertices.</p>
+
+<p>For the sort part, it costs O(m<em>log(m)) and m &lt;= n(n-1) for an undirected graph. So O(m</em>log(m)) = O(mlog(n^2)) = O(2mlog(n)) = O(mlog(n)). So the total time is O((m+n)log(n)).</p>
+
+<h4 id="prims-algorithm">Prim’s algorithm</h4>
+
+<p>Idea: Initialize the set V_new = {x}. x is any vertex in the set V and seen as the start vertex. E_new = {}. Repeat the following steps until V_new = V. Find the smallest weight edge in E, the edge must have a vertex u which is in V_new and a vertex v which is not in V_new. Add v into V_new and add (u, v) into E_new. Return the V_new and E_new.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="rouge-code"><pre>procedure primMST(G) // G = (V, E)
+S = {s}
+A = empty set
+while (|S| &lt; |V|) do
+	find a minimum weight edge e = (u,v), u \in S and v \notin S
+	S = S \cup {v}
+	A = A \cup {(u,v)}
+return A
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h5 id="correctness">Correctness</h5>
+
+<p>A_i: The set of edges A in the algorithm  after i iterations of the while loop.</p>
+
+<p>We can state the claim in the form, for any 0 &lt;= i &lt;= n-1, there exists T_opt such that <script type="math/tex">A_i \subseteq T_opt \subseteq A_i \cup E \setminus  A_i</script>. This similar proof cannot provide any convenience.</p>
+
+<p>We need to prove, For all i from 0 to n-1, there exists MST T_opt such that A_i \subset T_opt. Notice that A_n-1 is a spanning tree of G, if we prove A_n-1 \subset T_opt, we prove A_n-1 is the MST.</p>
+
+<p>Base step, Ind step, assume there is a T_opt such that A_i \subset T_opt, we need to show there is a <script type="math/tex">T'_{opt}</script> such that <script type="math/tex">A_i \cup \{new e\} \subset T'_{opt}</script>.</p>
+
+<p>If e \in <script type="math/tex">T_{opt}</script>, we are done. If <script type="math/tex">e \notin T_{opt}</script>, there must be an edge e’ = (u’, v’) in <script type="math/tex">T_{opt}</script> such that crosses the (S, <script type="math/tex">\bar S</script>). Clearly, w(e) &lt;= w(e’) because e’ must not in A_i and until A_i, we have already looked for all smallest edges. In this case, <script type="math/tex">e' \in T_{opt}</script>, then we can remove e’ and add e since e is smaller, <script type="math/tex">T'_{opt} = T_{opt} \setminus {e'} \cup {e}</script></p>
+
+<h5 id="a-revise-of-prims-algorithm">A revise of Prim’s algorithm</h5>
+
+<p>Idea: For each node \notin S, keep track of the min edge that connects it to S. Update the information only for the neighbors of the node that is currently being added to S. Uses a priority queue Q on \bar S.</p>
+
+<p>Pseudocode:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="rouge-code"><pre>procedure primMST(G)
+for each v \in V(G) do
+	v.key = \infinity
+	v.predec = NIL
+s.key = 0
+while (Q != emptyset) do
+	u = ExtractMin(Q)
+	for each v neighbor of u do
+			if (v \in Q and w(u,v) &lt; v.key) then
+				v.predec = u
+				decrease-key(Q,v,w(u,v))
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Time: ExtrachMin(Q) costs logn and while loop will iterate n times, so it costs nlog(n) in total. The second for loop costs mlogn.</p>
+
+<h5 id="a-theorem-from-prim-alg">A theorem from prim alg:</h5>
+
+<p>Let T be a spanning tree of G, T is a MST iff each edge is the min-edge crossing to cut it induces.</p>
+
+<p>The cut is the connection edge of two separate parts. If the edge is cut, the tree becomes two trees.</p>
+
+<h4 id="the-shortest-path-problem">The shortest path problem</h4>
+
+<p>Def of shortest path problem: find the shortest path in an edge-weighted graph connecting two vertices s and t.</p>
+
+<p>Def of SSSP single source shortest path problem: Given an edge-weighted graph G and a source s, find out for each vertex v \in V(G) a shortest paths from s to v.</p>
+
+<h5 id="some-properties">Some properties:</h5>
+
+<p>The sub-path optimality: If we find some shortest path from u_0 to u_k, then some path u_i to u_j is also the shortest path between u_i and u_j.</p>
+
+<p>The shortest path is good if there are negative weight directed, if it is undirected the negative weight is meaningless. We assume no negative cycles.</p>
+
+<p>For any u, we have d(u, u) = 0</p>
+
+<p>For any u, v, we have d(u, v) = d(v, u) (if G is undirected)</p>
+
+<p>For any u, v, w we have d(u, w) &lt;= d(u, v) + d(v, w)</p>
+
+<h4 id="dijkstras-sssp-algorithm">Dijkstra’s SSSP algorithm</h4>
+
+<p>For graphs with non-negative weights, idea:</p>
+
+<p>Maintains a set S of vertices for which we know the shortest path. Initially, S = {s}, at the end: S = V. By the greedy solution, we should choose the node in \bar S = V \setminus S with the minimum dist.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="rouge-code"><pre>procedure dijkstra(G, w,s) //G = (V,E)
+for each v do
+	v.dist &lt;-- /infinity
+	v.predec &lt;-- NIL
+s.dist &lt;-- 0
+Build Min-priority-Queue Q on all nodes, k = dist
+while (Q != empty) do
+	u &lt;-- EtractMin(Q)
+	for each v neighbor of u
+		if (v.dist &gt; u.dist + w(u,v)) then
+			v.dist &lt;-- u.dist + w(u,v)
+			v.predec &lt;-- u
+			decrease-key(Q, v, v.dist)
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+:ET
