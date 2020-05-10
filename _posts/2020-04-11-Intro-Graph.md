@@ -10,6 +10,8 @@ tags:
 - Study note
 ---
 
+## Note from cmput 204
+
 ### Basic terminology
 
 ***V Nodes/ Vertices:*** A set of n elements with unique identifiers (1, 2, 3, ... , n).
@@ -255,3 +257,107 @@ while (Q != empty) do
 			decrease-key(Q, v, v.dist)
 ```
 
+
+
+
+
+## Note from MATH 322
+
+### Ways to creating subgraphs of a graph G
+
+- deleting an edge e gives the subgraph G - e
+- deleting a set F of edges (one or more) gives the subgraph G - F
+- deleting a vertex v and all incident edges gives the subgraph G - v
+- deleting a set S of vertices and all incident edges gives the subgraph G - S
+
+### Ways to Contraction
+
+If e is an edge in G, then G \ e is the graph obtained by: 1. removing e, and 2. identifying and making into new one the vertices incident with e
+
+### Complements
+
+If G is a simple graph, the complement \bar G is the simple graph with vertex set V(G) and where there is an edge between two vertices if and only is there is no such edge in G.
+
+### Matrix representation - pass
+
+### Example of graphs
+
+#### Null graph
+
+A null graph is a graph G with E(G) = empty (no edges).
+
+Notation N_n: (Null graph with n vertices)
+
+#### Complete graph
+
+a complete graph is a simple graph where any two distinct vertices are adjacent
+
+Notation K_n: complete graph with n vertices
+
+In general, $$ \bar N_n = K_n$$, and \bar K_n = \bar \bar N_n = N_n.
+
+G together with edge of \bar G is K_n.
+
+K_n has (n*(n-1)) / 2 edges.
+
+#### circle graph
+
+A cycle graph is a connected graph where each vertex has degree 2. Notation: C_n.
+
+#### Path graph
+
+The path graph P_n = C_n - e (where e is any edge)
+
+#### Wheel graph
+
+The wheel graph W_n is obtained from C_(n-1) by adding one vertex that is attached by one edge to each vertex of C_(n-1)
+
+#### Regular graph
+
+A graph is called regular if all vertices have the same degree. (r-regular, if each vertex has degree r)
+
+C_n: 2-regular, K_n: (n-1)-regular
+
+#### Bipartite graph
+
+A graph is bipartite if V(G) can be split into two sets B and W so that no two vertices of B are adjacent and no two vertices of W are adjacent.
+
+#### Complete bipartite graph  
+
+is a simple graph G where V(G) consists of two sets B and W such that 
+
+- no two vertices of B or of W are adjacent
+
+- each vertex of B is adjacent to each vertex of W
+
+Notation K_r, s: complete bipartite graph with r black and s white vertices
+
+#### k-cube
+
+The k-cube is the simple graph Q_k where:
+
+- V(Q_k) = the set of k-tuples (a_1, a_2, .. , a_k) of zeros and ones 
+- two vertices are adjacent if and only if the tuples differ at exactly one place
+
+k-cube is a bipartite graph
+
+### Directed graph (digraphs)
+
+A digraph G consists of:
+
+- a finite set V(G) != empty of vertices.
+- a finite family E(G) of ordered pairs of vertices, called arcs.
+
+The underlying graph of D is the (usual) graph obtained by forgetting the order.
+
+A digraph is simple if it has no loops or multiples arcs.
+
+A digraph can be simple even if the underlying graph is not simple. A simple digraph can have the same underlying graph as a non-simple digraph.
+
+A isomorphism of digraphs is an isomorphism of the underlying graphs that preserves the order.
+
+The out-degree of a vertex y is the number of edge from y.
+
+The in-degree of a vertex y is the number of edge to y.
+
+Directed handshaking lemma: in a digraph, the sum of all in-degrees equals to the sum of all out-degrees.
