@@ -56,3 +56,38 @@ tags:
         * *let* does not allow the redundant declarations in a block scope. So we cannot define the same variable more than once using let.
         * *let* and *var* cannot be used to define the same variable.
         * *let* has no function of hoisting. So it will not be defined first when it is put behind.
+        * Since let has no function of hoisting, when the same variable is decleared twice in two global script blocks, it will throw the error while var will not because it is hoisted and combained with the other ones.
+        * typeof and try/catch cannot check if one variable has been decleared by let because it will create a block and the new let is inside the block.
+        * when we use var to define the i in the loop, the i outside of the loop block will be the end i in the loop while i will be undefined if it is let.
+    - const
+        * const is similar to let, but it can only be initialized when it is decleared. Also changing its value will cause the runtime error.
+        * We cannot change the value of the variable, however, we can modify properties inside the object.
+        * const cannot be used in for loop. In some kinds of for loop, const can be used because the loop will not change it value.
+3.  Data type
+    - There are six simple data types and one complex data type. The simple ones are: undefined, null, boolean, number, string and symbol. The complex one is object, it is a list of name-value pairs.
+    - Use typeof operator to check which type is assigned. (typeof aaa/ typeof(aaa)) typeof is an operator so the parentheses are not required.
+    - undefined variable
+        - The undefined variable has only one value which is undefined.
+        - The undefined variable is different with the variable which was not decleared at all. Use the back one directly will cause error. However, when applying typeof operator to a variable which is not decleared, it will return "undefined" and typeof is the only useful operation to this kind of variable.
+        - The undefined variable is falsy. So it behave like false and the if statement treats it as false.
+    - null type
+        - a null value is an empty object pointer so typeof will return "object" it the value is null.
+        - The valu undefined is the derivative of null and (null==undefined) will return true.
+        - null value is falsy, so same as undefined, it can be used in conditional statement and it is treated as false.
+    - Boolean type
+        - The true is not equal to 1 and false is not equal to 0. However, any number except 0 is treated as ture in the condition judgement, while 0 is treated as false.
+        - That is because all other types can be converted into the boolean type by the function Boolean(...). Any nonempty str and any nonzero number are converted into true while all empty string, 0 and NaN are converted into false.
+    - Number type
+        - To use/represent a octal number, add a 0 in front of the number. If there exists any number out of 0-7 it will remove the 0 and treat it as decimal. Octal literals are invalid in strict mode.
+        - When there is no number after the decimal point, or it is 0 after the point, js converts it auto to a int variable.
+        - Because of IEEE 754, the numbers are operated in binary format and that will cause very small difference compared to the real result. For example, 0.1 + 0.2 will result 0.30000000000000004. So avoiding using opeartion in flow control.
+        - The smallest number that can be represented in js is stored in Number.MIN_VALUE and the largest is Number.MAX_VALUE. The number out of the range is Infinity and -Infinity. We can use the function isFinity to check if a number is in range or not.
+        - NaN is short for *Not a Number*. It is used to indicated that an opeartion failed to return a number. But it is different to the error. For example, when divide some number by 0, NaN will be returned. Any opeartion involving NaN always returns NaN. NaN is not equal to any value including itself NaN.
+        - The function isNaN() tries to convert the argument to number. When it recive NaN and any string which is not a number str, it returns true. For the other situations like reciving a number, a number str and a boolean, it will return false.
+        - Three functions to convert to number: Number(), parseInt() and parseFloat().
+    -String type
+        - ", ' and ` can be used to delineate strings, but they cannot be mixed to usd.
+        - There are some string literal: \n, \t, \b...
+        - Two ways to convert a value to a string: method toString() and the function String(). The difference is the null and undefined variable has not toString attribute and String() can convert them into "null" and "undefined".
+        - Template literals is introduced in ES6. New line break in the string is seen as the \n so it can be used to define HTML easily without any \n.
+        - Template literals can be used for interpolation. The js expression is inside ${}. For example `${value} to the ${exponent} power is ${value * value}``; The value being interpolation will be converted using toString(). And string can also be interpolated.
