@@ -263,6 +263,14 @@ while (Q != empty) do
 
 ## Note from MATH 322
 
+#### Simple graph:
+
+A simple graph has no multiple edges, no direction and no loop (from some node to itself)
+
+### Handshaking lemma
+
+In any graph, the sum of the degree is an even number. (sum of degree = 2* number of edges)
+
 ### Ways to creating subgraphs of a graph G
 
 - deleting an edge e gives the subgraph G - e
@@ -361,3 +369,47 @@ The out-degree of a vertex y is the number of edge from y.
 The in-degree of a vertex y is the number of edge to y.
 
 Directed handshaking lemma: in a digraph, the sum of all in-degrees equals to the sum of all out-degrees.
+
+### Edge estimates
+
+Let G be a simple graph on n vertices. If G has k components, then G has at least n-k edges, and at most $$(n-k)(n-k+1)/2$$ edges.
+
+Use math induction, to prove for any k, ... is true.
+
+To prove m >= n - k,
+
+Special case: m = 0, then G null graph, k = n. Then m >= n-k (0 >= 0).
+
+Induction step: m > 0: remove an edge. The remaining graph has n vertices, m - 1 edges and either k or k + 1 components. If k components, then by hypothesis m - 1 >= n - k, so m >= n - k + 1 >= n-k, so m >= n-k+1 >= n-k. If k + 1 components, then by hypothesis m - 1 >= n - (k+1), so m >= n - k.
+
+To prove m <= (n-k)(n-k+1)/2,
+
+We first claim to get the greatest number of edges, we need one huge component and k - 1 isolated vertices. Then the single component has n - (k - 1) vertices.
+
+So in the huge component, since there are n - (k - 1) vertices, the max number of edge in it is for each vertex there are n - (k - 1) - 1 = n - k edges. So in total there are (n-k)(n-(k-1))/2 edges.
+
+#### A corollary
+
+If a simple graph on n vertices has more than (n-1)(n-2)/2 edges, then it is connected.
+
+### Hamiltonian graph
+
+A graph G is called Hamiltonian if it has a hamilton cycle, i.e. a cycle passing through each vertex
+
+Euler path: closed trail passing through each edge exactly once.
+Hamilton: closed trail passing through each vertex exactly once (excluding the trivial trail).
+
+To determin if a graph is hamiltonian is a NP-complete problem.
+
+#### Sufficient conditions for hamiltonicity
+Theorem1: If G is a simple graph with n >= 3 vertices and if deg(v) >= n/2 for each vertex v, then G is G is hamiltonian.
+Theorem2: If G is a simple graph with n >= 3 vertices and if deg(v) + deg(w) >= n whenever v and w are non-adjacent vertices, then G is Hamiltonian.
+
+Proof: G not Hamiltonian => deg(v) + deg(w) < n
+Add edges one by one without making G Hamiltonian and with making it into a hamiltonian path, till you get a graph H where adding any edge makes H Ham..
+
+In H, there is a non-closed Hamiltonian path: v1-v2-...-vi-1-vi-...vn-1-vn through all vertices of H, with v1 and vn not adjacent. We will show: deg(v1) + deg(vn) < n.
+To prove v1 and vn are not adjacent:
+-- H cannot contain both edges vi-1vn and viv1, since then it will become a Hamilton cycle. So for each i such that vi is adjacent to vn, vi-1 is not adjacent to v1.
+
+
